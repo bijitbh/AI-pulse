@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>{{SECTION_TITLE}} — AI Pulse</title>
+  <style>
+    :root {
+      --bg:           #0d0f14;
+      --surface:      #161b27;
+      --surface-hover:#1e2535;
+      --border:       #2a3248;
+      --text:         #e2e8f0;
+      --text-muted:   #8896b0;
+      --accent:       {{SECTION_COLOR}};
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'Inter', 'Segoe UI', system-ui, sans-serif;
+      font-size: 15px;
+      line-height: 1.6;
+      min-height: 100vh;
+    }
+
+    a { color: var(--accent); text-decoration: none; }
+    a:hover { text-decoration: underline; }
+
+    /* ── Header ── */
+    header {
+      border-bottom: 1px solid var(--border);
+      padding: 20px 0;
+      background: linear-gradient(180deg, #0a0d18 0%, var(--bg) 100%);
+      position: sticky;
+      top: 0;
+      z-index: 10;
+      backdrop-filter: blur(8px);
+    }
+
+    .header-inner {
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 0 24px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      flex-wrap: wrap;
+    }
+
+    .header-left { display: flex; align-items: center; gap: 16px; }
+
+    .back-link {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--text-muted);
+      transition: color 0.15s;
+    }
+
+    .back-link:hover { color: var(--text); text-decoration: none; }
+
+    .divider-v {
+      width: 1px; height: 20px;
+      background: var(--border);
+    }
+
+    .section-badge {
+      display: flex;
+      align-items: center;
+      gap: 7px;
+    }
+
+    .badge-dot {
+      width: 8px; height: 8px;
+      border-radius: 50%;
+      background: var(--accent);
+      flex-shrink: 0;
+    }
+
+    .badge-title {
+      font-size: 14px;
+      font-weight: 700;
+      color: var(--text);
+    }
+
+    .last-updated { font-size: 11px; color: var(--text-muted); }
+    .last-updated span { color: var(--text); font-weight: 500; }
+
+    /* ── Page Hero ── */
+    .page-hero {
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 32px 24px 0;
+    }
+
+    .hero-label {
+      font-size: 11px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      color: var(--accent);
+      margin-bottom: 6px;
+    }
+
+    .hero-title {
+      font-size: 28px;
+      font-weight: 800;
+      letter-spacing: -0.5px;
+      margin-bottom: 6px;
+    }
+
+    .hero-desc {
+      font-size: 14px;
+      color: var(--text-muted);
+      margin-bottom: 8px;
+    }
+
+    .hero-divider {
+      height: 1px;
+      background: linear-gradient(90deg, var(--accent) 0%, transparent 60%);
+      margin: 20px 0;
+      opacity: 0.4;
+    }
+
+    /* ── Articles ── */
+    main {
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 0 24px 64px;
+    }
+
+    .articles-list {
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+
+    .article-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-left: 3px solid var(--accent);
+      border-radius: 14px;
+      padding: 26px;
+      position: relative;
+      transition: background 0.2s, border-color 0.2s;
+    }
+
+    .article-card:hover {
+      background: var(--surface-hover);
+      border-color: var(--accent);
+    }
+
+    .article-number {
+      position: absolute;
+      top: 22px;
+      right: 22px;
+      font-size: 26px;
+      font-weight: 800;
+      color: var(--border);
+      line-height: 1;
+      user-select: none;
+    }
+
+    .article-title {
+      font-size: 18px;
+      font-weight: 700;
+      line-height: 1.4;
+      margin-bottom: 8px;
+      padding-right: 44px;
+    }
+
+    .article-title a { color: var(--text); }
+    .article-title a:hover { color: var(--accent); text-decoration: none; }
+
+    .article-meta {
+      display: flex;
+      gap: 12px;
+      font-size: 12px;
+      color: var(--text-muted);
+      margin-bottom: 14px;
+      flex-wrap: wrap;
+    }
+
+    .article-source { font-weight: 600; color: var(--accent); }
+
+    .article-summary {
+      font-size: 14px;
+      color: var(--text-muted);
+      line-height: 1.75;
+      margin-bottom: 18px;
+    }
+
+    .article-impact h4 {
+      font-size: 11px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.8px;
+      color: var(--text-muted);
+      margin-bottom: 8px;
+    }
+
+    .article-impact ul {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .article-impact li {
+      font-size: 13px;
+      color: var(--text);
+      padding-left: 18px;
+      position: relative;
+      line-height: 1.5;
+    }
+
+    .article-impact li::before {
+      content: '→';
+      position: absolute;
+      left: 0;
+      color: var(--accent);
+      font-size: 12px;
+    }
+
+    /* ── Footer ── */
+    footer {
+      text-align: center;
+      padding: 24px;
+      font-size: 12px;
+      color: var(--text-muted);
+      border-top: 1px solid var(--border);
+    }
+
+    /* ── Responsive ── */
+    @media (max-width: 600px) {
+      .article-number { font-size: 18px; top: 18px; right: 18px; }
+      .article-card { padding: 18px; }
+      .hero-title { font-size: 22px; }
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <div class="header-inner">
+      <div class="header-left">
+        <a class="back-link" href="../index.html">← AI Pulse</a>
+        <div class="divider-v"></div>
+        <div class="section-badge">
+          <span class="badge-dot"></span>
+          <span class="badge-title">{{SECTION_TITLE}}</span>
+        </div>
+      </div>
+      <div class="last-updated">Updated: <span>{{LAST_UPDATED}}</span></div>
+    </div>
+  </header>
+
+  <div class="page-hero">
+    <div class="hero-label">Section Deep Dive</div>
+    <h1 class="hero-title">{{SECTION_TITLE}}</h1>
+    <p class="hero-desc">{{SECTION_DESCRIPTION}}</p>
+    <div class="hero-divider"></div>
+  </div>
+
+  <main>
+    <div class="articles-list">
+      {{ARTICLES_HTML}}
+    </div>
+  </main>
+
+  <footer>AI Pulse &mdash; Powered by Claude &amp; GitHub Actions &mdash; Refreshed every 15 days</footer>
+
+</body>
+</html>

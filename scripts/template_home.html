@@ -73,9 +73,13 @@
     .hero {
       max-width: 1200px;
       margin: 0 auto;
-      padding: 40px 24px 28px;
+      padding: 48px 24px 40px;
+      display: grid;
+      grid-template-columns: 1fr auto;
+      align-items: center;
+      gap: 40px;
       border-bottom: 1px solid var(--border);
-      margin-bottom: 32px;
+      margin-bottom: 36px;
     }
 
     .hero-eyebrow {
@@ -84,30 +88,85 @@
       text-transform: uppercase;
       letter-spacing: 1.5px;
       color: var(--accent);
-      margin-bottom: 8px;
+      margin-bottom: 10px;
     }
 
     .hero-title {
-      font-size: 32px;
+      font-size: 34px;
       font-weight: 800;
       letter-spacing: -0.8px;
-      margin-bottom: 6px;
-      background: linear-gradient(135deg, #e2e8f0 30%, #8896b0);
+      line-height: 1.2;
+      margin-bottom: 14px;
+      background: linear-gradient(135deg, #e2e8f0 40%, #8896b0);
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
       background-clip: text;
     }
 
-    .hero-sub {
+    .hero-intro {
       font-size: 14px;
       color: var(--text-muted);
+      line-height: 1.8;
+      max-width: 620px;
+      margin-bottom: 20px;
     }
+
+    .hero-stats {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
+    .hero-stat {
+      font-size: 11px;
+      font-weight: 600;
+      color: var(--text-muted);
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      padding: 4px 12px;
+    }
+
+    /* ── Neural Network SVG ── */
+    .hero-visual {
+      flex-shrink: 0;
+      width: 220px;
+      height: 220px;
+    }
+
+    @keyframes pulse-ring {
+      0%   { r: 8;  opacity: 0.8; }
+      100% { r: 18; opacity: 0;   }
+    }
+
+    @keyframes pulse-center {
+      0%, 100% { opacity: 1; }
+      50%       { opacity: 0.5; }
+    }
+
+    @keyframes flow-line {
+      0%   { stroke-dashoffset: 60; }
+      100% { stroke-dashoffset: 0;  }
+    }
+
+    .node-pulse { animation: pulse-ring 2s ease-out infinite; }
+    .center-glow { animation: pulse-center 3s ease-in-out infinite; }
+    .flow { stroke-dasharray: 6 4; animation: flow-line 1.5s linear infinite; }
 
     /* ── Main Grid ── */
     main {
       max-width: 1200px;
       margin: 0 auto;
       padding: 0 24px 64px;
+    }
+
+    .grid-header {
+      font-size: 11px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 1.5px;
+      color: var(--text-muted);
+      margin-bottom: 20px;
     }
 
     .sections-grid {
@@ -132,7 +191,6 @@
       box-shadow: 0 8px 32px rgba(0,0,0,0.4);
     }
 
-    /* Gradient header strip */
     .section-card-header {
       display: flex;
       align-items: flex-start;
@@ -150,120 +208,59 @@
       filter: drop-shadow(0 0 8px color-mix(in srgb, var(--c) 60%, transparent));
     }
 
-    .section-title {
-      font-size: 15px;
-      font-weight: 700;
-      color: var(--text);
-      margin-bottom: 2px;
-    }
-
-    .section-desc {
-      font-size: 11px;
-      color: var(--text-muted);
-      line-height: 1.4;
-    }
+    .section-title { font-size: 15px; font-weight: 700; color: var(--text); margin-bottom: 2px; }
+    .section-desc  { font-size: 11px; color: var(--text-muted); line-height: 1.4; }
 
     /* ── Story List ── */
-    .story-list {
-      display: flex;
-      flex-direction: column;
-      padding: 14px 20px;
-      gap: 14px;
-      flex: 1;
-    }
+    .story-list { display: flex; flex-direction: column; padding: 14px 20px; gap: 14px; flex: 1; }
 
-    .story-item {
-      display: flex;
-      gap: 10px;
-      align-items: flex-start;
-    }
+    .story-item { display: flex; gap: 10px; align-items: flex-start; }
 
     .story-rank {
-      font-size: 10px;
-      font-weight: 800;
-      color: var(--c, var(--accent));
-      opacity: 0.6;
-      flex-shrink: 0;
-      margin-top: 3px;
-      min-width: 16px;
-      font-variant-numeric: tabular-nums;
+      font-size: 10px; font-weight: 800;
+      color: var(--c, var(--accent)); opacity: 0.6;
+      flex-shrink: 0; margin-top: 3px;
+      min-width: 16px; font-variant-numeric: tabular-nums;
     }
 
     .story-body { flex: 1; min-width: 0; }
 
-    .story-headline {
-      font-size: 13px;
-      font-weight: 600;
-      line-height: 1.4;
-      margin-bottom: 2px;
-    }
-
+    .story-headline { font-size: 13px; font-weight: 600; line-height: 1.4; margin-bottom: 2px; }
     .story-headline a { color: var(--text); transition: color 0.15s; }
     .story-headline a:hover { color: var(--c, var(--accent)); text-decoration: none; }
 
-    .story-meta {
-      display: flex;
-      align-items: center;
-      gap: 5px;
-      margin-bottom: 3px;
-    }
+    .story-meta { display: flex; align-items: center; gap: 5px; margin-bottom: 3px; }
+    .story-meta span { font-size: 10px; color: var(--c, var(--accent)); font-weight: 600; opacity: 0.8; }
 
-    .source-favicon {
-      border-radius: 2px;
-      flex-shrink: 0;
-      vertical-align: middle;
-    }
-
-    .story-meta span {
-      font-size: 10px;
-      color: var(--c, var(--accent));
-      font-weight: 600;
-      opacity: 0.8;
-    }
+    .source-favicon { border-radius: 2px; flex-shrink: 0; vertical-align: middle; }
 
     .story-short {
-      font-size: 11px;
-      color: var(--text-muted);
-      line-height: 1.5;
-      display: -webkit-box;
-      -webkit-line-clamp: 2;
-      -webkit-box-orient: vertical;
-      overflow: hidden;
+      font-size: 11px; color: var(--text-muted); line-height: 1.5;
+      display: -webkit-box; -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical; overflow: hidden;
     }
 
     /* ── View All ── */
     .view-all-link {
-      font-size: 12px;
-      font-weight: 700;
+      font-size: 12px; font-weight: 700;
       color: var(--c, var(--accent));
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 6px;
-      padding: 12px 20px;
-      border-top: 1px solid var(--border);
-      transition: background 0.15s;
-      letter-spacing: 0.2px;
+      display: flex; align-items: center; justify-content: center; gap: 6px;
+      padding: 12px 20px; border-top: 1px solid var(--border);
+      transition: background 0.15s; letter-spacing: 0.2px;
     }
-
-    .view-all-link:hover {
-      background: color-mix(in srgb, var(--c) 8%, transparent);
-      text-decoration: none;
-    }
+    .view-all-link:hover { background: color-mix(in srgb, var(--c) 8%, transparent); text-decoration: none; }
 
     /* ── Footer ── */
-    footer {
-      text-align: center;
-      padding: 24px;
-      font-size: 12px;
-      color: var(--text-muted);
-      border-top: 1px solid var(--border);
-    }
+    footer { text-align: center; padding: 24px; font-size: 12px; color: var(--text-muted); border-top: 1px solid var(--border); }
 
     /* ── Responsive ── */
-    @media (max-width: 800px) {
+    @media (max-width: 900px) {
+      .hero { grid-template-columns: 1fr; }
+      .hero-visual { display: none; }
+      .hero-title { font-size: 26px; }
+    }
+    @media (max-width: 640px) {
       .sections-grid { grid-template-columns: 1fr; }
-      .hero-title { font-size: 24px; }
     }
   </style>
 </head>
@@ -275,20 +272,104 @@
         <div class="logo-icon">⚡</div>
         <div>
           <h1>AI Pulse</h1>
-          <div class="tagline">AI news by section — curated by Claude</div>
+          <div class="tagline">Stay ahead of the AI curve — top stories, curated by Claude</div>
         </div>
       </div>
       <div class="last-updated">Updated: <span>{{LAST_UPDATED}}</span></div>
     </div>
   </header>
 
+  <!-- Hero -->
   <div class="hero">
-    <div class="hero-eyebrow">Your AI Intelligence Feed</div>
-    <h2 class="hero-title">6 Sections · 5 Stories Each</h2>
-    <p class="hero-sub">Click any headline to read the full summary and impact analysis.</p>
+    <div class="hero-content">
+      <div class="hero-eyebrow">Your AI Intelligence Feed</div>
+      <h2 class="hero-title">Stay Ahead of the AI Curve</h2>
+      <p class="hero-intro">
+        AI Pulse tracks the most significant developments across the AI landscape — from breakthrough
+        research and developer tooling to financial sector transformation and global policy shifts.
+        Each section is curated by Claude, which selects the top 5 stories most relevant to each theme
+        and ranks them by real-world impact. Whether you're an engineer building with AI, a finance
+        professional navigating AI-driven disruption, or simply keeping pace with the AI revolution,
+        this is your fortnightly intelligence briefing.
+      </p>
+      <div class="hero-stats">
+        <span class="hero-stat">⚡ 6 Sections</span>
+        <span class="hero-stat">📰 5 Stories Each</span>
+        <span class="hero-stat">🔄 Refreshed Every 15 Days</span>
+        <span class="hero-stat">🤖 Curated by Claude</span>
+      </div>
+    </div>
+
+    <!-- Neural Network SVG -->
+    <div class="hero-visual">
+      <svg viewBox="0 0 200 200" fill="none" xmlns="http://www.w3.org/2000/svg" width="220" height="220">
+        <defs>
+          <radialGradient id="center-grad" cx="50%" cy="50%" r="50%">
+            <stop offset="0%"   stop-color="#4f8ef7" stop-opacity="1"/>
+            <stop offset="100%" stop-color="#7c3aed" stop-opacity="0.6"/>
+          </radialGradient>
+          <filter id="glow">
+            <feGaussianBlur stdDeviation="2.5" result="blur"/>
+            <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+          </filter>
+        </defs>
+
+        <!-- Outer hexagon edges (faint) -->
+        <polygon points="160,100 130,152 70,152 40,100 70,48 130,48"
+                 stroke="#2a3248" stroke-width="1" fill="none" stroke-opacity="0.6"/>
+
+        <!-- Lines from center to outer nodes -->
+        <line x1="100" y1="100" x2="160" y2="100" stroke="#fbbf24" stroke-width="1" stroke-opacity="0.35" class="flow"/>
+        <line x1="100" y1="100" x2="130" y2="152" stroke="#f87171" stroke-width="1" stroke-opacity="0.35" class="flow" style="animation-delay:0.25s"/>
+        <line x1="100" y1="100" x2="70"  y2="152" stroke="#fb923c" stroke-width="1" stroke-opacity="0.35" class="flow" style="animation-delay:0.5s"/>
+        <line x1="100" y1="100" x2="40"  y2="100" stroke="#a78bfa" stroke-width="1" stroke-opacity="0.35" class="flow" style="animation-delay:0.75s"/>
+        <line x1="100" y1="100" x2="70"  y2="48"  stroke="#4ade80" stroke-width="1" stroke-opacity="0.35" class="flow" style="animation-delay:1s"/>
+        <line x1="100" y1="100" x2="130" y2="48"  stroke="#38bdf8" stroke-width="1" stroke-opacity="0.35" class="flow" style="animation-delay:1.25s"/>
+
+        <!-- Outer nodes (section colours) -->
+        <!-- Trending in AI — amber -->
+        <circle cx="160" cy="100" r="3" fill="#fbbf24" filter="url(#glow)" opacity="0.4" class="node-pulse" style="animation-delay:0s"/>
+        <circle cx="160" cy="100" r="7" fill="#fbbf24" filter="url(#glow)"/>
+
+        <!-- AI Governance — red -->
+        <circle cx="130" cy="152" r="3" fill="#f87171" filter="url(#glow)" opacity="0.4" class="node-pulse" style="animation-delay:0.33s"/>
+        <circle cx="130" cy="152" r="7" fill="#f87171" filter="url(#glow)"/>
+
+        <!-- M365 Copilot — orange -->
+        <circle cx="70" cy="152" r="3" fill="#fb923c" filter="url(#glow)" opacity="0.4" class="node-pulse" style="animation-delay:0.66s"/>
+        <circle cx="70"  cy="152" r="7" fill="#fb923c" filter="url(#glow)"/>
+
+        <!-- GitHub Copilot — purple -->
+        <circle cx="40" cy="100" r="3" fill="#a78bfa" filter="url(#glow)" opacity="0.4" class="node-pulse" style="animation-delay:1s"/>
+        <circle cx="40"  cy="100" r="7" fill="#a78bfa" filter="url(#glow)"/>
+
+        <!-- Engineering — green -->
+        <circle cx="70" cy="48" r="3" fill="#4ade80" filter="url(#glow)" opacity="0.4" class="node-pulse" style="animation-delay:1.33s"/>
+        <circle cx="70"  cy="48"  r="7" fill="#4ade80" filter="url(#glow)"/>
+
+        <!-- AI in Finance — blue -->
+        <circle cx="130" cy="48" r="3" fill="#38bdf8" filter="url(#glow)" opacity="0.4" class="node-pulse" style="animation-delay:1.66s"/>
+        <circle cx="130" cy="48"  r="7" fill="#38bdf8" filter="url(#glow)"/>
+
+        <!-- Center node pulse ring -->
+        <circle cx="100" cy="100" r="16" fill="url(#center-grad)" opacity="0.15" class="center-glow"/>
+        <!-- Center node -->
+        <circle cx="100" cy="100" r="12" fill="url(#center-grad)" filter="url(#glow)"/>
+        <circle cx="100" cy="100" r="6"  fill="white" opacity="0.9"/>
+
+        <!-- Section labels (tiny) -->
+        <text x="172" y="104" font-size="6" fill="#fbbf24" opacity="0.7" font-family="Inter,sans-serif">Trending</text>
+        <text x="134" y="166" font-size="6" fill="#f87171" opacity="0.7" font-family="Inter,sans-serif">Governance</text>
+        <text x="28"  y="114" font-size="6" fill="#a78bfa" opacity="0.7" font-family="Inter,sans-serif">Copilot</text>
+        <text x="44"  y="43"  font-size="6" fill="#4ade80" opacity="0.7" font-family="Inter,sans-serif">Eng</text>
+        <text x="116" y="43"  font-size="6" fill="#38bdf8" opacity="0.7" font-family="Inter,sans-serif">Finance</text>
+        <text x="52"  y="166" font-size="6" fill="#fb923c" opacity="0.7" font-family="Inter,sans-serif">M365</text>
+      </svg>
+    </div>
   </div>
 
   <main>
+    <div class="grid-header">6 Sections · 5 Stories Each · Click any headline for full analysis</div>
     <div class="sections-grid">
       {{SECTIONS_HTML}}
     </div>

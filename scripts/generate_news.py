@@ -254,7 +254,7 @@ def render_section_card(section: dict, items: list[dict]) -> str:
           <span class="story-rank">{str(item['rank']).zfill(2)}</span>
           <div class="story-body">
             <h3 class="story-headline">
-              <a href="../{section['output']}">{escape(item['title'])}</a>
+              <a href="{section['output']}#story-{item['rank']}">{escape(item['title'])}</a>
             </h3>
             <p class="story-short">{escape(item.get('short_summary', ''))}</p>
           </div>
@@ -280,7 +280,7 @@ def render_article(item: dict) -> str:
         f"<li>{escape(t)}</li>" for t in item.get("takeaways", [])
     )
     return f"""
-    <article class="article-card">
+    <article class="article-card" id="story-{item['rank']}">
       <div class="article-number">#{item['rank']}</div>
       <h2 class="article-title">
         <a href="{escape(item['link'])}" target="_blank" rel="noopener noreferrer">

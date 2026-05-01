@@ -4,11 +4,14 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Microsoft 365 Copilot — AI Pulse</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
   <style>
     :root {
       --bg:           #0d0f14;
       --surface:      #161b27;
-      --surface-hover:#1e2535;
+      --surface-hover:#1c2235;
       --border:       #2a3248;
       --text:         #e2e8f0;
       --text-muted:   #8896b0;
@@ -32,16 +35,16 @@
     /* ── Header ── */
     header {
       border-bottom: 1px solid var(--border);
-      padding: 20px 0;
-      background: linear-gradient(180deg, #0a0d18 0%, var(--bg) 100%);
+      padding: 16px 0;
+      background: rgba(13,15,20,0.85);
       position: sticky;
       top: 0;
       z-index: 10;
-      backdrop-filter: blur(8px);
+      backdrop-filter: blur(12px);
     }
 
     .header-inner {
-      max-width: 900px;
+      max-width: 860px;
       margin: 0 auto;
       padding: 0 24px;
       display: flex;
@@ -51,7 +54,7 @@
       flex-wrap: wrap;
     }
 
-    .header-left { display: flex; align-items: center; gap: 16px; }
+    .header-left { display: flex; align-items: center; gap: 14px; }
 
     .back-link {
       display: flex;
@@ -60,77 +63,79 @@
       font-size: 13px;
       font-weight: 600;
       color: var(--text-muted);
-      transition: color 0.15s;
+      padding: 5px 10px;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      transition: color 0.15s, border-color 0.15s;
     }
 
-    .back-link:hover { color: var(--text); text-decoration: none; }
-
-    .divider-v {
-      width: 1px; height: 20px;
-      background: var(--border);
-    }
+    .back-link:hover { color: var(--text); border-color: var(--text-muted); text-decoration: none; }
 
     .section-badge {
       display: flex;
       align-items: center;
-      gap: 7px;
+      gap: 8px;
+      font-size: 14px;
+      font-weight: 700;
+      color: var(--text);
     }
 
     .badge-dot {
       width: 8px; height: 8px;
       border-radius: 50%;
       background: var(--accent);
+      box-shadow: 0 0 8px var(--accent);
       flex-shrink: 0;
     }
 
-    .badge-title {
-      font-size: 14px;
-      font-weight: 700;
-      color: var(--text);
-    }
-
     .last-updated { font-size: 11px; color: var(--text-muted); }
-    .last-updated span { color: var(--text); font-weight: 500; }
+    .last-updated span { color: var(--text); font-weight: 600; }
 
     /* ── Page Hero ── */
     .page-hero {
-      max-width: 900px;
+      max-width: 860px;
       margin: 0 auto;
-      padding: 32px 24px 0;
+      padding: 40px 24px 32px;
+      border-bottom: 1px solid var(--border);
+      margin-bottom: 32px;
+      display: flex;
+      align-items: center;
+      gap: 20px;
     }
+
+    .hero-icon {
+      font-size: 52px;
+      line-height: 1;
+      flex-shrink: 0;
+      filter: drop-shadow(0 0 16px color-mix(in srgb, var(--accent) 50%, transparent));
+    }
+
+    .hero-text {}
 
     .hero-label {
       font-size: 11px;
       font-weight: 700;
       text-transform: uppercase;
-      letter-spacing: 1px;
+      letter-spacing: 1.5px;
       color: var(--accent);
       margin-bottom: 6px;
     }
 
     .hero-title {
-      font-size: 28px;
+      font-size: 30px;
       font-weight: 800;
       letter-spacing: -0.5px;
-      margin-bottom: 6px;
+      margin-bottom: 4px;
     }
 
     .hero-desc {
       font-size: 14px;
       color: var(--text-muted);
-      margin-bottom: 8px;
-    }
-
-    .hero-divider {
-      height: 1px;
-      background: linear-gradient(90deg, var(--accent) 0%, transparent 60%);
-      margin: 20px 0;
-      opacity: 0.4;
     }
 
     /* ── Articles ── */
     main {
-      max-width: 900px;
+      max-width: 860px;
       margin: 0 auto;
       padding: 0 24px 64px;
     }
@@ -144,73 +149,103 @@
     .article-card {
       background: var(--surface);
       border: 1px solid var(--border);
-      border-left: 3px solid var(--accent);
-      border-radius: 14px;
-      padding: 26px;
+      border-radius: 16px;
+      padding: 28px;
       position: relative;
-      transition: background 0.2s, border-color 0.2s;
+      transition: background 0.2s, box-shadow 0.2s;
+      overflow: hidden;
+    }
+
+    /* Left accent bar */
+    .article-card::before {
+      content: '';
+      position: absolute;
+      left: 0; top: 0; bottom: 0;
+      width: 3px;
+      background: var(--accent);
+      border-radius: 16px 0 0 16px;
     }
 
     .article-card:hover {
       background: var(--surface-hover);
-      border-color: var(--accent);
+      box-shadow: 0 4px 24px rgba(0,0,0,0.3);
     }
 
     .article-number {
       position: absolute;
-      top: 22px;
-      right: 22px;
-      font-size: 26px;
+      top: 20px;
+      right: 24px;
+      font-size: 40px;
       font-weight: 800;
-      color: var(--border);
+      color: color-mix(in srgb, var(--accent) 12%, transparent);
       line-height: 1;
       user-select: none;
+      font-variant-numeric: tabular-nums;
     }
 
     .article-title {
-      font-size: 18px;
+      font-size: 19px;
       font-weight: 700;
       line-height: 1.4;
-      margin-bottom: 8px;
-      padding-right: 44px;
+      margin-bottom: 10px;
+      padding-right: 56px;
     }
 
-    .article-title a { color: var(--text); }
+    .article-title a { color: var(--text); transition: color 0.15s; }
     .article-title a:hover { color: var(--accent); text-decoration: none; }
 
     .article-meta {
       display: flex;
-      gap: 12px;
+      align-items: center;
+      gap: 8px;
       font-size: 12px;
       color: var(--text-muted);
-      margin-bottom: 14px;
+      margin-bottom: 16px;
       flex-wrap: wrap;
     }
 
-    .article-source { font-weight: 600; color: var(--accent); }
+    .source-favicon {
+      border-radius: 3px;
+      flex-shrink: 0;
+      vertical-align: middle;
+    }
+
+    .article-source {
+      font-weight: 700;
+      color: var(--accent);
+    }
+
+    .meta-dot {
+      width: 3px; height: 3px;
+      border-radius: 50%;
+      background: var(--border);
+      flex-shrink: 0;
+    }
 
     .article-summary {
       font-size: 14px;
       color: var(--text-muted);
-      line-height: 1.75;
-      margin-bottom: 18px;
+      line-height: 1.8;
+      margin-bottom: 20px;
+    }
+
+    .article-impact {
+      background: color-mix(in srgb, var(--accent) 6%, transparent);
+      border: 1px solid color-mix(in srgb, var(--accent) 20%, var(--border));
+      border-radius: 10px;
+      padding: 14px 16px;
     }
 
     .article-impact h4 {
-      font-size: 11px;
-      font-weight: 700;
+      font-size: 10px;
+      font-weight: 800;
       text-transform: uppercase;
-      letter-spacing: 0.8px;
-      color: var(--text-muted);
-      margin-bottom: 8px;
+      letter-spacing: 1px;
+      color: var(--accent);
+      margin-bottom: 10px;
     }
 
-    .article-impact ul {
-      list-style: none;
-      display: flex;
-      flex-direction: column;
-      gap: 6px;
-    }
+    .article-impact ul { list-style: none; display: flex; flex-direction: column; gap: 7px; }
 
     .article-impact li {
       font-size: 13px;
@@ -225,7 +260,8 @@
       position: absolute;
       left: 0;
       color: var(--accent);
-      font-size: 12px;
+      font-size: 11px;
+      font-weight: 700;
     }
 
     /* ── Footer ── */
@@ -239,9 +275,11 @@
 
     /* ── Responsive ── */
     @media (max-width: 600px) {
-      .article-number { font-size: 18px; top: 18px; right: 18px; }
-      .article-card { padding: 18px; }
+      .article-number { font-size: 28px; }
+      .article-card { padding: 20px; }
       .hero-title { font-size: 22px; }
+      .hero-icon { font-size: 36px; }
+      .page-hero { flex-direction: column; gap: 12px; }
     }
   </style>
 </head>
@@ -251,21 +289,22 @@
     <div class="header-inner">
       <div class="header-left">
         <a class="back-link" href="../index.html">← AI Pulse</a>
-        <div class="divider-v"></div>
         <div class="section-badge">
           <span class="badge-dot"></span>
-          <span class="badge-title">Microsoft 365 Copilot</span>
+          Microsoft 365 Copilot
         </div>
       </div>
-      <div class="last-updated">Updated: <span>01 May 2026, 16:41 UTC</span></div>
+      <div class="last-updated">Updated: <span>01 May 2026, 17:35 UTC</span></div>
     </div>
   </header>
 
   <div class="page-hero">
-    <div class="hero-label">Section Deep Dive</div>
-    <h1 class="hero-title">Microsoft 365 Copilot</h1>
-    <p class="hero-desc">Updates, features and news from Microsoft 365 Copilot</p>
-    <div class="hero-divider"></div>
+    <div class="hero-icon">💼</div>
+    <div class="hero-text">
+      <div class="hero-label">Section Deep Dive</div>
+      <h1 class="hero-title">Microsoft 365 Copilot</h1>
+      <p class="hero-desc">Updates, features and news from Microsoft 365 Copilot</p>
+    </div>
   </div>
 
   <main>
@@ -279,13 +318,14 @@
         </a>
       </h2>
       <div class="article-meta">
+        <img class="source-favicon" src="https://www.google.com/s2/favicons?domain=microsoft.com&sz=32" width="14" height="14" alt="" loading="lazy" onerror="this.style.display='none'" />
         <span class="article-source">Microsoft 365 Blog</span>
         <span class="article-date">Thu, 23 Apr 2026</span>
       </div>
-      <p class="article-summary">Microsoft has officially launched Copilot&#x27;s agentic capabilities in Word, Excel, and PowerPoint as generally available features for Microsoft 365 subscribers. This marks a significant milestone in the evolution of Copilot from a simple prompt-response assistant to an autonomous collaborator capable of executing complex, multi-step tasks. In Word, Copilot can now take a user from a rough outline all the way to a polished draft with minimal manual intervention. In Excel, agentic features allow Copilot to perform advanced data analysis, generate formulas, and build structured insights across large datasets autonomously. PowerPoint users can now leverage Copilot to develop full presentation narratives, source relevant visuals, and iterate on design with greater intelligence. The &#x27;agentic&#x27; paradigm means Copilot can plan and sequence its own actions rather than waiting for step-by-step user instruction. Microsoft emphasizes that users remain firmly in control, with the ability to review, approve, or redirect Copilot actions at any stage. This general availability release follows a period of preview testing and aligns with Microsoft&#x27;s broader Wave 3 Copilot strategy announced in March 2026. The update is available to all Microsoft 365 Copilot license holders and requires no additional configuration. This release represents a fundamental shift in how productivity software interacts with knowledge workers, moving toward delegated execution rather than assisted creation.</p>
+      <p class="article-summary">Microsoft has officially launched Copilot&#x27;s agentic capabilities as generally available in Word, Excel, and PowerPoint, marking a significant milestone in the evolution of AI-assisted productivity. The update moves Copilot beyond simple suggestion and generation tasks into active, multi-step execution of complex workflows within each application. In Word, Copilot can now take documents from first draft through to final polish, handling research, restructuring, and revision autonomously. In Excel, the agentic model can execute multi-stage data analysis, apply formulas, and surface insights without requiring step-by-step user prompting. PowerPoint users can now delegate end-to-end presentation creation, with Copilot managing layout, content sourcing, and design coherence. The GA release signals Microsoft&#x27;s commitment to embedding true agentic AI — not just assistive AI — into everyday office tools used by hundreds of millions of professionals. Users retain full control and oversight at every stage, with the ability to review, redirect, or override Copilot&#x27;s actions. The launch is part of Microsoft&#x27;s broader Wave 3 strategy for Microsoft 365 Copilot, which emphasizes moving from reactive assistance to proactive execution. Enterprise organizations can now deploy these capabilities at scale across their Microsoft 365 environments without early-access restrictions. This release is expected to substantially accelerate productivity gains for knowledge workers who rely heavily on document creation and data analysis workflows.</p>
       <div class="article-impact">
         <h4>Impact Takeaways</h4>
-        <ul><li>Professionals can now delegate complex, multi-step document, spreadsheet, and presentation tasks to Copilot without manual step-by-step guidance.</li><li>The general availability release means all Microsoft 365 Copilot subscribers can immediately access these features in Word, Excel, and PowerPoint.</li><li>User oversight is preserved — workers can review and redirect Copilot actions, reducing risk while boosting productivity.</li><li>This signals a shift in enterprise productivity software toward AI-driven execution, not just AI-assisted drafting.</li></ul>
+        <ul><li>Agentic Copilot in Word, Excel, and PowerPoint is now GA — organizations can deploy at scale immediately without early-access enrollment.</li><li>Professionals can delegate complex, multi-step document, data, and presentation tasks to Copilot, reducing manual effort significantly.</li><li>Users retain full control and oversight throughout agentic workflows, addressing enterprise concerns about AI autonomy.</li><li>This GA launch represents a shift from AI as a suggestion engine to AI as an active execution layer within core Office apps.</li></ul>
       </div>
     </article>
 
@@ -297,49 +337,52 @@
         </a>
       </h2>
       <div class="article-meta">
+        <img class="source-favicon" src="https://www.google.com/s2/favicons?domain=microsoft.com&sz=32" width="14" height="14" alt="" loading="lazy" onerror="this.style.display='none'" />
         <span class="article-source">Microsoft 365 Blog</span>
         <span class="article-date">Mon, 13 Apr 2026</span>
       </div>
-      <p class="article-summary">Microsoft has announced a major expansion of Microsoft 365 Copilot that allows users to bring their everyday business applications directly into Copilot conversations through agents. Rather than switching between tools, workers can now trigger actions in connected apps from within the Copilot interface, reducing workflow fragmentation. The integration targets common enterprise applications that professionals rely on daily, enabling Copilot to pull live data, surface relevant information, and execute tasks across platforms. This capability is powered by agent-based connectors that bridge Microsoft 365 and third-party ecosystems, building on the Microsoft Copilot extensibility framework. The update directly addresses a longstanding pain point: AI tools generating insights that users must then manually act on in separate applications. With this change, Copilot can now close that loop by acting within connected apps as part of a single conversational thread. Enterprise IT teams can configure which apps are surfaced to employees, providing governance and control over the agent ecosystem. The feature complements the broader agentic strategy Microsoft outlined in its Wave 3 Copilot announcements and is consistent with multi-agent orchestration capabilities introduced in Copilot Studio. This release is significant for organizations running mixed-vendor environments, as it positions Microsoft 365 Copilot as a centralized AI orchestration layer. The update reinforces Microsoft&#x27;s strategy of making Copilot the connective tissue across enterprise software stacks rather than a standalone productivity add-on.</p>
+      <p class="article-summary">Microsoft has announced a major expansion of Microsoft 365 Copilot that brings everyday business applications directly into the AI-powered flow of work. Rather than requiring users to switch between Copilot and external tools, agents can now surface and interact with go-to business apps inside the Copilot conversation interface. This capability closes the long-standing gap between AI-powered insight and tangible in-app action, enabling users to complete tasks in third-party systems without context-switching. The integration leverages the agent framework built into Microsoft 365 Copilot, allowing organizations to connect CRM platforms, ERP systems, HR tools, and other line-of-business applications. Actions taken through Copilot agents can trigger real operations within connected apps, such as updating records, submitting approvals, or retrieving live data. This development is particularly impactful for enterprise users who operate across many tools daily, as it positions Copilot as a unified action layer across the business software ecosystem. The feature aligns with Microsoft&#x27;s broader strategy of making Copilot an orchestration hub rather than a standalone assistant. IT administrators and developers can configure which apps are accessible through Copilot agents using governance controls in Copilot Studio. The announcement reinforces Microsoft&#x27;s competitive positioning against other workplace AI platforms that are racing to deliver cross-application agent capabilities. For organizations already invested in Microsoft 365, this update substantially increases the ROI of their Copilot licenses by extending AI-driven automation across their entire software stack.</p>
       <div class="article-impact">
         <h4>Impact Takeaways</h4>
-        <ul><li>Employees can now initiate real actions in third-party business apps from within the Microsoft 365 Copilot interface, eliminating context-switching.</li><li>IT administrators retain governance controls over which apps and agents are accessible, enabling secure enterprise-wide rollout.</li><li>Organizations running multi-vendor software stacks stand to benefit most, as Copilot becomes a centralized AI orchestration hub.</li><li>This positions Microsoft 365 Copilot as a competitor to dedicated workflow automation tools by integrating AI reasoning with direct in-app execution.</li></ul>
+        <ul><li>Copilot agents can now trigger real actions in connected third-party business apps, eliminating the need to switch between tools.</li><li>Enterprise teams can centralize workflows across CRM, ERP, HR, and other systems through a single Copilot conversation interface.</li><li>IT admins can govern which apps are exposed to Copilot agents via Copilot Studio, maintaining security and compliance controls.</li><li>This update significantly expands Copilot&#x27;s value proposition for organizations with complex, multi-app workflows.</li></ul>
       </div>
     </article>
 
     <article class="article-card" id="story-3">
       <div class="article-number">#3</div>
       <h2 class="article-title">
-        <a href="https://www.microsoft.com/en-us/copilot/blog/copilot-studio/new-and-improved-multi-agent-orchestration-connected-experiences-and-faster-prompt-iteration/" target="_blank" rel="noopener noreferrer">
-          New and improved: Multi-agent orchestration, connected experiences, and faster prompt iteration
+        <a href="https://www.microsoft.com/en-us/microsoft-365/blog/2026/03/30/copilot-cowork-now-available-in-frontier/" target="_blank" rel="noopener noreferrer">
+          Copilot Cowork: Now available in Frontier
         </a>
       </h2>
       <div class="article-meta">
+        <img class="source-favicon" src="https://www.google.com/s2/favicons?domain=microsoft.com&sz=32" width="14" height="14" alt="" loading="lazy" onerror="this.style.display='none'" />
         <span class="article-source">Microsoft 365 Blog</span>
-        <span class="article-date">Wed, 01 Apr 2026</span>
+        <span class="article-date">Mon, 30 Mar 2026</span>
       </div>
-      <p class="article-summary">Microsoft has announced that multi-agent orchestration in Copilot Studio is now generally available, a milestone that enables enterprises to build and deploy coordinated systems of AI agents for complex, distributed workflows. Multi-agent systems allow individual specialized agents to collaborate, hand off tasks, and collectively complete objectives that no single agent could handle alone. Alongside this release, Microsoft has shipped an improved Prompt Editor within Copilot Studio, designed to accelerate the iteration cycle for developers building custom agent behaviors. The updated editor provides real-time feedback, making it faster to test and refine prompts without deploying to production environments. New governance controls have also been introduced, giving IT administrators more visibility and management capability over agent behavior at scale. These controls address enterprise concerns around accountability, compliance, and the risk of unintended agent actions in sensitive business contexts. Connected experiences enhancements allow agents built in Copilot Studio to interact more seamlessly with Microsoft 365 apps and third-party services. The general availability of multi-agent orchestration is a critical enabler for organizations looking to automate end-to-end business processes rather than isolated tasks. Microsoft positions this as part of its broader Wave 3 Copilot strategy, focused on moving from AI assistance to AI-driven execution. For developers and solution architects, the combination of orchestration, faster prompt tooling, and governance represents a more mature and production-ready platform for enterprise AI agent deployment.</p>
+      <p class="article-summary">Microsoft has opened up Copilot Cowork to participants in the Frontier program, its early-access initiative for cutting-edge Microsoft 365 Copilot capabilities. Copilot Cowork is specifically designed for long-running, multi-step work scenarios that go beyond quick prompts or single-task completions. The feature allows professionals to delegate sustained, complex workflows to Copilot, which then coordinates across Microsoft 365 apps and connected services to drive work to completion. Frontier participants can now explore Cowork&#x27;s ability to manage sequential and parallel task execution, handling workflows that may span hours or even days. The system is built to keep humans informed and in control at key decision points throughout the process, distinguishing it from fully autonomous AI systems. Microsoft describes Cowork as the execution layer for Microsoft 365, sitting above individual app-level features and enabling enterprise-grade task delegation at scale. The Frontier program availability signals that Cowork is moving toward broader general availability following validation and feedback from early adopters. Organizations in regulated industries or with complex operational workflows stand to benefit most from Cowork&#x27;s ability to orchestrate sustained AI-driven work. The launch builds on the foundational announcement of Copilot Cowork made earlier in March and adds program access details for enterprises eager to pilot the technology. Microsoft&#x27;s phased rollout approach through Frontier reflects its strategy of maturing agentic features responsibly before broad deployment.</p>
       <div class="article-impact">
         <h4>Impact Takeaways</h4>
-        <ul><li>Multi-agent orchestration reaching general availability means enterprises can now deploy production-grade, coordinated AI agent systems through Copilot Studio.</li><li>The improved Prompt Editor reduces development time for custom agent behaviors, lowering the barrier for internal teams to build and iterate.</li><li>New governance controls give IT administrators the oversight needed to responsibly scale agent adoption across regulated or sensitive business environments.</li><li>Solution architects can now design end-to-end automated processes using networks of specialized agents rather than single-purpose bots.</li></ul>
+        <ul><li>Frontier program members can now pilot Copilot Cowork for long-running, multi-step task delegation in Microsoft 365.</li><li>Cowork positions Copilot as an execution layer capable of sustaining complex workflows across hours or days, not just single interactions.</li><li>Human oversight is preserved at key decision points, making the feature suitable for enterprise and regulated-industry use cases.</li><li>Early access through Frontier allows organizations to validate Cowork&#x27;s capabilities and provide feedback ahead of general availability.</li></ul>
       </div>
     </article>
 
     <article class="article-card" id="story-4">
       <div class="article-number">#4</div>
       <h2 class="article-title">
-        <a href="https://www.microsoft.com/en-us/microsoft-365/blog/2026/03/30/copilot-cowork-now-available-in-frontier/" target="_blank" rel="noopener noreferrer">
-          Copilot Cowork: Now available in Frontier
+        <a href="https://www.microsoft.com/en-us/microsoft-copilot/blog/copilot-studio/new-and-improved-multi-agent-orchestration-connected-experiences-and-faster-prompt-iteration/" target="_blank" rel="noopener noreferrer">
+          New and improved: Multi-agent orchestration, connected experiences, and faster prompt iteration
         </a>
       </h2>
       <div class="article-meta">
+        <img class="source-favicon" src="https://www.google.com/s2/favicons?domain=microsoft.com&sz=32" width="14" height="14" alt="" loading="lazy" onerror="this.style.display='none'" />
         <span class="article-source">Microsoft 365 Blog</span>
-        <span class="article-date">Mon, 30 Mar 2026</span>
+        <span class="article-date">Wed, 01 Apr 2026</span>
       </div>
-      <p class="article-summary">Microsoft has expanded access to Copilot Cowork by making it available through the Frontier program, the company&#x27;s early-access channel for cutting-edge Microsoft 365 features. Copilot Cowork was first announced in early March 2026 as the &#x27;execution layer&#x27; for Microsoft 365, designed to handle long-running, multi-step work tasks that unfold over extended periods. Unlike traditional Copilot interactions that resolve in a single prompt-response exchange, Cowork is built to sustain complex workflows, delegating subtasks and coordinating progress across sessions. The Frontier availability allows a broader but still controlled group of organizations to test and provide feedback on Cowork before a wider general availability release. Microsoft&#x27;s decision to route Cowork through Frontier reflects the feature&#x27;s experimental nature and the need for real-world enterprise validation at scale. Early access participants will be able to delegate significant chunks of work to Copilot Cowork and observe how it manages sequencing, decision-making, and output delivery over time. The feature represents a fundamental change in the human-AI collaboration model, shifting from reactive AI assistance to proactive AI execution. IT and productivity leaders in the Frontier program will be critical in shaping how Cowork evolves before broader rollout. This release builds directly on the architectural foundations described in the Wave 3 Copilot strategy announcement, positioning Cowork as the agentic backbone of Microsoft 365. Organizations eager to gain a competitive advantage through AI-driven automation should consider applying for Frontier access to evaluate Cowork early.</p>
+      <p class="article-summary">Microsoft has announced a wave of updates to Copilot Studio, with multi-agent orchestration systems now reaching general availability. This milestone means organizations can deploy networks of specialized AI agents that collaborate to handle complex, distributed workflows within the Microsoft 365 ecosystem. The GA release of multi-agent systems enables enterprises to build production-grade agentic pipelines where individual agents handle specific domains while an orchestrator coordinates the overall workflow. Alongside the GA announcement, Microsoft has released a significantly improved Prompt Editor that allows developers and power users to iterate on agent prompts faster and more effectively. The updated Prompt Editor includes tools for real-time testing, comparison, and refinement of prompt configurations, reducing the time needed to tune agent behavior for specific business use cases. Governance controls have also been strengthened, giving IT administrators better tools to monitor, audit, and manage agent activity at scale across the organization. Connected experiences improvements allow agents built in Copilot Studio to more seamlessly interact with Microsoft 365 apps and external data sources. These updates reflect Microsoft&#x27;s commitment to making Copilot Studio not just an agent builder but a full-lifecycle management platform for enterprise AI systems. The combined GA of multi-agent orchestration and improved tooling lowers the barrier for organizations to move from single-agent pilots to full-scale, multi-agent deployments. For professionals building AI solutions on the Microsoft platform, these updates represent a substantial increase in the sophistication and manageability of what can be created.</p>
       <div class="article-impact">
         <h4>Impact Takeaways</h4>
-        <ul><li>Organizations in the Frontier program can now test Copilot Cowork for long-running, multi-step task delegation, providing a preview of Microsoft 365&#x27;s agentic future.</li><li>Cowork signals a shift from single-turn AI assistance to sustained, autonomous task execution within the Microsoft 365 ecosystem.</li><li>Frontier participation gives enterprise teams the opportunity to shape Cowork&#x27;s development through feedback before general availability.</li><li>IT leaders should evaluate whether Frontier program eligibility aligns with their organization&#x27;s AI readiness and automation roadmap.</li></ul>
+        <ul><li>Multi-agent orchestration systems in Copilot Studio are now GA, enabling production-grade deployment of collaborative AI agent networks.</li><li>An improved Prompt Editor accelerates iteration and tuning of agent behavior, reducing development time for enterprise AI solutions.</li><li>Strengthened governance controls give IT teams better visibility and management capabilities over agent activity across Microsoft 365.</li><li>Organizations can now confidently scale from single-agent pilots to complex, multi-agent workflow deployments on the Microsoft platform.</li></ul>
       </div>
     </article>
 
@@ -351,13 +394,14 @@
         </a>
       </h2>
       <div class="article-meta">
+        <img class="source-favicon" src="https://www.google.com/s2/favicons?domain=microsoft.com&sz=32" width="14" height="14" alt="" loading="lazy" onerror="this.style.display='none'" />
         <span class="article-source">Microsoft 365 Blog</span>
         <span class="article-date">Mon, 09 Mar 2026</span>
       </div>
-      <p class="article-summary">Microsoft&#x27;s Wave 3 announcement represents a pivotal strategic moment for Microsoft 365 Copilot, redefining it not merely as an assistant but as a platform with deeply embedded agentic capabilities across the entire productivity suite. The blog post frames Wave 3 as a new version of Microsoft 365 Copilot that moves beyond helping users with individual tasks to actively driving and coordinating work on their behalf. This shift is described as &#x27;frontier transformation,&#x27; indicating Microsoft believes it is crossing a new threshold in enterprise AI capability. Wave 3 encompasses the full stack of Copilot features — from document creation in Word and PowerPoint to data work in Excel and workflow orchestration through Copilot Studio. The announcement aligns with the simultaneous launch of Copilot Cowork, which serves as the execution layer designed to make sustained, multi-step agentic workflows practical for everyday business users. Microsoft positions agents as the primary vehicle for this transformation, enabling both pre-built and custom AI agents to take meaningful action across the Microsoft 365 environment. The company signals that Wave 3 is not a single feature release but a continuous evolution of the platform over the coming months. For enterprise decision-makers, this announcement reframes Microsoft 365 Copilot as a strategic investment in AI-driven business process transformation rather than a productivity add-on. IT architects and CIOs should use this announcement as a strategic planning anchor for their Microsoft 365 Copilot adoption roadmaps. Wave 3 positions Microsoft as directly competing with dedicated enterprise automation and AI orchestration platform vendors.</p>
+      <p class="article-summary">Microsoft has officially introduced Wave 3 of Microsoft 365 Copilot, framing it as a transformative new version of the platform that fundamentally changes the role AI plays in enterprise work. Unlike previous waves focused on assistance and suggestion, Wave 3 centers on embedded agentic capabilities that allow Copilot to act independently on complex tasks within and across Microsoft 365 applications. The announcement marks a strategic inflection point for Microsoft, positioning AI as no longer a supplemental tool but an integrated operational layer within the Microsoft 365 suite. Wave 3 introduces new agent types with specialized capabilities, as well as deeper integration between Copilot and core Microsoft 365 workloads including Teams, Outlook, Word, Excel, and PowerPoint. Microsoft&#x27;s Frontier transformation concept suggests that the most forward-thinking organizations will use Wave 3 capabilities to fundamentally redesign how work gets done, not just automate existing processes. The embedded agentic model means Copilot can proactively initiate actions, track progress, and adapt to changing circumstances without requiring constant user direction. Enterprise leaders are encouraged to develop Frontier strategies that align AI agent deployment with their specific business transformation goals. The Wave 3 announcement also sets the foundation for features like Copilot Cowork and the agentic capabilities in core Office apps that followed in subsequent weeks. Microsoft is positioning Wave 3 as a competitive differentiator for organizations looking to achieve meaningful productivity and operational gains from AI investment. For IT decision-makers and business leaders, Wave 3 represents the clearest articulation yet of Microsoft&#x27;s long-term vision for AI in the enterprise.</p>
       <div class="article-impact">
         <h4>Impact Takeaways</h4>
-        <ul><li>Wave 3 reframes Microsoft 365 Copilot as a strategic platform for AI-driven business transformation, not just a productivity enhancement tool.</li><li>Enterprise leaders should use the Wave 3 roadmap as a foundation for long-term AI adoption planning within the Microsoft 365 ecosystem.</li><li>The embedded agentic model positions Microsoft to compete more directly with workflow automation and RPA platforms in the enterprise space.</li><li>Organizations already invested in Microsoft 365 stand to gain significant capability without requiring additional platform migrations or vendor relationships.</li></ul>
+        <ul><li>Wave 3 redefines Microsoft 365 Copilot as an embedded agentic platform, not just an AI assistant — a foundational shift for enterprise AI strategy.</li><li>Organizations should begin developing Frontier transformation strategies that leverage agentic Copilot capabilities to redesign core workflows.</li><li>Wave 3 provides the strategic framework underpinning all subsequent Copilot feature releases, including Cowork and agentic Office app capabilities.</li><li>IT and business leaders need to reassess Copilot deployment plans in light of Wave 3&#x27;s expanded agentic scope and cross-application integration.</li></ul>
       </div>
     </article>
     </div>

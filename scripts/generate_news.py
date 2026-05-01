@@ -128,7 +128,7 @@ takeaways must focus on real-world impact and what it means for practitioners. 3
 
     message = client.messages.create(
         model="claude-sonnet-4-6",
-        max_tokens=4096,
+        max_tokens=8192,
         system=system_prompt,
         messages=[{"role": "user", "content": user_prompt}],
     )
@@ -138,7 +138,13 @@ takeaways must focus on real-world impact and what it means for practitioners. 3
     raw = re.sub(r"^```[a-z]*\n?", "", raw)
     raw = re.sub(r"\n?```$", "", raw)
 
-    top10 = json.loads(raw)
+    try:
+        top10 = json.loads(raw)
+    except json.JSONDecodeError as e:
+        print(f"  [error] JSON parse failed: {e}", file=sys.stderr)
+        print(f"  [debug] Raw response tail: {raw[-300:]}", file=sys.stderr)
+        raise
+
     return top10
 
 

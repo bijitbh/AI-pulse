@@ -11,7 +11,7 @@ permissions:
 jobs:
   generate:
     runs-on: ubuntu-latest
-    timeout-minutes: 10
+    timeout-minutes: 15
 
     steps:
       - name: Checkout repository
@@ -31,11 +31,11 @@ jobs:
           ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
         run: python scripts/generate_news.py
 
-      - name: Commit and push updated index.html
+      - name: Commit and push updated site
         run: |
           git config user.name  "AI Pulse Bot"
           git config user.email "ai-pulse-bot@users.noreply.github.com"
-          git add index.html
+          git add index.html pages/
           git diff --cached --quiet && echo "No changes to commit" && exit 0
           git commit -m "chore: refresh AI news [$(date -u '+%Y-%m-%d %H:%M UTC')]"
           git push origin ${{ github.ref_name }}

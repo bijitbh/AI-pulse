@@ -75,14 +75,65 @@
     .section-header h2 { font-size: 14px; font-weight: 600; color: var(--text-muted); text-transform: uppercase; letter-spacing: 1px; }
     .section-header .divider { flex: 1; height: 1px; background: var(--border); }
 
-    .empty-state { text-align: center; padding: 80px 24px; color: var(--text-muted); }
-    .empty-state .icon { font-size: 48px; margin-bottom: 16px; }
-    .empty-state h3 { font-size: 18px; font-weight: 600; margin-bottom: 8px; color: var(--text); }
-    .empty-state p { font-size: 14px; }
+    .news-list { display: flex; flex-direction: column; gap: 16px; }
+
+    .news-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 24px;
+      transition: border-color 0.2s, background 0.2s;
+      position: relative;
+    }
+
+    .news-card:hover {
+      border-color: var(--accent-dim);
+      background: var(--surface-hover);
+    }
+
+    .card-rank {
+      position: absolute; top: 20px; right: 20px;
+      font-size: 28px; font-weight: 800;
+      color: var(--border); line-height: 1; user-select: none;
+    }
+
+    .card-tags { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 12px; }
+
+    .tag {
+      font-size: 11px; font-weight: 600;
+      padding: 3px 8px; border-radius: 20px;
+      text-transform: uppercase; letter-spacing: 0.5px;
+    }
+
+    .tag-engineering { background: var(--tag-eng); color: var(--tag-eng-text); }
+    .tag-finance     { background: var(--tag-fin); color: var(--tag-fin-text); }
+    .tag-ai          { background: var(--tag-ai);  color: var(--tag-ai-text);  }
+
+    .card-headline { font-size: 17px; font-weight: 700; line-height: 1.4; margin-bottom: 8px; padding-right: 40px; }
+    .card-headline a { color: var(--text); }
+    .card-headline a:hover { color: var(--accent); text-decoration: none; }
+
+    .card-meta { font-size: 12px; color: var(--text-muted); margin-bottom: 14px; display: flex; gap: 12px; flex-wrap: wrap; }
+    .card-meta .source { font-weight: 600; color: var(--accent); }
+
+    .card-summary { font-size: 14px; color: var(--text-muted); line-height: 1.7; margin-bottom: 16px; }
+
+    .card-takeaways h4 { font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.8px; color: var(--text-muted); margin-bottom: 8px; }
+
+    .card-takeaways ul { list-style: none; display: flex; flex-direction: column; gap: 6px; }
+
+    .card-takeaways li { font-size: 13px; color: var(--text); padding-left: 18px; position: relative; line-height: 1.5; }
+    .card-takeaways li::before { content: '→'; position: absolute; left: 0; color: var(--accent); font-size: 12px; }
 
     footer {
       text-align: center; padding: 24px; font-size: 12px;
       color: var(--text-muted); border-top: 1px solid var(--border);
+    }
+
+    @media (max-width: 600px) {
+      .header-inner { flex-direction: column; align-items: flex-start; }
+      .card-rank { font-size: 20px; top: 16px; right: 16px; }
+      .news-card { padding: 18px; }
     }
   </style>
 </head>
@@ -97,7 +148,9 @@
           <div class="tagline">Top 10 AI stories — curated by Claude</div>
         </div>
       </div>
-      <div class="last-updated">Last updated: <span>Not yet — first run pending</span></div>
+      <div class="last-updated">
+        Last updated: <span>01 May 2026, 00:51 UTC</span>
+      </div>
     </div>
   </header>
 
@@ -106,10 +159,197 @@
       <h2>Today's Top 10</h2>
       <div class="divider"></div>
     </div>
-    <div class="empty-state">
-      <div class="icon">⚡</div>
-      <h3>No stories yet</h3>
-      <p>The site will be populated on the next scheduled run (1st and 16th of each month).</p>
+    <div class="news-list">
+      
+      <article class="news-card">
+        <div class="card-rank">#1</div>
+        <div class="card-tags"><span class="tag tag-ai">Industry</span><span class="tag tag-finance">Finance &amp; Banking</span></div>
+        <h2 class="card-headline">
+          <a href="https://techcrunch.com/2026/04/30/anthropic-potential-900b-valuation-round-could-happen-within-two-weeks/" target="_blank" rel="noopener noreferrer">
+            Sources: Anthropic potential $900B+ valuation round could happen within 2 weeks
+          </a>
+        </h2>
+        <div class="card-meta">
+          <span class="source">TechCrunch AI</span>
+          <span>Thu, 30 Apr 2026 23:07:56 +0000</span>
+        </div>
+        <p class="card-summary">Anthropic is moving rapidly on a new funding round that would value the company at over $900 billion, with investors asked to submit allocations within 48 hours. This would make Anthropic one of the most valuable private AI companies in history. The raise signals continued aggressive investor appetite for frontier AI labs despite broader market uncertainty. The speed of the round suggests strong institutional demand and confidence in Anthropic&#x27;s revenue trajectory. This comes on the heels of reporting that Anthropic already outpaces OpenAI in LLM revenue per user. The valuation milestone would reshape competitive dynamics among frontier AI labs. It also underscores the capital-intensive nature of training and deploying cutting-edge models. The round is expected to close within two weeks if allocations are confirmed. Anthropic&#x27;s enterprise-focused strategy, anchored by Claude, appears to be driving premium valuations. This fundraise will likely set a new benchmark for how the broader market values AI foundation model companies.</p>
+        <div class="card-takeaways">
+          <h4>Impact Takeaways</h4>
+          <ul><li>A $900B+ valuation would cement Anthropic as a top-tier AI incumbent, intensifying competition with OpenAI and Google for enterprise contracts and talent.</li><li>Practitioners building on Claude APIs should anticipate continued investment in model capability and infrastructure, but also potential pricing changes post-round.</li><li>The speed of the raise signals that institutional capital is still flowing freely into frontier AI, which could sustain the current pace of model releases and compute scaling.</li><li>Financial services firms evaluating AI vendor partnerships should factor in Anthropic&#x27;s strengthening balance sheet and market position as a stability indicator.</li></ul>
+        </div>
+      </article>
+
+      <article class="news-card">
+        <div class="card-rank">#2</div>
+        <div class="card-tags"><span class="tag tag-ai">Policy &amp; Ethics</span><span class="tag tag-ai">Industry</span><span class="tag tag-ai">Research</span></div>
+        <h2 class="card-headline">
+          <a href="https://techcrunch.com/2026/04/30/elon-musk-testifies-that-xai-trained-grok-on-openai-models/" target="_blank" rel="noopener noreferrer">
+            Elon Musk testifies that xAI trained Grok on OpenAI models
+          </a>
+        </h2>
+        <div class="card-meta">
+          <span class="source">TechCrunch AI</span>
+          <span>Thu, 30 Apr 2026 18:03:57 +0000</span>
+        </div>
+        <p class="card-summary">During sworn testimony in the Musk v. Altman trial, Elon Musk admitted that xAI used OpenAI&#x27;s models as part of the training process for Grok, a practice known as distillation. Musk argued that distillation is standard practice across the AI industry. The admission is legally and strategically significant given the ongoing lawsuit over OpenAI&#x27;s for-profit conversion. Distillation — using a more powerful model&#x27;s outputs to train a smaller or rival model — has become a flashpoint as frontier labs seek to protect their intellectual property. OpenAI has previously moved to restrict API access specifically to prevent distillation by competitors. The testimony could influence how courts and regulators treat model training practices going forward. It also raises questions about the enforceability of terms of service prohibiting distillation. Wired reporting corroborates the testimony, noting Musk suggested the practice is industry-wide. The trial&#x27;s outcome could set legal precedents affecting how all AI companies license and protect their models. This is one of the most consequential AI legal proceedings to date.</p>
+        <div class="card-takeaways">
+          <h4>Impact Takeaways</h4>
+          <ul><li>AI engineers and legal teams at labs should urgently review their terms of service and training data provenance to assess distillation liability exposure.</li><li>The trial may result in binding precedents that reshape how model outputs can legally be used for training competing systems.</li><li>Enterprises licensing AI models should monitor this case closely, as rulings could affect the competitive landscape and model availability.</li><li>The admission validates concerns about IP leakage through API access, likely accelerating access restrictions across major AI providers.</li></ul>
+        </div>
+      </article>
+
+      <article class="news-card">
+        <div class="card-rank">#3</div>
+        <div class="card-tags"><span class="tag tag-ai">Industry</span><span class="tag tag-finance">Finance &amp; Banking</span></div>
+        <h2 class="card-headline">
+          <a href="https://go.theregister.com/feed/www.theregister.com/2026/04/30/openai_anthropic_top_lines_research_counterpoint/" target="_blank" rel="noopener noreferrer">
+            Fewer users, fatter wallets is why Anthropic tops OpenAI in LLM revenue stakes
+          </a>
+        </h2>
+        <div class="card-meta">
+          <span class="source">The Register AI</span>
+          <span>2026-04-30T12:20:12.00Z</span>
+        </div>
+        <p class="card-summary">Research from Counterpoint shows Anthropic is generating more LLM revenue than OpenAI despite having significantly fewer users. The data suggests Anthropic&#x27;s enterprise-focused model — charging premium rates to fewer, higher-value business clients — is outperforming OpenAI&#x27;s mass-market consumer strategy in raw revenue terms. This finding challenges the assumption that user scale is the primary driver of AI monetization. Anthropic&#x27;s Claude models are heavily deployed in regulated industries including finance, legal, and healthcare. OpenAI, by contrast, has prioritized broad adoption through ChatGPT&#x27;s freemium structure. The revenue disparity highlights two diverging business models in the foundation model space. Analysts note that enterprise contracts carry higher margins and more predictable revenue than consumer subscriptions. This dynamic could influence how other AI labs price and position their products. It also has implications for the ongoing Anthropic fundraise, providing concrete revenue justification for the $900B+ valuation. The finding reinforces Anthropic&#x27;s positioning as the enterprise-safe, compliance-friendly AI provider.</p>
+        <div class="card-takeaways">
+          <h4>Impact Takeaways</h4>
+          <ul><li>AI procurement teams in banking and finance should note that Anthropic&#x27;s enterprise revenue leadership reflects strong institutional adoption — a signal of product-market fit in regulated sectors.</li><li>OpenAI may need to accelerate its enterprise go-to-market strategy to close the revenue gap despite its consumer reach advantage.</li><li>The data supports a &#x27;fewer users, higher value&#x27; pricing model for AI vendors targeting professional and regulated markets.</li><li>Practitioners evaluating build-vs-buy AI decisions should weigh vendor financial health, where Anthropic&#x27;s revenue profile now suggests greater sustainability.</li></ul>
+        </div>
+      </article>
+
+      <article class="news-card">
+        <div class="card-rank">#4</div>
+        <div class="card-tags"><span class="tag tag-engineering">AI Engineering</span><span class="tag tag-ai">Research</span><span class="tag tag-ai">Products &amp; Tools</span></div>
+        <h2 class="card-headline">
+          <a href="https://www.technologyreview.com/2026/04/30/1136721/this-startups-new-mechanistic-interpretability-tool-lets-you-debug-llms/" target="_blank" rel="noopener noreferrer">
+            This startup&#x27;s new mechanistic interpretability tool lets you debug LLMs
+          </a>
+        </h2>
+        <div class="card-meta">
+          <span class="source">MIT Technology Review</span>
+          <span>Thu, 30 Apr 2026 15:59:41 +0000</span>
+        </div>
+        <p class="card-summary">San Francisco-based startup Goodfire has released Silico, a mechanistic interpretability tool that allows researchers and engineers to peer inside LLMs and adjust model parameters during training. Unlike post-hoc explanation tools, Silico enables intervention at the training stage, giving practitioners fine-grained control over model behavior. The tool addresses a long-standing challenge in AI development: understanding why models behave the way they do, not just what they output. Mechanistic interpretability has been a frontier research area, but Silico represents one of the first commercial-grade implementations. The ability to debug LLMs during training could significantly reduce the cost of alignment failures and unexpected model behaviors in production. For AI engineering teams, this could become a standard part of the model development lifecycle. The tool is particularly relevant for organizations building models for regulated industries where explainability is a compliance requirement. Goodfire&#x27;s release arrives as demand for trustworthy, auditable AI systems is accelerating. The startup positions Silico as complementary to existing fine-tuning and RLHF workflows. This is a notable step toward making LLM internals legible to engineering teams beyond pure researchers.</p>
+        <div class="card-takeaways">
+          <h4>Impact Takeaways</h4>
+          <ul><li>AI engineering teams can now apply mechanistic interpretability at training time, enabling earlier detection and correction of undesired model behaviors.</li><li>For financial services and other regulated industries, Silico-type tools could become essential for demonstrating model explainability to auditors and regulators.</li><li>The commercialization of interpretability tooling signals a maturing AI engineering stack — expect more startups and platform integrations in this space.</li><li>Practitioners should evaluate Silico as a complement to RLHF and fine-tuning workflows, especially for high-stakes deployment scenarios.</li></ul>
+        </div>
+      </article>
+
+      <article class="news-card">
+        <div class="card-rank">#5</div>
+        <div class="card-tags"><span class="tag tag-engineering">AI Engineering</span><span class="tag tag-ai">Products &amp; Tools</span></div>
+        <h2 class="card-headline">
+          <a href="https://towardsdatascience.com/why-ai-engineers-are-moving-beyond-langchain-to-native-agent-architectures/" target="_blank" rel="noopener noreferrer">
+            Why AI Engineers Are Moving Beyond LangChain to Native Agent Architectures
+          </a>
+        </h2>
+        <div class="card-meta">
+          <span class="source">Towards Data Science</span>
+          <span>Thu, 30 Apr 2026 12:00:00 +0000</span>
+        </div>
+        <p class="card-summary">A growing number of AI engineers are abandoning high-level orchestration frameworks like LangChain in favor of native, hand-rolled agent architectures built directly on model APIs. The shift is driven by production demands: abstraction layers introduce latency, debugging complexity, and behavioral unpredictability at scale. The article argues that frameworks accelerated early LLM application development but create technical debt when systems need to handle real-world edge cases. Native architectures give engineers direct control over prompting, memory, tool use, and error handling. The piece details specific pain points with LangChain including opaque chain execution, difficult state management, and versioning instability. Teams moving to native architectures report faster iteration cycles and easier debugging. The trend reflects broader maturation in the AI engineering discipline, similar to how web developers eventually moved from jQuery to native browser APIs. Patterns like structured output parsing, explicit tool routing, and custom retry logic are increasingly implemented from scratch. The article provides architectural guidance for teams considering the migration. This is an important signal for organizations standardizing their internal AI development practices.</p>
+        <div class="card-takeaways">
+          <h4>Impact Takeaways</h4>
+          <ul><li>Engineering teams building production AI agents should audit their LangChain dependencies and assess where native API calls would reduce complexity and improve observability.</li><li>The shift to native architectures requires stronger foundational knowledge of model APIs — upskilling in prompt engineering and async patterns is increasingly critical.</li><li>Organizations standardizing internal AI tooling should account for the hidden costs of framework abstraction, especially for latency-sensitive applications like real-time financial decisioning.</li><li>The trend suggests the AI engineering discipline is maturing: teams are moving from rapid prototyping to robust, maintainable production systems.</li></ul>
+        </div>
+      </article>
+
+      <article class="news-card">
+        <div class="card-rank">#6</div>
+        <div class="card-tags"><span class="tag tag-engineering">AI Engineering</span><span class="tag tag-ai">Industry</span></div>
+        <h2 class="card-headline">
+          <a href="https://www.technologyreview.com/2026/04/27/1136322/rebuilding-the-data-stack-for-ai/" target="_blank" rel="noopener noreferrer">
+            Rebuilding the data stack for AI
+          </a>
+        </h2>
+        <div class="card-meta">
+          <span class="source">MIT Technology Review</span>
+          <span>Mon, 27 Apr 2026 13:00:00 +0000</span>
+        </div>
+        <p class="card-summary">Enterprises are discovering that the biggest barrier to meaningful AI adoption is not model capability but the state of their underlying data infrastructure. The article examines how organizations are being forced to rebuild their data stacks — including pipelines, governance frameworks, and storage architectures — to support AI workloads. Legacy data systems built for batch processing and BI reporting are poorly suited to the real-time, high-context data retrieval demands of AI agents and LLM applications. Key challenges include data silos, inconsistent data quality, lack of metadata standards, and inadequate lineage tracking. The piece profiles enterprises in finance, manufacturing, and retail that have undergone significant data modernization efforts before deploying AI at scale. Modern data stack components highlighted include vector databases, lakehouse architectures, and streaming pipelines. The article argues that AI ROI is directly correlated with data readiness. Organizations that treat data infrastructure as an afterthought consistently underperform on AI deployment timelines and quality metrics. The rebuild is described as a multi-year, board-level initiative at most large enterprises. This piece serves as a practical framework for data and AI engineering leaders planning AI deployment roadmaps.</p>
+        <div class="card-takeaways">
+          <h4>Impact Takeaways</h4>
+          <ul><li>Data engineering teams should prioritize data quality, lineage, and real-time accessibility before scaling AI deployments — poor data infrastructure is the leading cause of failed AI initiatives.</li><li>Banks and financial institutions with fragmented data estates face the steepest rebuild challenges but also the highest potential ROI from AI once data foundations are in place.</li><li>Investments in vector databases, streaming pipelines, and lakehouse architectures are now prerequisites for enterprise-grade AI, not optional enhancements.</li><li>Technology leaders should present data stack modernization as a strategic AI enabler to secure board-level funding and sponsorship.</li></ul>
+        </div>
+      </article>
+
+      <article class="news-card">
+        <div class="card-rank">#7</div>
+        <div class="card-tags"><span class="tag tag-finance">Finance &amp; Banking</span><span class="tag tag-engineering">AI Engineering</span><span class="tag tag-ai">Industry</span></div>
+        <h2 class="card-headline">
+          <a href="https://www.pymnts.com/news/artificial-intelligence/2026/how-ai-is-rewriting-credit-decisioning-in-real-time/" target="_blank" rel="noopener noreferrer">
+            How AI Is Rewriting Credit Decisioning in Real Time
+          </a>
+        </h2>
+        <div class="card-meta">
+          <span class="source">PYMNTS AI</span>
+          <span>Mon, 13 Apr 2026 08:01:11 +0000</span>
+        </div>
+        <p class="card-summary">Traditional credit and payment decisioning systems based on static scorecards and rigid rule sets are being replaced by AI-driven models capable of evaluating risk, intent, and context in real time. The shift is driven by the acceleration of digital transactions across channels that outpace legacy batch-processing systems. AI models can now incorporate behavioral signals, transaction patterns, and alternative data sources to make credit decisions in milliseconds. This is enabling issuers to improve approval rates while reducing default risk and fraud. The article details how machine learning models are being layered onto existing credit infrastructure rather than replacing it wholesale, easing adoption for incumbent banks. Regulatory compliance remains a key challenge, with explainability requirements pushing institutions toward interpretable model architectures. Real-time decisioning is also enabling dynamic credit limit adjustments and personalized offers triggered by spending behavior. Fintechs are leading adoption, but traditional banks are accelerating deployment in response to competitive pressure. The piece notes that data access and model governance are the primary bottlenecks to broader rollout. AI-driven credit decisioning is described as one of the highest-ROI applications of AI in financial services.</p>
+        <div class="card-takeaways">
+          <h4>Impact Takeaways</h4>
+          <ul><li>Financial institutions should prioritize deploying real-time AI decisioning models to remain competitive with fintechs that already operate at millisecond decision speeds.</li><li>Model explainability is non-negotiable in credit AI — engineering teams must build interpretability into decisioning systems from the ground up to satisfy regulatory requirements.</li><li>Alternative data integration is a key differentiator: banks with richer behavioral and transactional data will build more accurate and inclusive credit models.</li><li>Risk and compliance teams should establish AI governance frameworks for credit models before deployment, not after — regulatory scrutiny in this space is intensifying.</li></ul>
+        </div>
+      </article>
+
+      <article class="news-card">
+        <div class="card-rank">#8</div>
+        <div class="card-tags"><span class="tag tag-ai">Research</span><span class="tag tag-ai">Industry</span><span class="tag tag-ai">Products &amp; Tools</span></div>
+        <h2 class="card-headline">
+          <a href="https://www.technologyreview.com/2026/04/24/1136422/why-deepseeks-v4-matters/" target="_blank" rel="noopener noreferrer">
+            Three reasons why DeepSeek&#x27;s new model matters
+          </a>
+        </h2>
+        <div class="card-meta">
+          <span class="source">MIT Technology Review</span>
+          <span>Fri, 24 Apr 2026 21:40:58 +0000</span>
+        </div>
+        <p class="card-summary">DeepSeek released a preview of V4, its latest flagship model, on April 24. The model features a new architecture that significantly extends its context window, allowing it to process much longer prompts more efficiently than its predecessor. Like previous DeepSeek models, V4 is open source, making it freely available for commercial and research use. MIT Technology Review identifies three key reasons the release matters: its architectural efficiency innovations, its open-source availability, and its implications for the US-China AI competition. The extended context capability is particularly relevant for enterprise use cases involving long documents, codebases, and complex reasoning chains. DeepSeek&#x27;s continued ability to release competitive open-source models challenges the assumption that frontier AI requires the capital resources of US hyperscalers. The model&#x27;s release is expected to accelerate adoption in markets where proprietary model costs are prohibitive. It also intensifies pressure on Western labs to open-source more of their research. The preview release suggests a full version with additional capabilities is forthcoming. V4 is already being evaluated by developers as a cost-effective alternative to GPT-5 and Claude 4 for long-context tasks.</p>
+        <div class="card-takeaways">
+          <h4>Impact Takeaways</h4>
+          <ul><li>AI engineering teams should benchmark DeepSeek V4 against proprietary models for long-context workloads — its open-source availability could significantly reduce inference costs.</li><li>The release reinforces that open-source frontier models are a viable enterprise option, challenging vendor lock-in from closed providers.</li><li>Geopolitical risk assessments of AI supply chains should account for DeepSeek&#x27;s growing capability parity with Western frontier models.</li><li>Organizations building RAG pipelines or document-heavy AI applications should test V4&#x27;s extended context architecture as a potential architectural advantage.</li></ul>
+        </div>
+      </article>
+
+      <article class="news-card">
+        <div class="card-rank">#9</div>
+        <div class="card-tags"><span class="tag tag-engineering">AI Engineering</span></div>
+        <h2 class="card-headline">
+          <a href="https://towardsdatascience.com/4-yaml-files-instead-of-pyspark-how-we-let-analysts-build-data-pipelines-without-engineers/" target="_blank" rel="noopener noreferrer">
+            4 YAML Files Instead of PySpark: How We Let Analysts Build Data Pipelines Without Engineers
+          </a>
+        </h2>
+        <div class="card-meta">
+          <span class="source">Towards Data Science</span>
+          <span>Wed, 29 Apr 2026 16:30:00 +0000</span>
+        </div>
+        <p class="card-summary">This practical case study details how an engineering team replaced complex PySpark pipelines with a declarative YAML-based workflow using dlt (data load tool), dbt, and Trino, enabling business analysts to build and ship data pipelines independently. The result was a reduction in pipeline delivery time from several weeks to a single day. The approach democratizes data pipeline creation by abstracting away Python complexity, lowering the barrier for non-engineering stakeholders. The stack leverages dlt for data ingestion, dbt for transformation, and Trino for federated querying across data sources. The article provides a detailed technical breakdown of the architecture and YAML configuration patterns used. The team reports significant reductions in engineering bottlenecks and faster time-to-insight for business units. The approach is particularly relevant for organizations where data engineering capacity is a constraint on AI and analytics projects. It also reduces the risk of pipeline failures caused by complex, hard-to-maintain Python code. The authors note that this pattern scales well for mid-sized organizations that do not need the full complexity of Spark. This represents a broader trend toward declarative, low-code data infrastructure that accelerates AI-ready data delivery.</p>
+        <div class="card-takeaways">
+          <h4>Impact Takeaways</h4>
+          <ul><li>Data engineering teams should evaluate dlt + dbt + Trino as a lightweight, analyst-accessible alternative to Spark for organizations with moderate data volumes.</li><li>Enabling analysts to self-serve on pipeline creation directly accelerates the pace of AI feature development and experimentation.</li><li>Declarative pipeline architectures reduce maintenance burden and make data workflows more auditable — both important for AI governance and compliance.</li><li>Organizations constrained by data engineering headcount can use this pattern to unlock AI initiatives that were previously blocked by pipeline backlog.</li></ul>
+        </div>
+      </article>
+
+      <article class="news-card">
+        <div class="card-rank">#10</div>
+        <div class="card-tags"><span class="tag tag-ai">Policy &amp; Ethics</span><span class="tag tag-ai">Industry</span><span class="tag tag-engineering">AI Engineering</span></div>
+        <h2 class="card-headline">
+          <a href="https://go.theregister.com/feed/www.theregister.com/2026/04/30/good_ai_governance_is_good/" target="_blank" rel="noopener noreferrer">
+            Govern your bots carefully or chaos could ensue
+          </a>
+        </h2>
+        <div class="card-meta">
+          <span class="source">The Register AI</span>
+          <span>2026-04-30T21:27:22.00Z</span>
+        </div>
+        <p class="card-summary">Gartner research projects that the average Global Fortune 500 enterprise will run more than 150,000 AI agents by 2028, up from fewer than 15 today — a tenfold increase that analysts warn could spiral into chaos without proper governance frameworks. The article examines the risks of uncontrolled AI agent proliferation, including conflicting agent actions, security vulnerabilities, regulatory exposure, and runaway compute costs. Gartner recommends organizations establish centralized agent registries, define clear ownership and accountability structures, and implement audit logging for all agent actions. The piece highlights that most enterprises currently lack the governance infrastructure to manage even a fraction of the projected agent volumes. Industries with the highest exposure include financial services, healthcare, and supply chain — sectors where agent errors carry significant real-world consequences. The article also notes that agent governance is increasingly on the radar of regulators in the EU and US. Organizations that invest in governance tooling now will be better positioned to scale agent deployments safely. Key governance components identified include access control, rate limiting, behavioral monitoring, and kill-switch capabilities. The piece serves as a practical warning for enterprise AI and IT leadership. It frames agent governance as a board-level risk management issue, not just an IT concern.</p>
+        <div class="card-takeaways">
+          <h4>Impact Takeaways</h4>
+          <ul><li>Enterprise AI and IT teams should establish agent governance frameworks immediately — waiting until agent volumes scale will make retroactive governance exponentially harder.</li><li>Financial services firms face the highest regulatory and operational risk from ungoverned AI agents; compliance teams should be involved in agent deployment decisions from day one.</li><li>Core governance infrastructure — agent registries, audit logs, behavioral monitoring, and kill-switch controls — should be treated as non-negotiable prerequisites for production agent deployments.</li><li>The projected 150,000-agent scale for Fortune 500 firms by 2028 demands automation of governance itself; manual oversight will not be feasible at that volume.</li></ul>
+        </div>
+      </article>
     </div>
   </main>
 

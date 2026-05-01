@@ -200,28 +200,10 @@ def build_html(top10: list[dict]) -> str:
     now = datetime.now(timezone.utc).strftime("%d %b %Y, %H:%M UTC")
     news_items = render_news_items(top10)
 
-    password_hash = os.environ.get("REFRESH_PASSWORD_HASH", "")
-    repo_owner    = os.environ.get("REPO_OWNER", "")
-    repo_name     = os.environ.get("REPO_NAME", "")
-    workflow_id   = os.environ.get("WORKFLOW_ID", "refresh.yml")
-    branch        = os.environ.get("GITHUB_REF_NAME", "main")
-    pat           = os.environ.get("WORKFLOW_PAT", "")
-
-    # Split PAT into 4-char chunks to bypass GitHub secret scanning.
-    # The token is reassembled at runtime with .join("") in the JS.
-    pat_chunks = [pat[i:i+4] for i in range(0, len(pat), 4)]
-    pat_chunks_js = "[" + ",".join(json.dumps(c) for c in pat_chunks) + "]"
-
     return (
         template
         .replace("{{LAST_UPDATED}}", now)
         .replace("{{NEWS_ITEMS}}", news_items)
-        .replace("{{PASSWORD_HASH}}", password_hash)
-        .replace("{{REPO_OWNER}}", repo_owner)
-        .replace("{{REPO_NAME}}", repo_name)
-        .replace("{{WORKFLOW_ID}}", workflow_id)
-        .replace("{{BRANCH}}", branch)
-        .replace("{{WORKFLOW_PAT_CHUNKS}}", pat_chunks_js)
     )
 
 

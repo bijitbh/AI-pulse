@@ -1,10 +1,12 @@
 name: Refresh AI Pulse
 
 on:
-  workflow_dispatch:  # Triggered manually via the website's Refresh button
+  schedule:
+    - cron: '0 6 1,16 * *'  # 6 AM UTC on the 1st and 16th (~every 15 days)
+  workflow_dispatch:          # Also allow manual runs from the Actions tab
 
 permissions:
-  contents: write   # needed to commit & push index.html
+  contents: write
 
 jobs:
   generate:
@@ -14,8 +16,6 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
-        with:
-          token: ${{ secrets.WORKFLOW_PAT }}
 
       - name: Set up Python
         uses: actions/setup-python@v5
@@ -28,13 +28,7 @@ jobs:
 
       - name: Generate news
         env:
-          ANTHROPIC_API_KEY:      ${{ secrets.ANTHROPIC_API_KEY }}
-          REFRESH_PASSWORD_HASH:  ${{ secrets.REFRESH_PASSWORD_HASH }}
-          WORKFLOW_PAT:           ${{ secrets.WORKFLOW_PAT }}
-          REPO_OWNER:             ${{ github.repository_owner }}
-          REPO_NAME:              ${{ github.event.repository.name }}
-          WORKFLOW_ID:            "refresh.yml"
-          GITHUB_REF_NAME:        ${{ github.ref_name }}
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
         run: python scripts/generate_news.py
 
       - name: Commit and push updated index.html

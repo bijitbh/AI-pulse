@@ -64,10 +64,11 @@
     }
 
     .logo h1 { font-size: 18px; font-weight: 800; letter-spacing: -0.5px; }
-    .logo .tagline { font-size: 11px; color: var(--text-muted); }
 
+    .header-right { display: flex; flex-direction: column; align-items: flex-end; gap: 3px; }
     .last-updated { font-size: 11px; color: var(--text-muted); white-space: nowrap; }
     .last-updated span { color: var(--text); font-weight: 600; }
+    .attribution { font-size: 10px; color: var(--text-muted); white-space: nowrap; opacity: 0.75; }
 
     /* ── Hero ── */
     .hero {
@@ -270,12 +271,12 @@
     <div class="header-inner">
       <div class="logo">
         <div class="logo-icon">⚡</div>
-        <div>
-          <h1>AI Pulse</h1>
-          <div class="tagline">Stay ahead of the AI curve — top stories, curated by Claude</div>
-        </div>
+        <h1>AI Pulse</h1>
       </div>
-      <div class="last-updated">Updated: <span>{{LAST_UPDATED}}</span></div>
+      <div class="header-right">
+        <div class="last-updated">Updated: <span>{{LAST_UPDATED}}</span></div>
+        <div class="attribution">Idea by Bijit Bhattacherjee, curated by Claude</div>
+      </div>
     </div>
   </header>
 

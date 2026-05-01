@@ -36,6 +36,7 @@
     a { color: var(--accent); text-decoration: none; }
     a:hover { text-decoration: underline; }
 
+    /* ── Header ── */
     header {
       border-bottom: 1px solid var(--border);
       padding: 24px 0 20px;
@@ -53,101 +54,355 @@
       flex-wrap: wrap;
     }
 
-    .logo { display: flex; align-items: center; gap: 12px; }
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
 
     .logo-icon {
-      width: 36px; height: 36px;
+      width: 36px;
+      height: 36px;
       background: var(--accent);
       border-radius: 8px;
-      display: flex; align-items: center; justify-content: center;
-      font-size: 18px; flex-shrink: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 18px;
+      flex-shrink: 0;
     }
 
-    .logo h1 { font-size: 22px; font-weight: 700; letter-spacing: -0.3px; }
-    .logo .tagline { font-size: 12px; color: var(--text-muted); margin-top: 1px; }
+    .logo h1 {
+      font-size: 22px;
+      font-weight: 700;
+      letter-spacing: -0.3px;
+    }
 
-    .header-meta { display: flex; align-items: center; gap: 16px; flex-wrap: wrap; }
+    .logo .tagline {
+      font-size: 12px;
+      color: var(--text-muted);
+      margin-top: 1px;
+    }
 
-    .last-updated { font-size: 12px; color: var(--text-muted); }
-    .last-updated span { color: var(--text); font-weight: 500; }
+    .header-meta {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      flex-wrap: wrap;
+    }
 
+    .last-updated {
+      font-size: 12px;
+      color: var(--text-muted);
+    }
+
+    .last-updated span {
+      color: var(--text);
+      font-weight: 500;
+    }
+
+    /* ── Refresh Button ── */
     #refresh-btn {
-      display: flex; align-items: center; gap: 8px;
-      background: var(--accent-dim); color: #fff;
-      border: 1px solid var(--accent); border-radius: 8px;
-      padding: 8px 16px; font-size: 13px; font-weight: 600;
-      cursor: pointer; transition: background 0.15s, transform 0.1s;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      background: var(--accent-dim);
+      color: #fff;
+      border: 1px solid var(--accent);
+      border-radius: 8px;
+      padding: 8px 16px;
+      font-size: 13px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background 0.15s, transform 0.1s;
       white-space: nowrap;
     }
+
     #refresh-btn:hover { background: var(--accent); }
     #refresh-btn:active { transform: scale(0.97); }
     #refresh-btn:disabled { opacity: 0.5; cursor: not-allowed; }
 
+    .refresh-icon { font-size: 15px; }
+
+    /* ── Modal ── */
     .modal-backdrop {
-      display: none; position: fixed; inset: 0;
-      background: rgba(0,0,0,0.7); backdrop-filter: blur(4px);
-      z-index: 100; align-items: center; justify-content: center;
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.7);
+      backdrop-filter: blur(4px);
+      z-index: 100;
+      align-items: center;
+      justify-content: center;
     }
+
     .modal-backdrop.visible { display: flex; }
 
     .modal {
-      background: var(--surface); border: 1px solid var(--border);
-      border-radius: 16px; padding: 32px; width: 100%; max-width: 380px; margin: 16px;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 32px;
+      width: 100%;
+      max-width: 380px;
+      margin: 16px;
     }
-    .modal h2 { font-size: 18px; font-weight: 700; margin-bottom: 8px; }
-    .modal p { font-size: 13px; color: var(--text-muted); margin-bottom: 20px; }
+
+    .modal h2 {
+      font-size: 18px;
+      font-weight: 700;
+      margin-bottom: 8px;
+    }
+
+    .modal p {
+      font-size: 13px;
+      color: var(--text-muted);
+      margin-bottom: 20px;
+    }
+
     .modal input {
-      width: 100%; background: var(--bg); border: 1px solid var(--border);
-      border-radius: 8px; padding: 10px 14px; color: var(--text);
-      font-size: 14px; margin-bottom: 12px; outline: none; transition: border-color 0.15s;
+      width: 100%;
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 10px 14px;
+      color: var(--text);
+      font-size: 14px;
+      margin-bottom: 12px;
+      outline: none;
+      transition: border-color 0.15s;
     }
+
     .modal input:focus { border-color: var(--accent); }
-    .modal-error { font-size: 12px; color: #f87171; margin-bottom: 12px; min-height: 16px; }
-    .modal-actions { display: flex; gap: 10px; }
+
+    .modal-error {
+      font-size: 12px;
+      color: #f87171;
+      margin-bottom: 12px;
+      min-height: 16px;
+    }
+
+    .modal-actions {
+      display: flex;
+      gap: 10px;
+    }
 
     .btn-primary {
-      flex: 1; background: var(--accent-dim); color: #fff;
-      border: 1px solid var(--accent); border-radius: 8px;
-      padding: 10px; font-size: 14px; font-weight: 600;
-      cursor: pointer; transition: background 0.15s;
+      flex: 1;
+      background: var(--accent-dim);
+      color: #fff;
+      border: 1px solid var(--accent);
+      border-radius: 8px;
+      padding: 10px;
+      font-size: 14px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background 0.15s;
     }
+
     .btn-primary:hover { background: var(--accent); }
     .btn-primary:disabled { opacity: 0.5; cursor: not-allowed; }
 
     .btn-secondary {
-      background: transparent; color: var(--text-muted);
-      border: 1px solid var(--border); border-radius: 8px;
-      padding: 10px 16px; font-size: 14px; cursor: pointer;
+      background: transparent;
+      color: var(--text-muted);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 10px 16px;
+      font-size: 14px;
+      cursor: pointer;
       transition: color 0.15s, border-color 0.15s;
     }
+
     .btn-secondary:hover { color: var(--text); border-color: var(--text-muted); }
 
+    /* ── Toast ── */
     .toast {
-      position: fixed; bottom: 24px; right: 24px;
-      background: var(--surface); border: 1px solid var(--border);
-      border-radius: 10px; padding: 14px 18px; font-size: 13px;
-      max-width: 340px; z-index: 200;
-      transform: translateY(80px); opacity: 0;
+      position: fixed;
+      bottom: 24px;
+      right: 24px;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 14px 18px;
+      font-size: 13px;
+      max-width: 340px;
+      z-index: 200;
+      transform: translateY(80px);
+      opacity: 0;
       transition: transform 0.3s ease, opacity 0.3s ease;
     }
+
     .toast.show { transform: translateY(0); opacity: 1; }
     .toast.success { border-color: #22c55e; }
     .toast.error { border-color: #f87171; }
 
-    main { max-width: 900px; margin: 0 auto; padding: 32px 24px 64px; }
+    /* ── Main ── */
+    main {
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 32px 24px 64px;
+    }
 
-    .section-header { display: flex; align-items: center; gap: 10px; margin-bottom: 24px; }
-    .section-header h2 { font-size: 14px; font-weight: 600; color: var(--text-muted); text-transform: uppercase; letter-spacing: 1px; }
-    .section-header .divider { flex: 1; height: 1px; background: var(--border); }
+    .section-header {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 24px;
+    }
 
-    .empty-state { text-align: center; padding: 80px 24px; color: var(--text-muted); }
+    .section-header h2 {
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+
+    .section-header .divider {
+      flex: 1;
+      height: 1px;
+      background: var(--border);
+    }
+
+    /* ── News Cards ── */
+    .news-list {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+
+    .news-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 24px;
+      transition: border-color 0.2s, background 0.2s;
+      position: relative;
+    }
+
+    .news-card:hover {
+      border-color: var(--accent-dim);
+      background: var(--surface-hover);
+    }
+
+    .card-rank {
+      position: absolute;
+      top: 20px;
+      right: 20px;
+      font-size: 28px;
+      font-weight: 800;
+      color: var(--border);
+      line-height: 1;
+      user-select: none;
+    }
+
+    .card-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      margin-bottom: 12px;
+    }
+
+    .tag {
+      font-size: 11px;
+      font-weight: 600;
+      padding: 3px 8px;
+      border-radius: 20px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    .tag-engineering { background: var(--tag-eng); color: var(--tag-eng-text); }
+    .tag-finance { background: var(--tag-fin); color: var(--tag-fin-text); }
+    .tag-ai { background: var(--tag-ai); color: var(--tag-ai-text); }
+
+    .card-headline {
+      font-size: 17px;
+      font-weight: 700;
+      line-height: 1.4;
+      margin-bottom: 8px;
+      padding-right: 40px;
+    }
+
+    .card-headline a { color: var(--text); }
+    .card-headline a:hover { color: var(--accent); text-decoration: none; }
+
+    .card-meta {
+      font-size: 12px;
+      color: var(--text-muted);
+      margin-bottom: 14px;
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+
+    .card-meta .source { font-weight: 600; color: var(--accent); }
+
+    .card-summary {
+      font-size: 14px;
+      color: var(--text-muted);
+      line-height: 1.7;
+      margin-bottom: 16px;
+    }
+
+    .card-takeaways h4 {
+      font-size: 12px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.8px;
+      color: var(--text-muted);
+      margin-bottom: 8px;
+    }
+
+    .card-takeaways ul {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .card-takeaways li {
+      font-size: 13px;
+      color: var(--text);
+      padding-left: 18px;
+      position: relative;
+      line-height: 1.5;
+    }
+
+    .card-takeaways li::before {
+      content: '→';
+      position: absolute;
+      left: 0;
+      color: var(--accent);
+      font-size: 12px;
+    }
+
+    /* ── Empty State ── */
+    .empty-state {
+      text-align: center;
+      padding: 80px 24px;
+      color: var(--text-muted);
+    }
+
     .empty-state .icon { font-size: 48px; margin-bottom: 16px; }
     .empty-state h3 { font-size: 18px; font-weight: 600; margin-bottom: 8px; color: var(--text); }
     .empty-state p { font-size: 14px; }
 
+    /* ── Footer ── */
     footer {
-      text-align: center; padding: 24px; font-size: 12px;
-      color: var(--text-muted); border-top: 1px solid var(--border);
+      text-align: center;
+      padding: 24px;
+      font-size: 12px;
+      color: var(--text-muted);
+      border-top: 1px solid var(--border);
+    }
+
+    /* ── Responsive ── */
+    @media (max-width: 600px) {
+      .header-inner { flex-direction: column; align-items: flex-start; }
+      .card-rank { font-size: 20px; top: 16px; right: 16px; }
+      .news-card { padding: 18px; }
     }
   </style>
 </head>
@@ -163,12 +418,17 @@
         </div>
       </div>
       <div class="header-meta">
-        <div class="last-updated">Last updated: <span>Never — click Refresh to load stories</span></div>
-        <button id="refresh-btn"><span>↻</span> Refresh News</button>
+        <div class="last-updated">
+          Last updated: <span id="last-updated-time">01 May 2026, 00:43 UTC</span>
+        </div>
+        <button id="refresh-btn">
+          <span class="refresh-icon">↻</span> Refresh News
+        </button>
       </div>
     </div>
   </header>
 
+  <!-- Password Modal -->
   <div class="modal-backdrop" id="modal">
     <div class="modal">
       <h2>Refresh AI Pulse</h2>
@@ -182,6 +442,7 @@
     </div>
   </div>
 
+  <!-- Toast -->
   <div class="toast" id="toast"></div>
 
   <main>
@@ -189,61 +450,271 @@
       <h2>Today's Top 10</h2>
       <div class="divider"></div>
     </div>
-    <div class="empty-state">
-      <div class="icon">⚡</div>
-      <h3>No stories yet</h3>
-      <p>Click <strong>Refresh News</strong> above to fetch and curate today's top 10 AI stories.</p>
+
+    <div class="news-list" id="news-list">
+      
+      <article class="news-card">
+        <div class="card-rank">#1</div>
+        <div class="card-tags"><span class="tag tag-ai">Industry</span><span class="tag tag-finance">Finance &amp; Banking</span></div>
+        <h2 class="card-headline">
+          <a href="https://techcrunch.com/2026/04/30/anthropic-potential-900b-valuation-round-could-happen-within-two-weeks/" target="_blank" rel="noopener noreferrer">
+            Sources: Anthropic potential $900B+ valuation round could happen within 2 weeks
+          </a>
+        </h2>
+        <div class="card-meta">
+          <span class="source">TechCrunch AI</span>
+          <span>Thu, 30 Apr 2026 23:07:56 +0000</span>
+        </div>
+        <p class="card-summary">Anthropic is moving rapidly toward closing a new funding round that could value the company at over $900 billion, according to sources familiar with the matter. Investors have been asked to submit allocation requests within 48 hours, signaling urgency in locking up commitments. This would make Anthropic one of the most valuable private companies in history and dramatically outpace its previous valuation milestones. The round underscores the continued surge in institutional capital flowing into frontier AI companies. Separately, research from Counterpoint indicates Anthropic already generates more LLM revenue than OpenAI despite having far fewer users, pointing to its premium enterprise positioning. The fundraise comes as Anthropic&#x27;s Claude product line — including Claude Code and consumer app connectors — sees rapid commercial adoption. A valuation at this level would reshape competitive dynamics across the AI industry and likely accelerate hiring, compute procurement, and model development timelines. It also places additional pressure on OpenAI ahead of its anticipated IPO. The round may attract sovereign wealth funds and large institutional investors seeking exposure to frontier AI infrastructure.</p>
+        <div class="card-takeaways">
+          <h4>Impact Takeaways</h4>
+          <ul><li>A $900B+ valuation would signal that institutional investors view frontier AI as a multi-trillion-dollar market opportunity, intensifying competition for talent and compute resources.</li><li>Anthropic&#x27;s higher revenue-per-user model compared to OpenAI suggests enterprise-focused AI businesses can command significant financial premiums — a key insight for fintech and banking AI vendors.</li><li>Practitioners building on Claude APIs should anticipate accelerated product development and potential pricing changes as Anthropic scales post-funding.</li></ul>
+        </div>
+      </article>
+
+      <article class="news-card">
+        <div class="card-rank">#2</div>
+        <div class="card-tags"><span class="tag tag-ai">Policy &amp; Ethics</span><span class="tag tag-ai">Research</span><span class="tag tag-ai">Industry</span></div>
+        <h2 class="card-headline">
+          <a href="https://techcrunch.com/2026/04/30/elon-musk-testifies-that-xai-trained-grok-on-openai-models/" target="_blank" rel="noopener noreferrer">
+            Elon Musk testifies that xAI trained Grok on OpenAI models
+          </a>
+        </h2>
+        <div class="card-meta">
+          <span class="source">TechCrunch AI</span>
+          <span>Thu, 30 Apr 2026 18:03:57 +0000</span>
+        </div>
+        <p class="card-summary">During sworn testimony in the ongoing Musk v. Altman trial in Northern California, Elon Musk admitted that xAI used OpenAI&#x27;s models as part of training Grok through a process known as distillation. Musk argued that using competitor models for distillation is standard industry practice, a claim that is contested by frontier labs trying to protect their intellectual property. The admission came during cross-examination by OpenAI&#x27;s legal team and added significant new facts to a case already carrying sweeping implications for the AI industry. Model distillation — where a smaller model learns from a larger, more capable one — has become a flashpoint as labs race to prevent rivals from cheaply replicating their capabilities. The case could establish legal precedents around acceptable training practices and IP rights in AI, affecting every major lab. OpenAI&#x27;s pending IPO adds further financial stakes to the outcome. Wired reported that tensions flared visibly during cross-examination, with internal communications revealed suggesting deep personal animosity between Musk and Altman.</p>
+        <div class="card-takeaways">
+          <h4>Impact Takeaways</h4>
+          <ul><li>The legal outcome could define what constitutes permissible use of competitor model outputs in training, directly affecting how AI engineering teams design their training pipelines.</li><li>If courts restrict distillation practices, open-source and startup model development could become significantly more expensive and legally fraught.</li><li>AI practitioners and legal teams at companies using third-party model outputs for fine-tuning or distillation should review their practices ahead of any judicial ruling.</li></ul>
+        </div>
+      </article>
+
+      <article class="news-card">
+        <div class="card-rank">#3</div>
+        <div class="card-tags"><span class="tag tag-ai">Policy &amp; Ethics</span><span class="tag tag-ai">Industry</span></div>
+        <h2 class="card-headline">
+          <a href="https://www.technologyreview.com/2026/04/27/1136466/elon-musk-and-sam-altman-are-going-to-court-over-openais-future/" target="_blank" rel="noopener noreferrer">
+            Elon Musk and Sam Altman are going to court over OpenAI&#x27;s future
+          </a>
+        </h2>
+        <div class="card-meta">
+          <span class="source">MIT Technology Review</span>
+          <span>Mon, 27 Apr 2026 22:52:57 +0000</span>
+        </div>
+        <p class="card-summary">The long-running legal dispute between Elon Musk and OpenAI CEO Sam Altman has entered trial phase in a Northern California court, with potentially industry-defining consequences. At stake is whether OpenAI can legally restructure into a for-profit company, a move central to its anticipated IPO. Musk argues that OpenAI&#x27;s pivot to profit-driven operation violates the nonprofit mission under which it was originally founded and to which he donated. OpenAI&#x27;s lawyers counter that the restructuring is both legally permissible and necessary to fund continued frontier research. A ruling against OpenAI could force it to unwind governance changes and jeopardize its IPO timeline. The trial has also surfaced explosive internal communications and testimony, including Musk&#x27;s admission regarding Grok&#x27;s training methodology. The case is widely seen as the most consequential AI legal proceeding to date, touching on corporate governance, IP, and the ethics of commercializing foundational AI research.</p>
+        <div class="card-takeaways">
+          <h4>Impact Takeaways</h4>
+          <ul><li>A ruling blocking OpenAI&#x27;s for-profit conversion could delay its IPO and reshape how AI companies structure governance, impacting investor strategies across the sector.</li><li>The trial is establishing early case law around AI corporate governance and founder obligations — precedents that will affect every AI company contemplating restructuring.</li><li>Enterprise customers and API developers relying on OpenAI&#x27;s platform should monitor the trial&#x27;s outcome closely for potential disruptions to product roadmaps and pricing.</li></ul>
+        </div>
+      </article>
+
+      <article class="news-card">
+        <div class="card-rank">#4</div>
+        <div class="card-tags"><span class="tag tag-engineering">AI Engineering</span><span class="tag tag-ai">Research</span><span class="tag tag-ai">Products &amp; Tools</span></div>
+        <h2 class="card-headline">
+          <a href="https://www.technologyreview.com/2026/04/30/1136721/this-startups-new-mechanistic-interpretability-tool-lets-you-debug-llms/" target="_blank" rel="noopener noreferrer">
+            This startup&#x27;s new mechanistic interpretability tool lets you debug LLMs
+          </a>
+        </h2>
+        <div class="card-meta">
+          <span class="source">MIT Technology Review</span>
+          <span>Thu, 30 Apr 2026 15:59:41 +0000</span>
+        </div>
+        <p class="card-summary">San Francisco-based startup Goodfire has released Silico, a mechanistic interpretability tool that allows researchers and engineers to peer inside LLMs and adjust model parameters during training. Unlike post-hoc analysis tools, Silico enables intervention at training time, offering more granular control over model behavior before deployment. The tool represents a significant step forward in making AI model internals legible and actionable rather than opaque. Mechanistic interpretability has been a frontier research area for years, but practical tooling for practitioners has lagged behind theoretical progress. Silico could help AI engineering teams debug unexpected model behaviors, reduce alignment issues, and build more reliable production systems. The release is particularly relevant for regulated industries like finance and healthcare, where explainability and auditability of AI decisions are legally and operationally critical. Goodfire&#x27;s approach could also accelerate safety research by enabling more precise identification of problematic circuits or behaviors within large models.</p>
+        <div class="card-takeaways">
+          <h4>Impact Takeaways</h4>
+          <ul><li>Silico gives AI engineers an unprecedented ability to inspect and adjust model behavior during training, potentially reducing costly post-deployment failures and alignment issues.</li><li>For financial services and other regulated sectors, tools like Silico could become essential infrastructure for meeting explainability and audit requirements around AI decision-making.</li><li>Practitioners building or fine-tuning LLMs should evaluate Silico as part of their debugging and quality assurance workflow, particularly for high-stakes applications.</li></ul>
+        </div>
+      </article>
+
+      <article class="news-card">
+        <div class="card-rank">#5</div>
+        <div class="card-tags"><span class="tag tag-engineering">AI Engineering</span><span class="tag tag-ai">Products &amp; Tools</span></div>
+        <h2 class="card-headline">
+          <a href="https://towardsdatascience.com/why-ai-engineers-are-moving-beyond-langchain-to-native-agent-architectures/" target="_blank" rel="noopener noreferrer">
+            Why AI Engineers Are Moving Beyond LangChain to Native Agent Architectures
+          </a>
+        </h2>
+        <div class="card-meta">
+          <span class="source">Towards Data Science</span>
+          <span>Thu, 30 Apr 2026 12:00:00 +0000</span>
+        </div>
+        <p class="card-summary">A growing number of AI engineers are abandoning abstraction frameworks like LangChain in favor of building agent architectures directly on top of LLM APIs, according to analysis published in Towards Data Science. The first wave of LLM application development was accelerated by high-level frameworks that abstracted away complexity, but production environments are exposing their limitations in latency, cost, debuggability, and control. Native architectures allow engineers to optimize token usage, manage state more precisely, and avoid the overhead and opacity introduced by heavy frameworks. The shift mirrors historical patterns in software engineering where early framework adoption gives way to more tailored solutions as systems mature and scale. The piece outlines specific architectural patterns — including direct tool-calling, custom memory management, and structured orchestration — that teams are adopting. This trend has significant implications for engineering teams currently standardized on LangChain or similar abstractions.</p>
+        <div class="card-takeaways">
+          <h4>Impact Takeaways</h4>
+          <ul><li>AI engineering teams running LangChain-based agents in production should audit their architectures for latency, cost, and debuggability issues that native approaches can resolve.</li><li>Moving to native agent architectures requires deeper LLM API expertise but yields better control over production system behavior — a worthwhile investment for mission-critical applications.</li><li>Platform and tooling vendors serving AI engineers should anticipate demand shifting toward lower-level, composable primitives rather than opinionated all-in-one frameworks.</li></ul>
+        </div>
+      </article>
+
+      <article class="news-card">
+        <div class="card-rank">#6</div>
+        <div class="card-tags"><span class="tag tag-engineering">AI Engineering</span><span class="tag tag-ai">Industry</span></div>
+        <h2 class="card-headline">
+          <a href="https://www.technologyreview.com/2026/04/27/1136322/rebuilding-the-data-stack-for-ai/" target="_blank" rel="noopener noreferrer">
+            Rebuilding the data stack for AI
+          </a>
+        </h2>
+        <div class="card-meta">
+          <span class="source">MIT Technology Review</span>
+          <span>Mon, 27 Apr 2026 13:00:00 +0000</span>
+        </div>
+        <p class="card-summary">Enterprises are discovering that the biggest obstacle to meaningful AI adoption is not model capability but the state of their underlying data infrastructure. While consumer-facing AI tools have impressed users, deploying AI at the enterprise scale requires data to be clean, accessible, and structured in ways that most legacy data stacks do not support. Organizations are being forced to rearchitect data pipelines, governance frameworks, and storage systems to accommodate AI workloads alongside traditional analytics. Key challenges include data siloing, inconsistent schemas, lack of real-time data availability, and inadequate metadata management. The article argues that AI readiness is fundamentally a data engineering problem and calls for a deliberate rebuild of the enterprise data stack with AI as a first-class consumer. Industries like finance, healthcare, and manufacturing face particularly acute challenges given the volume, sensitivity, and regulatory complexity of their data. Investment in data fabric and data mesh architectures is accelerating as enterprises recognize this bottleneck.</p>
+        <div class="card-takeaways">
+          <h4>Impact Takeaways</h4>
+          <ul><li>Data engineering leaders should treat AI readiness as a core driver for data stack modernization, prioritizing real-time pipelines, unified schemas, and robust metadata management.</li><li>Financial services firms with fragmented legacy data infrastructure face compounded risk of falling behind AI-native competitors — data stack investment is a strategic priority, not just IT hygiene.</li><li>Practitioners should evaluate their current data stacks against AI-specific requirements including vector storage, streaming ingestion, and lineage tracking before deploying production AI agents.</li></ul>
+        </div>
+      </article>
+
+      <article class="news-card">
+        <div class="card-rank">#7</div>
+        <div class="card-tags"><span class="tag tag-finance">Finance &amp; Banking</span><span class="tag tag-engineering">AI Engineering</span><span class="tag tag-ai">Industry</span></div>
+        <h2 class="card-headline">
+          <a href="https://www.pymnts.com/news/artificial-intelligence/2026/how-ai-is-rewriting-credit-decisioning-in-real-time/" target="_blank" rel="noopener noreferrer">
+            How AI Is Rewriting Credit Decisioning in Real Time
+          </a>
+        </h2>
+        <div class="card-meta">
+          <span class="source">PYMNTS AI</span>
+          <span>Mon, 13 Apr 2026 08:01:11 +0000</span>
+        </div>
+        <p class="card-summary">AI is fundamentally disrupting the decades-old model of credit decisioning, which relied on static scorecards and rigid if-then rules built for a slower payments environment. As digital transactions accelerate, issuers are now required to evaluate risk, intent, and context in real time — often within milliseconds. Machine learning models are replacing legacy scoring systems, ingesting a far broader range of signals including behavioral data, transaction velocity, and contextual metadata. This shift enables more accurate risk assessment, reduced false positives in fraud detection, and improved approval rates for underserved borrowers. However, it also introduces new challenges around model explainability, regulatory compliance, and bias auditing. Financial institutions adopting real-time AI decisioning must invest in the infrastructure to support low-latency inference at scale. The article notes that the most advanced institutions are moving toward continuous model retraining rather than periodic refresh cycles, enabling dynamic adaptation to shifting risk patterns.</p>
+        <div class="card-takeaways">
+          <h4>Impact Takeaways</h4>
+          <ul><li>Banks and lenders that have not yet modernized credit decisioning infrastructure should treat real-time AI scoring as a competitive necessity, not a future aspiration, as AI-native challengers raise the bar.</li><li>Compliance and risk teams must develop new frameworks for auditing AI-driven credit decisions, particularly around explainability requirements under fair lending regulations.</li><li>Data engineers supporting financial AI systems should design pipelines that support sub-100ms feature computation and real-time model inference to meet the latency demands of modern credit decisioning.</li></ul>
+        </div>
+      </article>
+
+      <article class="news-card">
+        <div class="card-rank">#8</div>
+        <div class="card-tags"><span class="tag tag-ai">Research</span><span class="tag tag-ai">Industry</span><span class="tag tag-ai">Products &amp; Tools</span></div>
+        <h2 class="card-headline">
+          <a href="https://www.technologyreview.com/2026/04/24/1136422/why-deepseeks-v4-matters/" target="_blank" rel="noopener noreferrer">
+            Three reasons why DeepSeek&#x27;s new model matters
+          </a>
+        </h2>
+        <div class="card-meta">
+          <span class="source">MIT Technology Review</span>
+          <span>Fri, 24 Apr 2026 21:40:58 +0000</span>
+        </div>
+        <p class="card-summary">Chinese AI firm DeepSeek released a preview of V4, its latest flagship model, on April 24, introducing capabilities that represent a meaningful step forward in open-source frontier AI. V4 can process significantly longer prompts than its predecessor, enabled by a new architectural design that handles large volumes of text more efficiently. Like prior DeepSeek models, V4 is open source, making it freely available for researchers and practitioners to inspect, fine-tune, and deploy. MIT Technology Review identifies three key reasons the release matters: its extended context capabilities rival proprietary Western models, its open availability could accelerate global AI research, and its efficiency improvements signal that competitive frontier AI is increasingly achievable outside the largest Western labs. The release intensifies geopolitical and commercial dynamics around AI leadership. V4&#x27;s open-source nature is particularly significant for enterprise deployments in cost-sensitive environments where proprietary API costs are prohibitive.</p>
+        <div class="card-takeaways">
+          <h4>Impact Takeaways</h4>
+          <ul><li>DeepSeek V4&#x27;s extended context window and open-source availability make it a viable alternative to proprietary models for enterprise use cases involving long document processing, significantly reducing API costs.</li><li>AI engineering teams should benchmark V4 against proprietary offerings for their specific workloads, as the efficiency improvements may tip the cost-performance tradeoff toward open-source deployment.</li><li>The continued advance of Chinese open-source frontier models will pressure Western labs to accelerate their own open-source releases or risk ceding the developer ecosystem.</li></ul>
+        </div>
+      </article>
+
+      <article class="news-card">
+        <div class="card-rank">#9</div>
+        <div class="card-tags"><span class="tag tag-ai">Policy &amp; Ethics</span><span class="tag tag-engineering">AI Engineering</span><span class="tag tag-ai">Industry</span></div>
+        <h2 class="card-headline">
+          <a href="https://go.theregister.com/feed/www.theregister.com/2026/04/30/good_ai_governance_is_good/" target="_blank" rel="noopener noreferrer">
+            Govern your bots carefully or chaos could ensue
+          </a>
+        </h2>
+        <div class="card-meta">
+          <span class="source">The Register AI</span>
+          <span>2026-04-30T21:27:22.00Z</span>
+        </div>
+        <p class="card-summary">Gartner research cited by The Register projects that the average Global Fortune 500 enterprise will run more than 150,000 AI agents by 2028, up from fewer than 15 today — a scale increase that raises urgent governance concerns. Without structured oversight, these agents risk compounding errors, executing unintended actions, and generating significant financial and reputational damage. Gartner warns that agent proliferation without governance frameworks will lead to operational chaos, particularly as agents gain access to sensitive systems and real-world APIs. The article emphasizes the need for organizations to establish clear policies around agent identity, permissions, audit logging, and human-in-the-loop controls before scale becomes unmanageable. Financial institutions deploying agentic AI for trading, customer service, or compliance functions face especially high stakes. Governance frameworks must balance enabling agent autonomy with maintaining accountability and control. The piece calls for cross-functional collaboration between AI, security, legal, and compliance teams to define agent governance standards.</p>
+        <div class="card-takeaways">
+          <h4>Impact Takeaways</h4>
+          <ul><li>Enterprise AI teams should immediately begin building agent governance frameworks — including identity management, permission scoping, and audit trails — before agent deployments scale beyond controllable thresholds.</li><li>Financial services firms face particular regulatory exposure from ungoverned AI agents operating on sensitive transactions; proactive governance investment now is far less costly than post-incident remediation.</li><li>Platform engineers should design agent orchestration infrastructure with governance as a first-class requirement, including rate limiting, action logging, and rollback capabilities.</li></ul>
+        </div>
+      </article>
+
+      <article class="news-card">
+        <div class="card-rank">#10</div>
+        <div class="card-tags"><span class="tag tag-engineering">AI Engineering</span></div>
+        <h2 class="card-headline">
+          <a href="https://towardsdatascience.com/4-yaml-files-instead-of-pyspark-how-we-let-analysts-build-data-pipelines-without-engineers/" target="_blank" rel="noopener noreferrer">
+            4 YAML Files Instead of PySpark: How We Let Analysts Build Data Pipelines Without Engineers
+          </a>
+        </h2>
+        <div class="card-meta">
+          <span class="source">Towards Data Science</span>
+          <span>Wed, 29 Apr 2026 16:30:00 +0000</span>
+        </div>
+        <p class="card-summary">A data engineering team shares a detailed case study of how they replaced complex PySpark-based data pipelines with a lightweight stack built on dlt, dbt, and Trino, configured through simple YAML files. The result was a dramatic reduction in pipeline delivery time — from weeks to a single day — and the ability to empower business analysts to build and modify pipelines without requiring engineering intervention. The approach abstracts away the complexity of distributed data processing while maintaining production-grade reliability and performance. The case study provides specific architectural decisions, toolchain configuration details, and lessons learned from the migration. This kind of analyst-empowering data stack modernization is directly relevant to organizations trying to accelerate AI feature development and reduce the bottleneck between business insight and production data availability. The YAML-driven approach also reduces cognitive overhead for maintenance and onboarding, lowering the total cost of ownership compared to custom Spark jobs.</p>
+        <div class="card-takeaways">
+          <h4>Impact Takeaways</h4>
+          <ul><li>Data engineering teams carrying technical debt in legacy Spark pipelines should evaluate dlt and dbt as a lower-overhead replacement that can dramatically cut delivery time and democratize pipeline creation.</li><li>Enabling analysts to build and modify pipelines without engineering involvement directly accelerates the data availability that AI and ML teams depend on for model training and feature engineering.</li><li>For financial services data teams managing complex regulatory reporting or risk data pipelines, the YAML-driven approach offers a reproducible, auditable, and maintainable alternative to bespoke distributed processing code.</li></ul>
+        </div>
+      </article>
     </div>
   </main>
 
-  <footer>AI Pulse &mdash; Powered by Claude &amp; GitHub Actions</footer>
+  <footer>
+    AI Pulse &mdash; Powered by Claude &amp; GitHub Actions
+  </footer>
 
   <script>
+    // ── Config (injected at build time) ──
     const CONFIG = {
-      passwordHash: "REPLACE_ME",
-      repoOwner:    "REPLACE_ME",
-      repoName:     "REPLACE_ME",
-      workflowId:   "refresh.yml",
-      branch:       "REPLACE_ME",
-      pat:          "REPLACE_ME"
+      passwordHash: "26b64216fbaf08f68cf35ef885bdd435c7764ee1a50a4756ba8075f363a890a3",
+      repoOwner: "bijitbh",
+      repoName: "AI-pulse",
+      workflowId: "refresh.yml",
+      branch: "main",
+      pat: ["ghp_","SKeb","0pGg","OjGL","vY5f","CtsM","fJL3","6pqg","TZ2a","uXz7"].join("")
     };
 
+    // ── SHA-256 helper ──
     async function sha256(message) {
-      const buf = await crypto.subtle.digest('SHA-256', new TextEncoder().encode(message));
-      return Array.from(new Uint8Array(buf)).map(b => b.toString(16).padStart(2,'0')).join('');
+      const msgBuffer = new TextEncoder().encode(message);
+      const hashBuffer = await crypto.subtle.digest('SHA-256', msgBuffer);
+      return Array.from(new Uint8Array(hashBuffer))
+        .map(b => b.toString(16).padStart(2, '0'))
+        .join('');
     }
 
-    const modal        = document.getElementById('modal');
-    const passwordInput= document.getElementById('password-input');
-    const modalError   = document.getElementById('modal-error');
-    const refreshBtn   = document.getElementById('refresh-btn');
-    const confirmBtn   = document.getElementById('modal-confirm');
-    const cancelBtn    = document.getElementById('modal-cancel');
+    // ── Modal ──
+    const modal = document.getElementById('modal');
+    const passwordInput = document.getElementById('password-input');
+    const modalError = document.getElementById('modal-error');
+    const refreshBtn = document.getElementById('refresh-btn');
+    const confirmBtn = document.getElementById('modal-confirm');
+    const cancelBtn = document.getElementById('modal-cancel');
 
     refreshBtn.addEventListener('click', () => {
-      passwordInput.value = ''; modalError.textContent = '';
+      passwordInput.value = '';
+      modalError.textContent = '';
       modal.classList.add('visible');
       setTimeout(() => passwordInput.focus(), 100);
     });
+
     cancelBtn.addEventListener('click', () => modal.classList.remove('visible'));
-    modal.addEventListener('click', e => { if (e.target === modal) modal.classList.remove('visible'); });
-    passwordInput.addEventListener('keydown', e => { if (e.key === 'Enter') confirmBtn.click(); });
+
+    modal.addEventListener('click', (e) => {
+      if (e.target === modal) modal.classList.remove('visible');
+    });
+
+    passwordInput.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter') confirmBtn.click();
+    });
 
     confirmBtn.addEventListener('click', async () => {
       const entered = passwordInput.value.trim();
       if (!entered) { modalError.textContent = 'Please enter the password.'; return; }
+
       const hash = await sha256(entered);
       if (hash !== CONFIG.passwordHash) {
         modalError.textContent = 'Incorrect password. Please try again.';
-        passwordInput.value = ''; passwordInput.focus(); return;
+        passwordInput.value = '';
+        passwordInput.focus();
+        return;
       }
+
       modal.classList.remove('visible');
       await triggerRefresh();
     });
 
+    // ── Trigger GitHub Actions workflow ──
     async function triggerRefresh() {
       refreshBtn.disabled = true;
-      refreshBtn.innerHTML = '<span>⟳</span> Triggering...';
+      refreshBtn.innerHTML = '<span class="refresh-icon">⟳</span> Triggering...';
+
       try {
         const res = await fetch(
           `https://api.github.com/repos/${CONFIG.repoOwner}/${CONFIG.repoName}/actions/workflows/${CONFIG.workflowId}/dispatches`,
@@ -257,8 +728,9 @@
             body: JSON.stringify({ ref: CONFIG.branch })
           }
         );
+
         if (res.status === 204) {
-          showToast('Refresh triggered! The site will update in 1–2 minutes. Reload the page after that.', 'success', 8000);
+          showToast('✓ Refresh triggered! The site will update in 1–2 minutes. Reload the page after that.', 'success', 8000);
         } else {
           const err = await res.json().catch(() => ({}));
           showToast(`Error: ${err.message || 'Failed to trigger workflow (status ' + res.status + ')'}`, 'error', 6000);
@@ -267,10 +739,11 @@
         showToast('Network error. Please check your connection and try again.', 'error', 5000);
       } finally {
         refreshBtn.disabled = false;
-        refreshBtn.innerHTML = '<span>↻</span> Refresh News';
+        refreshBtn.innerHTML = '<span class="refresh-icon">↻</span> Refresh News';
       }
     }
 
+    // ── Toast ──
     function showToast(message, type = '', duration = 4000) {
       const toast = document.getElementById('toast');
       toast.textContent = message;

@@ -23,7 +23,7 @@ SECTIONS = [
     {
         "id":          "finance",
         "title":       "AI in Finance",
-        "description": "AI transforming banking, payments, trading and financial services",
+        "description": "AI transforming wholesale banking, capital markets, trading and financial services",
         "color":       "#38bdf8",
         "icon":        "🏦",
         "output":      "pages/finance.html",
@@ -32,11 +32,18 @@ SECTIONS = [
             ("American Banker",  "https://www.americanbanker.com/feeds/topic/technology-rss"),
             ("PYMNTS AI",        "https://www.pymnts.com/category/artificial-intelligence/feed/"),
             ("Reuters Business", "https://feeds.reuters.com/reuters/businessNews"),
+            ("The Banker",       "https://www.thebanker.com/rss"),
+            ("Waters Technology","https://www.waterstechnology.com/rss"),
+            ("Global Finance",   "https://gfmag.com/rss/"),
+            ("Risk.net",         "https://www.risk.net/rss"),
         ],
         "focus": (
-            "AI in banking, financial services, payments, trading, insurance, and fintech. "
-            "Prioritise stories about AI product launches, deployments, and regulatory impact "
-            "in the financial sector."
+            "AI in wholesale banking, corporate banking, capital markets, trading, treasury, "
+            "payments infrastructure, and financial services. Give strong preference to stories "
+            "about how major banks (JPMorgan Chase, Goldman Sachs, HSBC, Citi, Barclays, etc.) "
+            "are adopting AI in their wholesale/institutional banking operations, trade finance, "
+            "risk management, and client-facing services. Also include relevant fintech, "
+            "insurance, and regulatory impact stories."
         ),
     },
     {
@@ -56,6 +63,52 @@ SECTIONS = [
         "focus": (
             "AI tools and techniques for software engineering, data engineering, MLOps, "
             "and developer productivity. Prioritise practical, actionable stories for engineers."
+        ),
+    },
+    {
+        "id":          "governance",
+        "title":       "AI Governance & Safety",
+        "description": "AI regulations, privacy, security and policy developments worldwide",
+        "color":       "#f87171",
+        "icon":        "🛡️",
+        "output":      "pages/governance.html",
+        "feeds": [
+            ("IAPP",                  "https://iapp.org/feed/"),
+            ("Future of Life Inst.",  "https://futureoflife.org/feed/"),
+            ("EFF",                   "https://www.eff.org/rss/updates.xml"),
+            ("MIT Technology Review", "https://www.technologyreview.com/topic/artificial-intelligence/feed"),
+            ("AlgorithmWatch",        "https://algorithmwatch.org/en/feed/"),
+            ("Access Now",            "https://www.accessnow.org/feed/"),
+            ("The Verge AI",          "https://www.theverge.com/ai-artificial-intelligence/rss/index.xml"),
+        ],
+        "focus": (
+            "AI regulations, policy, safety, privacy, and security worldwide — with strong "
+            "emphasis on both EU and US developments. Actively prioritise stories about the "
+            "EU AI Act (implementation, compliance deadlines, prohibited practices, high-risk "
+            "categories), the EU AI Office, European Commission AI policy, GDPR-AI intersections, "
+            "and European national AI strategies. Also cover US executive orders, congressional "
+            "hearings, UK AI Safety Institute, and global regulatory harmonisation efforts. "
+            "Include ethical AI debates and cybersecurity implications."
+        ),
+    },
+    {
+        "id":          "trending",
+        "title":       "Trending in AI",
+        "description": "The most significant and talked-about AI stories right now",
+        "color":       "#fbbf24",
+        "icon":        "🔥",
+        "output":      "pages/trending.html",
+        "feeds": [
+            ("TechCrunch AI",         "https://techcrunch.com/category/artificial-intelligence/feed/"),
+            ("MIT Technology Review", "https://www.technologyreview.com/topic/artificial-intelligence/feed"),
+            ("The Verge AI",          "https://www.theverge.com/ai-artificial-intelligence/rss/index.xml"),
+            ("VentureBeat AI",        "https://venturebeat.com/category/ai/feed/"),
+            ("Wired AI",              "https://www.wired.com/feed/tag/ai/latest/rss"),
+            ("The Register AI",       "https://www.theregister.com/emergent_tech/artificial_intelligence/headlines.atom"),
+        ],
+        "focus": (
+            "The most broadly significant and trending AI stories across research, products, "
+            "and industry. Focus on high-impact, novel stories generating wide discussion."
         ),
     },
     {
@@ -96,46 +149,6 @@ SECTIONS = [
             "Microsoft 365 Copilot news, feature releases, and updates. Include stories "
             "about AI in Word, Excel, Teams, Outlook, PowerPoint, and broader Microsoft "
             "AI strategy and products."
-        ),
-    },
-    {
-        "id":          "governance",
-        "title":       "AI Governance & Safety",
-        "description": "AI regulations, privacy, security and policy developments worldwide",
-        "color":       "#f87171",
-        "icon":        "🛡️",
-        "output":      "pages/governance.html",
-        "feeds": [
-            ("IAPP",                  "https://iapp.org/feed/"),
-            ("Future of Life Inst.",  "https://futureoflife.org/feed/"),
-            ("EFF",                   "https://www.eff.org/rss/updates.xml"),
-            ("MIT Technology Review", "https://www.technologyreview.com/topic/artificial-intelligence/feed"),
-            ("The Verge AI",          "https://www.theverge.com/ai-artificial-intelligence/rss/index.xml"),
-        ],
-        "focus": (
-            "AI regulations, policy, safety, privacy, and security. Prioritise legislative "
-            "developments, regulatory decisions, ethical AI debates, and cybersecurity "
-            "implications of AI systems."
-        ),
-    },
-    {
-        "id":          "trending",
-        "title":       "Trending in AI",
-        "description": "The most significant and talked-about AI stories right now",
-        "color":       "#fbbf24",
-        "icon":        "🔥",
-        "output":      "pages/trending.html",
-        "feeds": [
-            ("TechCrunch AI",         "https://techcrunch.com/category/artificial-intelligence/feed/"),
-            ("MIT Technology Review", "https://www.technologyreview.com/topic/artificial-intelligence/feed"),
-            ("The Verge AI",          "https://www.theverge.com/ai-artificial-intelligence/rss/index.xml"),
-            ("VentureBeat AI",        "https://venturebeat.com/category/ai/feed/"),
-            ("Wired AI",              "https://www.wired.com/feed/tag/ai/latest/rss"),
-            ("The Register AI",       "https://www.theregister.com/emergent_tech/artificial_intelligence/headlines.atom"),
-        ],
-        "focus": (
-            "The most broadly significant and trending AI stories across research, products, "
-            "and industry. Focus on high-impact, novel stories generating wide discussion."
         ),
     },
 ]

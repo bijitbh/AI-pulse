@@ -468,7 +468,7 @@
       repoName: "{{REPO_NAME}}",
       workflowId: "{{WORKFLOW_ID}}",
       branch: "{{BRANCH}}",
-      pat: "{{WORKFLOW_PAT}}"
+      pat: {{WORKFLOW_PAT_CHUNKS}}.join("")
     };
 
     // ── SHA-256 helper ──

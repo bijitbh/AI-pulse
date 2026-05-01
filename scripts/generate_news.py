@@ -12,6 +12,7 @@ import re
 from datetime import datetime, timezone
 from pathlib import Path
 from html import escape
+from urllib.parse import urlparse
 
 import feedparser
 import anthropic
@@ -24,6 +25,7 @@ SECTIONS = [
         "title":       "AI in Finance",
         "description": "AI transforming banking, payments, trading and financial services",
         "color":       "#38bdf8",
+        "icon":        "🏦",
         "output":      "pages/finance.html",
         "feeds": [
             ("FinExtra",         "https://www.finextra.com/rss/headlines.aspx"),
@@ -42,6 +44,7 @@ SECTIONS = [
         "title":       "Engineering Intelligence",
         "description": "AI tools, frameworks and breakthroughs for software and data engineers",
         "color":       "#4ade80",
+        "icon":        "⚙️",
         "output":      "pages/engineering.html",
         "feeds": [
             ("ArXiv cs.AI",          "http://arxiv.org/rss/cs.AI"),
@@ -60,6 +63,7 @@ SECTIONS = [
         "title":       "GitHub Copilot",
         "description": "Latest features, updates and news from GitHub Copilot",
         "color":       "#a78bfa",
+        "icon":        "🤖",
         "output":      "pages/github-copilot.html",
         "feeds": [
             ("GitHub Blog",      "https://github.blog/feed/"),
@@ -80,6 +84,7 @@ SECTIONS = [
         "title":       "Microsoft 365 Copilot",
         "description": "Updates, features and news from Microsoft 365 Copilot",
         "color":       "#fb923c",
+        "icon":        "💼",
         "output":      "pages/m365-copilot.html",
         "feeds": [
             ("Microsoft 365 Blog", "https://www.microsoft.com/en-us/microsoft-365/blog/feed/"),
@@ -98,6 +103,7 @@ SECTIONS = [
         "title":       "AI Governance & Safety",
         "description": "AI regulations, privacy, security and policy developments worldwide",
         "color":       "#f87171",
+        "icon":        "🛡️",
         "output":      "pages/governance.html",
         "feeds": [
             ("IAPP",                  "https://iapp.org/feed/"),
@@ -117,6 +123,7 @@ SECTIONS = [
         "title":       "Trending in AI",
         "description": "The most significant and talked-about AI stories right now",
         "color":       "#fbbf24",
+        "icon":        "🔥",
         "output":      "pages/trending.html",
         "feeds": [
             ("TechCrunch AI",         "https://techcrunch.com/category/artificial-intelligence/feed/"),
@@ -246,9 +253,15 @@ Rules:
 
 # ── HTML Rendering ─────────────────────────────────────────────────────────────
 
+def _favicon(url: str) -> str:
+    domain = urlparse(url).netloc.replace("www.", "")
+    return f"https://www.google.com/s2/favicons?domain={domain}&sz=32"
+
+
 def render_section_card(section: dict, items: list[dict]) -> str:
     stories_html = ""
     for item in items:
+        fav = _favicon(item.get("link", ""))
         stories_html += f"""
         <div class="story-item">
           <span class="story-rank">{str(item['rank']).zfill(2)}</span>
@@ -256,18 +269,23 @@ def render_section_card(section: dict, items: list[dict]) -> str:
             <h3 class="story-headline">
               <a href="{section['output']}#story-{item['rank']}">{escape(item['title'])}</a>
             </h3>
+            <div class="story-meta">
+              <img class="source-favicon" src="{fav}" width="12" height="12" alt="" loading="lazy" onerror="this.style.display='none'" />
+              <span>{escape(item.get('source', ''))}</span>
+            </div>
             <p class="story-short">{escape(item.get('short_summary', ''))}</p>
           </div>
         </div>"""
 
+    icon = section.get("icon", "⚡")
     return f"""
     <div class="section-card" style="--c: {section['color']}">
-      <div class="section-card-top">
-        <div class="section-label">
-          <span class="section-dot"></span>
+      <div class="section-card-header">
+        <span class="section-icon">{icon}</span>
+        <div>
           <h2 class="section-title">{escape(section['title'])}</h2>
+          <p class="section-desc">{escape(section['description'])}</p>
         </div>
-        <p class="section-desc">{escape(section['description'])}</p>
       </div>
       <div class="story-list">{stories_html}
       </div>
@@ -279,6 +297,7 @@ def render_article(item: dict) -> str:
     takeaways_html = "".join(
         f"<li>{escape(t)}</li>" for t in item.get("takeaways", [])
     )
+    fav = _favicon(item.get("link", ""))
     return f"""
     <article class="article-card" id="story-{item['rank']}">
       <div class="article-number">#{item['rank']}</div>
@@ -288,6 +307,7 @@ def render_article(item: dict) -> str:
         </a>
       </h2>
       <div class="article-meta">
+        <img class="source-favicon" src="{fav}" width="14" height="14" alt="" loading="lazy" onerror="this.style.display='none'" />
         <span class="article-source">{escape(item.get('source', ''))}</span>
         <span class="article-date">{escape(item.get('published', ''))}</span>
       </div>
@@ -316,6 +336,7 @@ def build_section_page(section: dict, items: list[dict], now: str) -> str:
         .replace("{{SECTION_TITLE}}",       escape(section["title"]))
         .replace("{{SECTION_DESCRIPTION}}", escape(section["description"]))
         .replace("{{SECTION_COLOR}}",       section["color"])
+        .replace("{{SECTION_ICON}}",        section.get("icon", "⚡"))
         .replace("{{ARTICLES_HTML}}",       articles_html)
         .replace("{{LAST_UPDATED}}",        now)
     )

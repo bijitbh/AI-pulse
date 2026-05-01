@@ -4,11 +4,14 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>{{SECTION_TITLE}} — AI Pulse</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
   <style>
     :root {
       --bg:           #0d0f14;
       --surface:      #161b27;
-      --surface-hover:#1e2535;
+      --surface-hover:#1c2235;
       --border:       #2a3248;
       --text:         #e2e8f0;
       --text-muted:   #8896b0;
@@ -32,16 +35,16 @@
     /* ── Header ── */
     header {
       border-bottom: 1px solid var(--border);
-      padding: 20px 0;
-      background: linear-gradient(180deg, #0a0d18 0%, var(--bg) 100%);
+      padding: 16px 0;
+      background: rgba(13,15,20,0.85);
       position: sticky;
       top: 0;
       z-index: 10;
-      backdrop-filter: blur(8px);
+      backdrop-filter: blur(12px);
     }
 
     .header-inner {
-      max-width: 900px;
+      max-width: 860px;
       margin: 0 auto;
       padding: 0 24px;
       display: flex;
@@ -51,7 +54,7 @@
       flex-wrap: wrap;
     }
 
-    .header-left { display: flex; align-items: center; gap: 16px; }
+    .header-left { display: flex; align-items: center; gap: 14px; }
 
     .back-link {
       display: flex;
@@ -60,77 +63,79 @@
       font-size: 13px;
       font-weight: 600;
       color: var(--text-muted);
-      transition: color 0.15s;
+      padding: 5px 10px;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      transition: color 0.15s, border-color 0.15s;
     }
 
-    .back-link:hover { color: var(--text); text-decoration: none; }
-
-    .divider-v {
-      width: 1px; height: 20px;
-      background: var(--border);
-    }
+    .back-link:hover { color: var(--text); border-color: var(--text-muted); text-decoration: none; }
 
     .section-badge {
       display: flex;
       align-items: center;
-      gap: 7px;
+      gap: 8px;
+      font-size: 14px;
+      font-weight: 700;
+      color: var(--text);
     }
 
     .badge-dot {
       width: 8px; height: 8px;
       border-radius: 50%;
       background: var(--accent);
+      box-shadow: 0 0 8px var(--accent);
       flex-shrink: 0;
     }
 
-    .badge-title {
-      font-size: 14px;
-      font-weight: 700;
-      color: var(--text);
-    }
-
     .last-updated { font-size: 11px; color: var(--text-muted); }
-    .last-updated span { color: var(--text); font-weight: 500; }
+    .last-updated span { color: var(--text); font-weight: 600; }
 
     /* ── Page Hero ── */
     .page-hero {
-      max-width: 900px;
+      max-width: 860px;
       margin: 0 auto;
-      padding: 32px 24px 0;
+      padding: 40px 24px 32px;
+      border-bottom: 1px solid var(--border);
+      margin-bottom: 32px;
+      display: flex;
+      align-items: center;
+      gap: 20px;
     }
+
+    .hero-icon {
+      font-size: 52px;
+      line-height: 1;
+      flex-shrink: 0;
+      filter: drop-shadow(0 0 16px color-mix(in srgb, var(--accent) 50%, transparent));
+    }
+
+    .hero-text {}
 
     .hero-label {
       font-size: 11px;
       font-weight: 700;
       text-transform: uppercase;
-      letter-spacing: 1px;
+      letter-spacing: 1.5px;
       color: var(--accent);
       margin-bottom: 6px;
     }
 
     .hero-title {
-      font-size: 28px;
+      font-size: 30px;
       font-weight: 800;
       letter-spacing: -0.5px;
-      margin-bottom: 6px;
+      margin-bottom: 4px;
     }
 
     .hero-desc {
       font-size: 14px;
       color: var(--text-muted);
-      margin-bottom: 8px;
-    }
-
-    .hero-divider {
-      height: 1px;
-      background: linear-gradient(90deg, var(--accent) 0%, transparent 60%);
-      margin: 20px 0;
-      opacity: 0.4;
     }
 
     /* ── Articles ── */
     main {
-      max-width: 900px;
+      max-width: 860px;
       margin: 0 auto;
       padding: 0 24px 64px;
     }
@@ -144,73 +149,103 @@
     .article-card {
       background: var(--surface);
       border: 1px solid var(--border);
-      border-left: 3px solid var(--accent);
-      border-radius: 14px;
-      padding: 26px;
+      border-radius: 16px;
+      padding: 28px;
       position: relative;
-      transition: background 0.2s, border-color 0.2s;
+      transition: background 0.2s, box-shadow 0.2s;
+      overflow: hidden;
+    }
+
+    /* Left accent bar */
+    .article-card::before {
+      content: '';
+      position: absolute;
+      left: 0; top: 0; bottom: 0;
+      width: 3px;
+      background: var(--accent);
+      border-radius: 16px 0 0 16px;
     }
 
     .article-card:hover {
       background: var(--surface-hover);
-      border-color: var(--accent);
+      box-shadow: 0 4px 24px rgba(0,0,0,0.3);
     }
 
     .article-number {
       position: absolute;
-      top: 22px;
-      right: 22px;
-      font-size: 26px;
+      top: 20px;
+      right: 24px;
+      font-size: 40px;
       font-weight: 800;
-      color: var(--border);
+      color: color-mix(in srgb, var(--accent) 12%, transparent);
       line-height: 1;
       user-select: none;
+      font-variant-numeric: tabular-nums;
     }
 
     .article-title {
-      font-size: 18px;
+      font-size: 19px;
       font-weight: 700;
       line-height: 1.4;
-      margin-bottom: 8px;
-      padding-right: 44px;
+      margin-bottom: 10px;
+      padding-right: 56px;
     }
 
-    .article-title a { color: var(--text); }
+    .article-title a { color: var(--text); transition: color 0.15s; }
     .article-title a:hover { color: var(--accent); text-decoration: none; }
 
     .article-meta {
       display: flex;
-      gap: 12px;
+      align-items: center;
+      gap: 8px;
       font-size: 12px;
       color: var(--text-muted);
-      margin-bottom: 14px;
+      margin-bottom: 16px;
       flex-wrap: wrap;
     }
 
-    .article-source { font-weight: 600; color: var(--accent); }
+    .source-favicon {
+      border-radius: 3px;
+      flex-shrink: 0;
+      vertical-align: middle;
+    }
+
+    .article-source {
+      font-weight: 700;
+      color: var(--accent);
+    }
+
+    .meta-dot {
+      width: 3px; height: 3px;
+      border-radius: 50%;
+      background: var(--border);
+      flex-shrink: 0;
+    }
 
     .article-summary {
       font-size: 14px;
       color: var(--text-muted);
-      line-height: 1.75;
-      margin-bottom: 18px;
+      line-height: 1.8;
+      margin-bottom: 20px;
+    }
+
+    .article-impact {
+      background: color-mix(in srgb, var(--accent) 6%, transparent);
+      border: 1px solid color-mix(in srgb, var(--accent) 20%, var(--border));
+      border-radius: 10px;
+      padding: 14px 16px;
     }
 
     .article-impact h4 {
-      font-size: 11px;
-      font-weight: 700;
+      font-size: 10px;
+      font-weight: 800;
       text-transform: uppercase;
-      letter-spacing: 0.8px;
-      color: var(--text-muted);
-      margin-bottom: 8px;
+      letter-spacing: 1px;
+      color: var(--accent);
+      margin-bottom: 10px;
     }
 
-    .article-impact ul {
-      list-style: none;
-      display: flex;
-      flex-direction: column;
-      gap: 6px;
-    }
+    .article-impact ul { list-style: none; display: flex; flex-direction: column; gap: 7px; }
 
     .article-impact li {
       font-size: 13px;
@@ -225,7 +260,8 @@
       position: absolute;
       left: 0;
       color: var(--accent);
-      font-size: 12px;
+      font-size: 11px;
+      font-weight: 700;
     }
 
     /* ── Footer ── */
@@ -239,9 +275,11 @@
 
     /* ── Responsive ── */
     @media (max-width: 600px) {
-      .article-number { font-size: 18px; top: 18px; right: 18px; }
-      .article-card { padding: 18px; }
+      .article-number { font-size: 28px; }
+      .article-card { padding: 20px; }
       .hero-title { font-size: 22px; }
+      .hero-icon { font-size: 36px; }
+      .page-hero { flex-direction: column; gap: 12px; }
     }
   </style>
 </head>
@@ -251,10 +289,9 @@
     <div class="header-inner">
       <div class="header-left">
         <a class="back-link" href="../index.html">← AI Pulse</a>
-        <div class="divider-v"></div>
         <div class="section-badge">
           <span class="badge-dot"></span>
-          <span class="badge-title">{{SECTION_TITLE}}</span>
+          {{SECTION_TITLE}}
         </div>
       </div>
       <div class="last-updated">Updated: <span>{{LAST_UPDATED}}</span></div>
@@ -262,10 +299,12 @@
   </header>
 
   <div class="page-hero">
-    <div class="hero-label">Section Deep Dive</div>
-    <h1 class="hero-title">{{SECTION_TITLE}}</h1>
-    <p class="hero-desc">{{SECTION_DESCRIPTION}}</p>
-    <div class="hero-divider"></div>
+    <div class="hero-icon">{{SECTION_ICON}}</div>
+    <div class="hero-text">
+      <div class="hero-label">Section Deep Dive</div>
+      <h1 class="hero-title">{{SECTION_TITLE}}</h1>
+      <p class="hero-desc">{{SECTION_DESCRIPTION}}</p>
+    </div>
   </div>
 
   <main>

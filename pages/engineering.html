@@ -1,0 +1,369 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Engineering Intelligence — AI Pulse</title>
+  <style>
+    :root {
+      --bg:           #0d0f14;
+      --surface:      #161b27;
+      --surface-hover:#1e2535;
+      --border:       #2a3248;
+      --text:         #e2e8f0;
+      --text-muted:   #8896b0;
+      --accent:       #4ade80;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'Inter', 'Segoe UI', system-ui, sans-serif;
+      font-size: 15px;
+      line-height: 1.6;
+      min-height: 100vh;
+    }
+
+    a { color: var(--accent); text-decoration: none; }
+    a:hover { text-decoration: underline; }
+
+    /* ── Header ── */
+    header {
+      border-bottom: 1px solid var(--border);
+      padding: 20px 0;
+      background: linear-gradient(180deg, #0a0d18 0%, var(--bg) 100%);
+      position: sticky;
+      top: 0;
+      z-index: 10;
+      backdrop-filter: blur(8px);
+    }
+
+    .header-inner {
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 0 24px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      flex-wrap: wrap;
+    }
+
+    .header-left { display: flex; align-items: center; gap: 16px; }
+
+    .back-link {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--text-muted);
+      transition: color 0.15s;
+    }
+
+    .back-link:hover { color: var(--text); text-decoration: none; }
+
+    .divider-v {
+      width: 1px; height: 20px;
+      background: var(--border);
+    }
+
+    .section-badge {
+      display: flex;
+      align-items: center;
+      gap: 7px;
+    }
+
+    .badge-dot {
+      width: 8px; height: 8px;
+      border-radius: 50%;
+      background: var(--accent);
+      flex-shrink: 0;
+    }
+
+    .badge-title {
+      font-size: 14px;
+      font-weight: 700;
+      color: var(--text);
+    }
+
+    .last-updated { font-size: 11px; color: var(--text-muted); }
+    .last-updated span { color: var(--text); font-weight: 500; }
+
+    /* ── Page Hero ── */
+    .page-hero {
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 32px 24px 0;
+    }
+
+    .hero-label {
+      font-size: 11px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      color: var(--accent);
+      margin-bottom: 6px;
+    }
+
+    .hero-title {
+      font-size: 28px;
+      font-weight: 800;
+      letter-spacing: -0.5px;
+      margin-bottom: 6px;
+    }
+
+    .hero-desc {
+      font-size: 14px;
+      color: var(--text-muted);
+      margin-bottom: 8px;
+    }
+
+    .hero-divider {
+      height: 1px;
+      background: linear-gradient(90deg, var(--accent) 0%, transparent 60%);
+      margin: 20px 0;
+      opacity: 0.4;
+    }
+
+    /* ── Articles ── */
+    main {
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 0 24px 64px;
+    }
+
+    .articles-list {
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+
+    .article-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-left: 3px solid var(--accent);
+      border-radius: 14px;
+      padding: 26px;
+      position: relative;
+      transition: background 0.2s, border-color 0.2s;
+    }
+
+    .article-card:hover {
+      background: var(--surface-hover);
+      border-color: var(--accent);
+    }
+
+    .article-number {
+      position: absolute;
+      top: 22px;
+      right: 22px;
+      font-size: 26px;
+      font-weight: 800;
+      color: var(--border);
+      line-height: 1;
+      user-select: none;
+    }
+
+    .article-title {
+      font-size: 18px;
+      font-weight: 700;
+      line-height: 1.4;
+      margin-bottom: 8px;
+      padding-right: 44px;
+    }
+
+    .article-title a { color: var(--text); }
+    .article-title a:hover { color: var(--accent); text-decoration: none; }
+
+    .article-meta {
+      display: flex;
+      gap: 12px;
+      font-size: 12px;
+      color: var(--text-muted);
+      margin-bottom: 14px;
+      flex-wrap: wrap;
+    }
+
+    .article-source { font-weight: 600; color: var(--accent); }
+
+    .article-summary {
+      font-size: 14px;
+      color: var(--text-muted);
+      line-height: 1.75;
+      margin-bottom: 18px;
+    }
+
+    .article-impact h4 {
+      font-size: 11px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.8px;
+      color: var(--text-muted);
+      margin-bottom: 8px;
+    }
+
+    .article-impact ul {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .article-impact li {
+      font-size: 13px;
+      color: var(--text);
+      padding-left: 18px;
+      position: relative;
+      line-height: 1.5;
+    }
+
+    .article-impact li::before {
+      content: '→';
+      position: absolute;
+      left: 0;
+      color: var(--accent);
+      font-size: 12px;
+    }
+
+    /* ── Footer ── */
+    footer {
+      text-align: center;
+      padding: 24px;
+      font-size: 12px;
+      color: var(--text-muted);
+      border-top: 1px solid var(--border);
+    }
+
+    /* ── Responsive ── */
+    @media (max-width: 600px) {
+      .article-number { font-size: 18px; top: 18px; right: 18px; }
+      .article-card { padding: 18px; }
+      .hero-title { font-size: 22px; }
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <div class="header-inner">
+      <div class="header-left">
+        <a class="back-link" href="../index.html">← AI Pulse</a>
+        <div class="divider-v"></div>
+        <div class="section-badge">
+          <span class="badge-dot"></span>
+          <span class="badge-title">Engineering Intelligence</span>
+        </div>
+      </div>
+      <div class="last-updated">Updated: <span>01 May 2026, 16:20 UTC</span></div>
+    </div>
+  </header>
+
+  <div class="page-hero">
+    <div class="hero-label">Section Deep Dive</div>
+    <h1 class="hero-title">Engineering Intelligence</h1>
+    <p class="hero-desc">AI tools, frameworks and breakthroughs for software and data engineers</p>
+    <div class="hero-divider"></div>
+  </div>
+
+  <main>
+    <div class="articles-list">
+      
+    <article class="article-card">
+      <div class="article-number">#1</div>
+      <h2 class="article-title">
+        <a href="https://arxiv.org/abs/2604.27082" target="_blank" rel="noopener noreferrer">
+          When Your LLM Reaches End-of-Life: A Framework for Confident Model Migration in Production Systems
+        </a>
+      </h2>
+      <div class="article-meta">
+        <span class="article-source">ArXiv cs.AI</span>
+        <span class="article-date">Fri, 01 May 2026 00:00:00 -0400</span>
+      </div>
+      <p class="article-summary">As LLMs increasingly underpin production systems, model end-of-life events pose significant operational risk for engineering teams. This paper presents a structured framework specifically designed for migrating LLM-based production systems when the underlying model must be replaced. The core innovation is a Bayesian statistical approach that calibrates automated evaluation metrics against human judgments, reducing the manual review burden while maintaining confidence in migration decisions. The framework enables teams to make statistically sound model comparisons even when only limited human evaluation data is available. This addresses a critical gap in MLOps practice, where intuition and ad-hoc testing often drive high-stakes migration decisions. The authors outline a methodology that can be integrated into existing CI/CD and evaluation pipelines. By anchoring automated metrics to human preference signals, the approach reduces the risk of silent quality regressions post-migration. The framework is designed to be model-agnostic, making it applicable across a wide range of LLM deployment scenarios. It also provides a principled way to document migration decisions, which is valuable for compliance and audit purposes. For teams operating at scale, the reduced reliance on expensive human evaluation is a meaningful efficiency gain. Overall, this work offers a reproducible, evidence-based process for one of the most disruptive operational challenges in modern AI engineering.</p>
+      <div class="article-impact">
+        <h4>Impact Takeaways</h4>
+        <ul><li>Provides a Bayesian method to calibrate automated LLM evaluation metrics against human judgment, reducing costly manual review during model migrations.</li><li>Gives MLOps teams a structured, statistically defensible process for comparing models before and after production migration.</li><li>Model-agnostic design means the framework can be applied across diverse LLM deployment contexts and integrated into existing pipelines.</li><li>Addresses compliance and auditability needs by offering a reproducible, documented approach to migration decisions.</li></ul>
+      </div>
+    </article>
+
+    <article class="article-card">
+      <div class="article-number">#2</div>
+      <h2 class="article-title">
+        <a href="https://arxiv.org/abs/2604.27096" target="_blank" rel="noopener noreferrer">
+          Think it, Run it: Autonomous ML pipeline generation via self-healing multi-agent AI
+        </a>
+      </h2>
+      <div class="article-meta">
+        <span class="article-source">ArXiv cs.AI</span>
+        <span class="article-date">Fri, 01 May 2026 00:00:00 -0400</span>
+      </div>
+      <p class="article-summary">This paper introduces a unified multi-agent architecture capable of generating complete machine learning pipelines from datasets and natural-language goal descriptions, with minimal human intervention. The system is composed of five specialized agents, each responsible for a distinct phase: dataset profiling, intent parsing, microservice recommendation, Directed Acyclic Graph (DAG) construction, and self-healing execution. The self-healing capability is particularly notable, enabling the system to detect and recover from pipeline failures autonomously without requiring engineer intervention. The architecture is designed to improve efficiency, robustness, and explainability across the ML development lifecycle. By accepting natural-language goals, the system lowers the barrier for non-expert users while still producing production-grade pipeline configurations. The DAG-based orchestration ensures that pipeline steps are logically ordered and dependencies are correctly managed. Microservice recommendation allows the system to dynamically select appropriate tools and compute resources for each pipeline stage. The paper demonstrates how multi-agent coordination can replace much of the manual toil traditionally associated with ML engineering and data engineering. This approach is directly relevant to teams looking to accelerate model development cycles and reduce reliance on specialist ML engineers for routine pipeline construction. The authors report improvements in both pipeline generation speed and robustness compared to monolithic approaches. This work represents a concrete step toward fully automated MLOps, with implications for data platform and engineering productivity teams.</p>
+      <div class="article-impact">
+        <h4>Impact Takeaways</h4>
+        <ul><li>A five-agent system can automate the full ML pipeline lifecycle from raw data and natural-language goals, drastically reducing manual engineering effort.</li><li>Self-healing execution allows pipelines to recover from failures autonomously, improving reliability in production MLOps environments.</li><li>Natural-language goal input democratizes ML pipeline creation, enabling analysts and less technical stakeholders to initiate complex workflows.</li><li>DAG-based orchestration and microservice recommendation make the system adaptable to diverse infrastructure and tool ecosystems.</li></ul>
+      </div>
+    </article>
+
+    <article class="article-card">
+      <div class="article-number">#3</div>
+      <h2 class="article-title">
+        <a href="https://www.infoq.com/articles/securing-autonomous-ai-agents-kubernetes/?utm_campaign=infoq_content&amp;utm_source=infoq&amp;utm_medium=feed&amp;utm_term=global" target="_blank" rel="noopener noreferrer">
+          Article: Securing Autonomous AI Agents on Kubernetes: Trust Boundaries, Secrets, and Observability for a New Category of Cloud Workload
+        </a>
+      </h2>
+      <div class="article-meta">
+        <span class="article-source">InfoQ</span>
+        <span class="article-date">Fri, 01 May 2026 09:00:00 GMT</span>
+      </div>
+      <p class="article-summary">Autonomous AI agents introduce a fundamentally new category of cloud workload that breaks many of Kubernetes&#x27; traditional security assumptions. Unlike conventional microservices, AI agents exhibit dynamic dependencies, require multi-domain credentials, and consume resources unpredictably due to non-deterministic reasoning cycles. This article presents a set of production-tested security patterns specifically designed for this challenge. The author recommends Job-based workload isolation to limit the blast radius of any single agent&#x27;s actions or failures. HashiCorp Vault is proposed for managing scoped, short-lived credentials, reducing the risk of credential sprawl across agent deployments. A four-phase trust model is introduced, progressing from shadow mode through to full autonomous operation, allowing teams to incrementally extend agent permissions as confidence in behavior grows. The article also addresses observability, noting that standard metrics and logging approaches are insufficient for non-deterministic reasoning workflows and proposing agent-specific telemetry strategies. Practical guidance is given on how to structure RBAC policies and network policies for agent workloads. The author draws on real deployment experience, making the recommendations immediately actionable for platform engineering teams. The piece also highlights the importance of defining explicit trust boundaries between agents and the broader system. This is one of the most comprehensive treatments of agentic AI security on Kubernetes available to practitioners. Engineers responsible for AI infrastructure will find direct, implementable guidance for hardening their platforms.</p>
+      <div class="article-impact">
+        <h4>Impact Takeaways</h4>
+        <ul><li>Job-based isolation and Vault-managed short-lived credentials are recommended to contain risk and reduce credential sprawl in agentic Kubernetes workloads.</li><li>A four-phase trust model (shadow to autonomous) lets teams incrementally validate agent behavior before granting full operational permissions.</li><li>Standard Kubernetes observability tooling is insufficient for non-deterministic AI agents; agent-specific telemetry strategies are required.</li><li>Explicit trust boundary definition and tailored RBAC/network policies are essential controls for securing multi-agent cloud deployments.</li></ul>
+      </div>
+    </article>
+
+    <article class="article-card">
+      <div class="article-number">#4</div>
+      <h2 class="article-title">
+        <a href="https://towardsdatascience.com/4-yaml-files-instead-of-pyspark-how-we-let-analysts-build-data-pipelines-without-engineers/" target="_blank" rel="noopener noreferrer">
+          4 YAML Files Instead of PySpark: How We Let Analysts Build Data Pipelines Without Engineers
+        </a>
+      </h2>
+      <div class="article-meta">
+        <span class="article-source">Towards Data Science</span>
+        <span class="article-date">Wed, 29 Apr 2026 16:30:00 +0000</span>
+      </div>
+      <p class="article-summary">This article presents a real-world case study in which an engineering team dramatically simplified their data pipeline architecture by replacing PySpark code with a declarative, YAML-driven stack. The new approach uses dlt for data loading, dbt for transformation, and Trino as the query engine, with just four YAML files needed to define a complete pipeline. The result was a reduction in pipeline delivery time from several weeks to a single day, representing a transformative productivity gain. Crucially, the change enabled analysts — rather than specialized data engineers — to build, own, and iterate on pipelines independently. This shift reduces the engineering bottleneck that commonly delays data-driven work in organizations. The article walks through the architecture decisions made, the tradeoffs considered, and the practical steps taken to migrate from the old stack. It addresses common concerns about declarative approaches, including flexibility limitations and debugging complexity. The authors provide concrete examples of the YAML configuration structure, making the approach immediately reproducible. The tooling choices (dlt, dbt, Trino) are all open-source and widely adopted, lowering the barrier to adoption for most data teams. The case study also discusses governance and quality considerations when analysts take ownership of pipeline code. This piece is directly actionable for data engineering leads looking to scale pipeline delivery without proportionally scaling their engineering headcount.</p>
+      <div class="article-impact">
+        <h4>Impact Takeaways</h4>
+        <ul><li>Replacing PySpark with dlt, dbt, and Trino reduced pipeline delivery time from weeks to one day in a real production environment.</li><li>Declarative YAML-based pipelines enable analysts to build and own data workflows independently, relieving engineering bottlenecks.</li><li>The open-source tooling stack (dlt, dbt, Trino) is widely available and approachable for most data engineering teams considering migration.</li><li>The article provides concrete, reproducible configuration examples, making it directly actionable for teams evaluating similar approaches.</li></ul>
+      </div>
+    </article>
+
+    <article class="article-card">
+      <div class="article-number">#5</div>
+      <h2 class="article-title">
+        <a href="https://towardsdatascience.com/why-ai-engineers-are-moving-beyond-langchain-to-native-agent-architectures/" target="_blank" rel="noopener noreferrer">
+          Why AI Engineers Are Moving Beyond LangChain to Native Agent Architectures
+        </a>
+      </h2>
+      <div class="article-meta">
+        <span class="article-source">Towards Data Science</span>
+        <span class="article-date">Thu, 30 Apr 2026 12:00:00 +0000</span>
+      </div>
+      <p class="article-summary">LangChain and similar LLM orchestration frameworks dramatically lowered the barrier to building the first wave of AI-powered applications, but production demands are exposing their limitations. This article argues that as AI systems grow in complexity and scale, the abstraction layers introduced by these frameworks become liabilities rather than assets. Engineers report difficulties with debugging, performance tuning, and adapting framework conventions to non-standard use cases. The author outlines the key failure modes of framework-heavy architectures, including hidden state management, opaque error propagation, and difficulty integrating with existing infrastructure. Native agent architectures — where teams build orchestration logic directly using LLM APIs and standard software engineering primitives — are presented as the emerging alternative for production-grade systems. The article provides a conceptual comparison of the two approaches, highlighting where frameworks add value (prototyping, standard patterns) and where they become obstacles (custom workflows, performance-critical paths). Practical guidance is given on how teams can begin transitioning away from framework dependencies incrementally, without rewriting systems from scratch. The piece also addresses the organizational dimension, noting that native architectures require stronger software engineering discipline but yield greater long-term maintainability. Real-world examples illustrate scenarios where teams have made this transition and the outcomes achieved. The article is particularly relevant for engineering leads making tooling decisions for agentic AI systems. It serves as a useful counterpoint to framework evangelism and grounds the conversation in production engineering realities.</p>
+      <div class="article-impact">
+        <h4>Impact Takeaways</h4>
+        <ul><li>LLM orchestration frameworks like LangChain are well-suited for prototyping but introduce abstraction overhead that limits control and debuggability at production scale.</li><li>Native agent architectures built directly on LLM APIs offer greater flexibility, performance, and maintainability for complex or non-standard production workflows.</li><li>Teams can migrate away from framework dependencies incrementally, reducing risk while improving system transparency and engineering ownership.</li><li>The shift to native architectures demands stronger software engineering discipline but pays dividends in long-term system reliability and adaptability.</li></ul>
+      </div>
+    </article>
+    </div>
+  </main>
+
+  <footer>AI Pulse &mdash; Powered by Claude &amp; GitHub Actions &mdash; Refreshed every 15 days</footer>
+
+</body>
+</html>

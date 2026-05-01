@@ -1,0 +1,369 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>AI Governance &amp; Safety — AI Pulse</title>
+  <style>
+    :root {
+      --bg:           #0d0f14;
+      --surface:      #161b27;
+      --surface-hover:#1e2535;
+      --border:       #2a3248;
+      --text:         #e2e8f0;
+      --text-muted:   #8896b0;
+      --accent:       #f87171;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'Inter', 'Segoe UI', system-ui, sans-serif;
+      font-size: 15px;
+      line-height: 1.6;
+      min-height: 100vh;
+    }
+
+    a { color: var(--accent); text-decoration: none; }
+    a:hover { text-decoration: underline; }
+
+    /* ── Header ── */
+    header {
+      border-bottom: 1px solid var(--border);
+      padding: 20px 0;
+      background: linear-gradient(180deg, #0a0d18 0%, var(--bg) 100%);
+      position: sticky;
+      top: 0;
+      z-index: 10;
+      backdrop-filter: blur(8px);
+    }
+
+    .header-inner {
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 0 24px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      flex-wrap: wrap;
+    }
+
+    .header-left { display: flex; align-items: center; gap: 16px; }
+
+    .back-link {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--text-muted);
+      transition: color 0.15s;
+    }
+
+    .back-link:hover { color: var(--text); text-decoration: none; }
+
+    .divider-v {
+      width: 1px; height: 20px;
+      background: var(--border);
+    }
+
+    .section-badge {
+      display: flex;
+      align-items: center;
+      gap: 7px;
+    }
+
+    .badge-dot {
+      width: 8px; height: 8px;
+      border-radius: 50%;
+      background: var(--accent);
+      flex-shrink: 0;
+    }
+
+    .badge-title {
+      font-size: 14px;
+      font-weight: 700;
+      color: var(--text);
+    }
+
+    .last-updated { font-size: 11px; color: var(--text-muted); }
+    .last-updated span { color: var(--text); font-weight: 500; }
+
+    /* ── Page Hero ── */
+    .page-hero {
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 32px 24px 0;
+    }
+
+    .hero-label {
+      font-size: 11px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      color: var(--accent);
+      margin-bottom: 6px;
+    }
+
+    .hero-title {
+      font-size: 28px;
+      font-weight: 800;
+      letter-spacing: -0.5px;
+      margin-bottom: 6px;
+    }
+
+    .hero-desc {
+      font-size: 14px;
+      color: var(--text-muted);
+      margin-bottom: 8px;
+    }
+
+    .hero-divider {
+      height: 1px;
+      background: linear-gradient(90deg, var(--accent) 0%, transparent 60%);
+      margin: 20px 0;
+      opacity: 0.4;
+    }
+
+    /* ── Articles ── */
+    main {
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 0 24px 64px;
+    }
+
+    .articles-list {
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+
+    .article-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-left: 3px solid var(--accent);
+      border-radius: 14px;
+      padding: 26px;
+      position: relative;
+      transition: background 0.2s, border-color 0.2s;
+    }
+
+    .article-card:hover {
+      background: var(--surface-hover);
+      border-color: var(--accent);
+    }
+
+    .article-number {
+      position: absolute;
+      top: 22px;
+      right: 22px;
+      font-size: 26px;
+      font-weight: 800;
+      color: var(--border);
+      line-height: 1;
+      user-select: none;
+    }
+
+    .article-title {
+      font-size: 18px;
+      font-weight: 700;
+      line-height: 1.4;
+      margin-bottom: 8px;
+      padding-right: 44px;
+    }
+
+    .article-title a { color: var(--text); }
+    .article-title a:hover { color: var(--accent); text-decoration: none; }
+
+    .article-meta {
+      display: flex;
+      gap: 12px;
+      font-size: 12px;
+      color: var(--text-muted);
+      margin-bottom: 14px;
+      flex-wrap: wrap;
+    }
+
+    .article-source { font-weight: 600; color: var(--accent); }
+
+    .article-summary {
+      font-size: 14px;
+      color: var(--text-muted);
+      line-height: 1.75;
+      margin-bottom: 18px;
+    }
+
+    .article-impact h4 {
+      font-size: 11px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.8px;
+      color: var(--text-muted);
+      margin-bottom: 8px;
+    }
+
+    .article-impact ul {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .article-impact li {
+      font-size: 13px;
+      color: var(--text);
+      padding-left: 18px;
+      position: relative;
+      line-height: 1.5;
+    }
+
+    .article-impact li::before {
+      content: '→';
+      position: absolute;
+      left: 0;
+      color: var(--accent);
+      font-size: 12px;
+    }
+
+    /* ── Footer ── */
+    footer {
+      text-align: center;
+      padding: 24px;
+      font-size: 12px;
+      color: var(--text-muted);
+      border-top: 1px solid var(--border);
+    }
+
+    /* ── Responsive ── */
+    @media (max-width: 600px) {
+      .article-number { font-size: 18px; top: 18px; right: 18px; }
+      .article-card { padding: 18px; }
+      .hero-title { font-size: 22px; }
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <div class="header-inner">
+      <div class="header-left">
+        <a class="back-link" href="../index.html">← AI Pulse</a>
+        <div class="divider-v"></div>
+        <div class="section-badge">
+          <span class="badge-dot"></span>
+          <span class="badge-title">AI Governance &amp; Safety</span>
+        </div>
+      </div>
+      <div class="last-updated">Updated: <span>01 May 2026, 16:20 UTC</span></div>
+    </div>
+  </header>
+
+  <div class="page-hero">
+    <div class="hero-label">Section Deep Dive</div>
+    <h1 class="hero-title">AI Governance &amp; Safety</h1>
+    <p class="hero-desc">AI regulations, privacy, security and policy developments worldwide</p>
+    <div class="hero-divider"></div>
+  </div>
+
+  <main>
+    <div class="articles-list">
+      
+    <article class="article-card">
+      <div class="article-number">#1</div>
+      <h2 class="article-title">
+        <a href="https://futureoflife.org/statement/trumps-support-for-an-ai-kill-switch/" target="_blank" rel="noopener noreferrer">
+          FLI&#x27;s President and CEO on Trump&#x27;s support for an AI &#x27;kill switch&#x27;
+        </a>
+      </h2>
+      <div class="article-meta">
+        <span class="article-source">Future of Life Inst.</span>
+        <span class="article-date">Thu, 16 Apr 2026</span>
+      </div>
+      <p class="article-summary">In a Fox Business interview, President Trump indicated support for an AI &#x27;kill switch,&#x27; marking a significant moment in U.S. AI governance discourse. The Future of Life Institute&#x27;s President and CEO responded with a formal statement addressing the implications of this position. The concept of a kill switch refers to mechanisms that could halt or shut down advanced AI systems in emergency scenarios. Trump&#x27;s endorsement of such a mechanism represents an unusual alignment between the executive branch and AI safety advocates. FLI has long championed the need for controllability and human oversight over advanced AI systems. The statement from FLI&#x27;s leadership contextualizes the president&#x27;s remarks within broader debates about AI risk management. This development comes amid increasing legislative activity around AI regulation at both federal and state levels. A kill switch mechanism would require substantial technical and legal infrastructure to implement effectively. The public endorsement by a sitting president could accelerate congressional interest in codifying such safeguards into law. FLI&#x27;s response underscores the importance of translating political statements into concrete, enforceable policy. The episode highlights how AI safety concerns are increasingly penetrating mainstream political discourse in the United States.</p>
+      <div class="article-impact">
+        <h4>Impact Takeaways</h4>
+        <ul><li>Presidential support for an AI kill switch could catalyze new legislative proposals mandating hard shutdown mechanisms for advanced AI systems.</li><li>AI safety professionals should monitor whether this political signal translates into White House-backed legislation or executive orders.</li><li>Organizations developing frontier AI may face new compliance requirements around controllability and emergency shutdown protocols.</li><li>The alignment between a populist political figure and AI safety advocates signals that AI risk is becoming a cross-partisan issue.</li></ul>
+      </div>
+    </article>
+
+    <article class="article-card">
+      <div class="article-number">#2</div>
+      <h2 class="article-title">
+        <a href="https://futureoflife.org/statement/head-of-us-policy-on-the-white-house-ai-legislative-recommendations/" target="_blank" rel="noopener noreferrer">
+          Statement: Head of US Policy on the White House AI legislative recommendations
+        </a>
+      </h2>
+      <div class="article-meta">
+        <span class="article-source">Future of Life Inst.</span>
+        <span class="article-date">Sun, 22 Mar 2026</span>
+      </div>
+      <p class="article-summary">The White House published its long-anticipated AI legislative recommendations, representing one of the most consequential federal policy documents on AI governance in recent years. FLI&#x27;s Head of US Policy responded with a detailed statement analyzing the recommendations&#x27; strengths and shortcomings. The document reportedly includes a call for Congress to take legislative action on AI oversight, a significant step for an administration that had previously favored a lighter regulatory touch. The recommendations are expected to shape congressional debates on AI legislation throughout 2026. FLI&#x27;s analysis focuses on whether the proposals adequately address frontier AI risks and include enforceable safety requirements. The statement acknowledges the recommendations as a meaningful step while urging stronger, more specific mandates. This development follows months of advocacy from civil society groups, researchers, and industry stakeholders pressing for federal AI legislation. The White House recommendations could serve as a legislative blueprint or a point of contention during congressional markup processes. Key areas under scrutiny include liability frameworks, transparency requirements, and mechanisms for government oversight of advanced AI development. FLI&#x27;s response also references the need to codify safety red lines into law rather than relying on voluntary industry commitments. The publication of these recommendations marks a pivotal moment in the U.S. approach to AI governance.</p>
+      <div class="article-impact">
+        <h4>Impact Takeaways</h4>
+        <ul><li>The White House recommendations provide a potential legislative roadmap that AI compliance and policy teams should study closely.</li><li>The call for congressional action on AI oversight signals that voluntary industry self-regulation may no longer be sufficient under federal expectations.</li><li>Professionals in AI governance should prepare for new transparency and liability requirements that may emerge from forthcoming legislation.</li><li>FLI&#x27;s critique of gaps in the recommendations highlights areas—such as frontier model oversight—where additional advocacy and regulatory attention is likely.</li></ul>
+      </div>
+    </article>
+
+    <article class="article-card">
+      <div class="article-number">#3</div>
+      <h2 class="article-title">
+        <a href="https://futureoflife.org/press-release/prominent-scientists-faith-leaders-policymakers-and-artists-call-for-a-prohibition-on-superintelligence/" target="_blank" rel="noopener noreferrer">
+          Prominent Scientists, Faith Leaders, Policymakers and Artists Call for a Prohibition on Superintelligence, as Poll Shows Americans Don&#x27;t Want It
+        </a>
+      </h2>
+      <div class="article-meta">
+        <span class="article-source">Future of Life Inst.</span>
+        <span class="article-date">Fri, 27 Mar 2026</span>
+      </div>
+      <p class="article-summary">A sweeping coalition of prominent figures across science, religion, politics, and culture has signed a declaration calling for a prohibition on the development of superintelligent AI systems. Signatories include AI pioneers Geoffrey Hinton and Yoshua Bengio, five Nobel Laureates, former Irish President Mary Robinson, and Obama&#x27;s National Security Advisor Susan Rice, among hundreds of others. The declaration is supported by new polling data indicating that a majority of Americans favor either strong regulation or an outright ban on superintelligent AI. The range of signatories—spanning ideological lines from Steve Bannon and Glenn Beck to progressive figures—signals an unusual cross-partisan consensus on existential AI risk. This initiative builds on growing momentum within the AI safety community to move beyond voluntary guidelines toward legally binding prohibitions. The call for prohibition goes further than most existing regulatory proposals, which tend to focus on oversight and transparency rather than outright bans. The involvement of globally recognized scientists lends significant scientific credibility to the campaign. Policymakers are likely to face increased pressure to respond to both the declaration and the underlying polling data showing public support for restrictions. The campaign intersects with ongoing legislative efforts at the federal and state levels to impose guardrails on advanced AI development. Critics may argue that a prohibition is technically difficult to enforce and could disadvantage the U.S. relative to other nations. Nonetheless, the breadth and prominence of the coalition make this one of the most significant public statements on AI governance in 2026.</p>
+      <div class="article-impact">
+        <h4>Impact Takeaways</h4>
+        <ul><li>The cross-partisan and internationally prominent nature of the coalition signals that opposition to superintelligence development is gaining mainstream political traction.</li><li>Polling data showing public support for prohibition will likely be cited in legislative debates, increasing pressure on lawmakers to act.</li><li>AI developers working on frontier models should anticipate a more hostile regulatory and public environment as calls for hard limits intensify.</li><li>The involvement of AI researchers like Hinton and Bengio adds scientific weight to arguments that existential risk warrants prohibition-level policy responses.</li></ul>
+      </div>
+    </article>
+
+    <article class="article-card">
+      <div class="article-number">#4</div>
+      <h2 class="article-title">
+        <a href="https://www.eff.org/deeplinks/2026/04/guard-act-isnt-targeting-dangerous-ai-its-blocking-everyday-internet-use" target="_blank" rel="noopener noreferrer">
+          The GUARD Act Isn&#x27;t Targeting Dangerous AI—It&#x27;s Blocking Everyday Internet Use
+        </a>
+      </h2>
+      <div class="article-meta">
+        <span class="article-source">EFF</span>
+        <span class="article-date">Mon, 27 Apr 2026</span>
+      </div>
+      <p class="article-summary">The Electronic Frontier Foundation has raised urgent concerns about the GUARD Act, a congressional bill framed as protecting minors from dangerous AI companion applications. According to EFF&#x27;s analysis, the bill&#x27;s language extends far beyond AI companions and could require age verification gates for a wide range of AI-integrated tools, potentially including search engines. A key committee vote was expected within days of EFF&#x27;s publication, making the analysis particularly time-sensitive for advocates and industry stakeholders. The bill is positioned as a response to high-profile cases involving AI companions and vulnerable young users, lending it significant political momentum. However, EFF argues that the overbroad language could fundamentally restrict everyday internet use for millions of Americans. Age-gating requirements at this scale would carry significant implications for user privacy, as age verification systems typically require collection of sensitive personal data. The bill&#x27;s passage could also set a precedent for using AI safety framing to justify broader internet regulation. EFF is calling on the public to contact lawmakers before the vote, signaling the organization&#x27;s assessment that the bill poses a serious civil liberties threat. The GUARD Act intersects with broader debates about how to regulate AI without imposing disproportionate burdens on legitimate services. This legislative development is particularly relevant for companies whose products incorporate any AI features, as compliance burdens could be substantial. The episode illustrates the challenge of drafting targeted AI safety legislation without inadvertently capturing benign applications.</p>
+      <div class="article-impact">
+        <h4>Impact Takeaways</h4>
+        <ul><li>Companies offering AI-integrated products or services—including search, productivity tools, and content platforms—should assess their exposure under the GUARD Act&#x27;s broad language.</li><li>Age verification mandates carry significant data privacy implications, and compliance programs may need to be developed rapidly if the bill passes.</li><li>The bill illustrates the risk of AI safety legislation being drafted too broadly, creating compliance burdens that extend well beyond genuinely harmful applications.</li><li>Legal and policy teams should monitor the congressional vote closely and engage with legislators to push for narrower, more targeted language.</li></ul>
+      </div>
+    </article>
+
+    <article class="article-card">
+      <div class="article-number">#5</div>
+      <h2 class="article-title">
+        <a href="https://www.technologyreview.com/2026/05/01/1136779/cyber-insecurity-in-the-ai-era/" target="_blank" rel="noopener noreferrer">
+          Cyber-Insecurity in the AI Era
+        </a>
+      </h2>
+      <div class="article-meta">
+        <span class="article-source">MIT Technology Review</span>
+        <span class="article-date">Fri, 01 May 2026</span>
+      </div>
+      <p class="article-summary">A featured session from MIT Technology Review&#x27;s EmTech AI conference explored the deepening cybersecurity challenges posed by the rapid integration of AI across enterprise and critical infrastructure systems. Experts argued that AI is not merely adding incremental risk but fundamentally transforming the threat landscape by expanding attack surfaces and introducing new classes of vulnerabilities. Legacy security architectures, designed before AI became pervasive, are increasingly inadequate to address these emergent risks. The session emphasized that security must be embedded into AI system design from the outset rather than layered on after deployment. AI systems introduce unique challenges including model poisoning, adversarial inputs, prompt injection, and the exploitation of AI-generated outputs in social engineering attacks. The growing autonomy of AI agents further complicates traditional security perimeters and access control models. Panelists stressed the need for new governance frameworks that explicitly address AI-specific threat vectors at both organizational and regulatory levels. The conversation also touched on the dual-use nature of AI in cybersecurity—the same capabilities that power defenses can be weaponized by adversaries. Regulators are beginning to grapple with these issues, but formal cybersecurity standards for AI systems remain underdeveloped. Organizations were urged to conduct AI-specific threat modeling and invest in security talent capable of understanding both AI and cybersecurity domains. The session underscored that cyber risk in the AI era is a governance and policy challenge as much as a technical one.</p>
+      <div class="article-impact">
+        <h4>Impact Takeaways</h4>
+        <ul><li>Organizations must move beyond retrofitting legacy security tools and invest in AI-native security architectures that address model-level threats.</li><li>AI-specific threat vectors—such as prompt injection, model poisoning, and adversarial inputs—require new risk assessment methodologies and governance policies.</li><li>Regulators are likely to introduce AI cybersecurity standards; proactive compliance preparation will be a competitive advantage.</li><li>Security and AI governance teams should collaborate closely, as AI risk management and cybersecurity are increasingly inseparable disciplines.</li></ul>
+      </div>
+    </article>
+    </div>
+  </main>
+
+  <footer>AI Pulse &mdash; Powered by Claude &amp; GitHub Actions &mdash; Refreshed every 15 days</footer>
+
+</body>
+</html>

@@ -5,20 +5,595 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>AI Pulse — AI News by Section</title>
   <style>
-    :root { --bg: #0d0f14; --text: #e2e8f0; --text-muted: #8896b0; --border: #2a3248; --accent: #4f8ef7; }
+    :root {
+      --bg:           #0d0f14;
+      --surface:      #161b27;
+      --surface-hover:#1e2535;
+      --border:       #2a3248;
+      --text:         #e2e8f0;
+      --text-muted:   #8896b0;
+      --accent:       #4f8ef7;
+    }
+
     * { box-sizing: border-box; margin: 0; padding: 0; }
-    body { background: var(--bg); color: var(--text); font-family: 'Inter', system-ui, sans-serif; font-size: 15px; line-height: 1.6; min-height: 100vh; display: flex; flex-direction: column; align-items: center; justify-content: center; }
-    .empty-state { text-align: center; padding: 80px 24px; }
-    .icon { font-size: 48px; margin-bottom: 16px; }
-    h1 { font-size: 22px; font-weight: 700; margin-bottom: 8px; }
-    p { font-size: 14px; color: var(--text-muted); }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'Inter', 'Segoe UI', system-ui, sans-serif;
+      font-size: 15px;
+      line-height: 1.6;
+      min-height: 100vh;
+    }
+
+    a { color: var(--accent); text-decoration: none; }
+    a:hover { text-decoration: underline; }
+
+    /* ── Header ── */
+    header {
+      border-bottom: 1px solid var(--border);
+      padding: 20px 0;
+      background: linear-gradient(180deg, #0a0d18 0%, var(--bg) 100%);
+      position: sticky;
+      top: 0;
+      z-index: 10;
+      backdrop-filter: blur(8px);
+    }
+
+    .header-inner {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 24px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+    }
+
+    .logo { display: flex; align-items: center; gap: 12px; }
+
+    .logo-icon {
+      width: 34px; height: 34px;
+      background: var(--accent);
+      border-radius: 8px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 17px; flex-shrink: 0;
+    }
+
+    .logo h1 { font-size: 20px; font-weight: 700; letter-spacing: -0.3px; }
+    .logo .tagline { font-size: 11px; color: var(--text-muted); }
+
+    .last-updated { font-size: 11px; color: var(--text-muted); white-space: nowrap; }
+    .last-updated span { color: var(--text); font-weight: 500; }
+
+    /* ── Main Grid ── */
+    main {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 32px 24px 64px;
+    }
+
+    .page-intro {
+      margin-bottom: 32px;
+    }
+
+    .page-intro h2 {
+      font-size: 13px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      color: var(--text-muted);
+      margin-bottom: 4px;
+    }
+
+    .sections-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 20px;
+    }
+
+    /* ── Section Card ── */
+    .section-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-top: 3px solid var(--c, var(--accent));
+      border-radius: 14px;
+      padding: 22px;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+      transition: border-color 0.2s, background 0.2s;
+    }
+
+    .section-card:hover {
+      background: var(--surface-hover);
+      border-color: var(--c, var(--accent));
+    }
+
+    .section-card-top { display: flex; flex-direction: column; gap: 4px; }
+
+    .section-label {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .section-dot {
+      width: 8px; height: 8px;
+      border-radius: 50%;
+      background: var(--c, var(--accent));
+      flex-shrink: 0;
+    }
+
+    .section-title {
+      font-size: 16px;
+      font-weight: 700;
+      color: var(--text);
+    }
+
+    .section-desc {
+      font-size: 12px;
+      color: var(--text-muted);
+      padding-left: 16px;
+    }
+
+    /* ── Story List ── */
+    .story-list {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      flex: 1;
+    }
+
+    .story-item {
+      display: flex;
+      gap: 12px;
+      align-items: flex-start;
+    }
+
+    .story-rank {
+      font-size: 11px;
+      font-weight: 700;
+      color: var(--c, var(--accent));
+      opacity: 0.7;
+      flex-shrink: 0;
+      margin-top: 3px;
+      font-variant-numeric: tabular-nums;
+      min-width: 18px;
+    }
+
+    .story-body { flex: 1; min-width: 0; }
+
+    .story-headline {
+      font-size: 13px;
+      font-weight: 600;
+      line-height: 1.4;
+      margin-bottom: 3px;
+    }
+
+    .story-headline a {
+      color: var(--text);
+      transition: color 0.15s;
+    }
+
+    .story-headline a:hover {
+      color: var(--c, var(--accent));
+      text-decoration: none;
+    }
+
+    .story-short {
+      font-size: 12px;
+      color: var(--text-muted);
+      line-height: 1.5;
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+    }
+
+    /* ── View All Link ── */
+    .view-all-link {
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--c, var(--accent));
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      padding: 6px 0 0;
+      border-top: 1px solid var(--border);
+      transition: opacity 0.15s;
+    }
+
+    .view-all-link:hover { opacity: 0.75; text-decoration: none; }
+
+    /* ── Footer ── */
+    footer {
+      text-align: center;
+      padding: 24px;
+      font-size: 12px;
+      color: var(--text-muted);
+      border-top: 1px solid var(--border);
+    }
+
+    /* ── Responsive ── */
+    @media (max-width: 768px) {
+      .sections-grid { grid-template-columns: 1fr; }
+      .header-inner { flex-direction: column; align-items: flex-start; }
+    }
   </style>
 </head>
 <body>
-  <div class="empty-state">
-    <div class="icon">⚡</div>
-    <h1>AI Pulse</h1>
-    <p>No stories yet — the site will populate on the next scheduled run (1st and 16th of each month).<br>You can also trigger it manually from the GitHub Actions tab.</p>
-  </div>
+
+  <header>
+    <div class="header-inner">
+      <div class="logo">
+        <div class="logo-icon">⚡</div>
+        <div>
+          <h1>AI Pulse</h1>
+          <div class="tagline">AI news by section — curated by Claude</div>
+        </div>
+      </div>
+      <div class="last-updated">Last updated: <span>01 May 2026, 16:20 UTC</span></div>
+    </div>
+  </header>
+
+  <main>
+    <div class="page-intro">
+      <h2>6 Sections · 5 Stories Each · Click any story to read more</h2>
+    </div>
+    <div class="sections-grid">
+      
+    <div class="section-card" style="--c: #38bdf8">
+      <div class="section-card-top">
+        <div class="section-label">
+          <span class="section-dot"></span>
+          <h2 class="section-title">AI in Finance</h2>
+        </div>
+        <p class="section-desc">AI transforming banking, payments, trading and financial services</p>
+      </div>
+      <div class="story-list">
+        <div class="story-item">
+          <span class="story-rank">01</span>
+          <div class="story-body">
+            <h3 class="story-headline">
+              <a href="../pages/finance.html">How AI Is Rewriting Credit Decisioning in Real Time</a>
+            </h3>
+            <p class="story-short">AI is rapidly displacing static scorecards and rigid rule-based systems that have long governed credit and payment decisions. As transactions migrate to digital channels and settle in real time, issuers must now assess risk, intent, and context instantaneously. This piece explores how machine learning models are reshaping the credit decisioning landscape for financial institutions.</p>
+          </div>
+        </div>
+        <div class="story-item">
+          <span class="story-rank">02</span>
+          <div class="story-body">
+            <h3 class="story-headline">
+              <a href="../pages/finance.html">In Payments, the AI Race Is Also a Governance Test</a>
+            </h3>
+            <p class="story-short">AI is embedding itself deeper into payments infrastructure, powering fraud detection, approval optimization, compliance, and real-time risk management. However, the governance question — who oversees these systems and how — is becoming as critical as the technology itself. Industry leaders are grappling with accountability, auditability, and the regulatory expectations that follow.</p>
+          </div>
+        </div>
+        <div class="story-item">
+          <span class="story-rank">03</span>
+          <div class="story-body">
+            <h3 class="story-headline">
+              <a href="../pages/finance.html">Acquirers Say Risk and Readiness Are Slowing Agentic Commerce</a>
+            </h3>
+            <p class="story-short">A new study reveals that while most acquirers believe core payments infrastructure can support AI-driven agentic commerce, risk concerns and merchant unpreparedness are acting as significant brakes on adoption. The gap between acquirer confidence and merchant readiness is emerging as a key structural challenge for the next phase of digital commerce. Industry players must now reconcile infrastructure capability with risk frameworks suited to autonomous agent-led transactions.</p>
+          </div>
+        </div>
+        <div class="story-item">
+          <span class="story-rank">04</span>
+          <div class="story-body">
+            <h3 class="story-headline">
+              <a href="../pages/finance.html">Anthropic Turns Claude Into a Front Door for Daily Apps</a>
+            </h3>
+            <p class="story-short">Anthropic has launched consumer app connectors for Claude, enabling direct integration with services including Intuit TurboTax and Intuit Credit Karma alongside major consumer platforms. The move positions Claude as a unified interface for financial and lifestyle services, with significant implications for how consumers interact with personal finance tools. Financial services firms should note the growing role of AI assistants as intermediaries between consumers and their financial data.</p>
+          </div>
+        </div>
+        <div class="story-item">
+          <span class="story-rank">05</span>
+          <div class="story-body">
+            <h3 class="story-headline">
+              <a href="../pages/finance.html">How AI Killed Information Asymmetry in B2B Procurement</a>
+            </h3>
+            <p class="story-short">AI is fundamentally restructuring B2B procurement by eliminating the information gaps that traditionally gave sellers leverage over buyers. Procurement leaders at large organizations now use AI tools to benchmark pricing, evaluate suppliers, and model contract terms with unprecedented precision. This shift has material implications for B2B payment terms, credit facilities, and the financial products that underpin commercial trade.</p>
+          </div>
+        </div>
+      </div>
+      <a class="view-all-link" href="pages/finance.html">View all 5 stories →</a>
+    </div>
+
+    <div class="section-card" style="--c: #4ade80">
+      <div class="section-card-top">
+        <div class="section-label">
+          <span class="section-dot"></span>
+          <h2 class="section-title">Engineering Intelligence</h2>
+        </div>
+        <p class="section-desc">AI tools, frameworks and breakthroughs for software and data engineers</p>
+      </div>
+      <div class="story-list">
+        <div class="story-item">
+          <span class="story-rank">01</span>
+          <div class="story-body">
+            <h3 class="story-headline">
+              <a href="../pages/engineering.html">When Your LLM Reaches End-of-Life: A Framework for Confident Model Migration in Production Systems</a>
+            </h3>
+            <p class="story-short">A new framework tackles the real-world challenge of migrating production LLM-based systems when the underlying model is deprecated or replaced. It uses a Bayesian statistical approach to calibrate automated evaluation metrics against human judgments, enabling confident model comparison with limited manual review. This is a practical, actionable contribution for MLOps and AI engineering teams.</p>
+          </div>
+        </div>
+        <div class="story-item">
+          <span class="story-rank">02</span>
+          <div class="story-body">
+            <h3 class="story-headline">
+              <a href="../pages/engineering.html">Think it, Run it: Autonomous ML pipeline generation via self-healing multi-agent AI</a>
+            </h3>
+            <p class="story-short">Researchers propose a five-agent architecture that automates end-to-end ML pipeline generation from raw datasets and natural-language goals. The system handles profiling, intent parsing, microservice recommendation, and pipeline orchestration, improving efficiency and robustness. This is a significant step toward self-driving data and ML engineering workflows.</p>
+          </div>
+        </div>
+        <div class="story-item">
+          <span class="story-rank">03</span>
+          <div class="story-body">
+            <h3 class="story-headline">
+              <a href="../pages/engineering.html">Article: Securing Autonomous AI Agents on Kubernetes: Trust Boundaries, Secrets, and Observability for a New Category of Cloud Workload</a>
+            </h3>
+            <p class="story-short">This deep-dive article outlines production-tested patterns for securing autonomous AI agents running on Kubernetes, addressing unique challenges like dynamic dependencies, multi-domain credentials, and non-deterministic reasoning cycles. It covers Job-based isolation, Vault for scoped short-lived credentials, a four-phase trust model, and tailored observability strategies. Essential reading for platform and DevOps engineers deploying agentic workloads.</p>
+          </div>
+        </div>
+        <div class="story-item">
+          <span class="story-rank">04</span>
+          <div class="story-body">
+            <h3 class="story-headline">
+              <a href="../pages/engineering.html">4 YAML Files Instead of PySpark: How We Let Analysts Build Data Pipelines Without Engineers</a>
+            </h3>
+            <p class="story-short">A team shares how they replaced complex PySpark pipelines with a declarative stack using dlt, dbt, and Trino, cutting data pipeline delivery time from weeks to a single day. The approach empowers analysts to build and own pipelines independently, reducing engineering bottlenecks. This is a highly practical case study for data engineering and platform teams.</p>
+          </div>
+        </div>
+        <div class="story-item">
+          <span class="story-rank">05</span>
+          <div class="story-body">
+            <h3 class="story-headline">
+              <a href="../pages/engineering.html">Why AI Engineers Are Moving Beyond LangChain to Native Agent Architectures</a>
+            </h3>
+            <p class="story-short">This article examines why many AI engineering teams are moving away from LangChain and similar frameworks toward native, custom agent architectures as they scale to production. It argues that while frameworks accelerate early development, they introduce abstraction layers that hinder control, performance, and debuggability in complex systems. A must-read for teams planning or operating production LLM applications.</p>
+          </div>
+        </div>
+      </div>
+      <a class="view-all-link" href="pages/engineering.html">View all 5 stories →</a>
+    </div>
+
+    <div class="section-card" style="--c: #a78bfa">
+      <div class="section-card-top">
+        <div class="section-label">
+          <span class="section-dot"></span>
+          <h2 class="section-title">GitHub Copilot</h2>
+        </div>
+        <p class="section-desc">Latest features, updates and news from GitHub Copilot</p>
+      </div>
+      <div class="story-list">
+        <div class="story-item">
+          <span class="story-rank">01</span>
+          <div class="story-body">
+            <h3 class="story-headline">
+              <a href="../pages/github-copilot.html">GitHub Copilot is moving to usage-based billing</a>
+            </h3>
+            <p class="story-short">Starting June 1, GitHub Copilot usage will be billed through GitHub AI Credits rather than flat subscription rates. This marks a significant shift in how developers and organizations will pay for Copilot features, including code review. Teams should review their usage patterns before the billing model goes live.</p>
+          </div>
+        </div>
+        <div class="story-item">
+          <span class="story-rank">02</span>
+          <div class="story-body">
+            <h3 class="story-headline">
+              <a href="../pages/github-copilot.html">GPT-5.5 is generally available for GitHub Copilot</a>
+            </h3>
+            <p class="story-short">OpenAI&#x27;s GPT-5.5 is now rolling out as a generally available model for GitHub Copilot users. The model shows its strongest performance on complex, multi-step agentic coding tasks and real-world issue resolution. This represents a notable capability upgrade for developers leveraging Copilot for autonomous coding workflows.</p>
+          </div>
+        </div>
+        <div class="story-item">
+          <span class="story-rank">03</span>
+          <div class="story-body">
+            <h3 class="story-headline">
+              <a href="../pages/github-copilot.html">GitHub Copilot in Visual Studio — April update</a>
+            </h3>
+            <p class="story-short">The April 2026 update to GitHub Copilot in Visual Studio brings significant agentic workflow enhancements, including cloud agent sessions launched directly from the IDE and a new Debugger agent. Custom agents also gain expanded user-level support in this release. These updates position Visual Studio as a first-class environment for AI-assisted agentic development.</p>
+          </div>
+        </div>
+        <div class="story-item">
+          <span class="story-rank">04</span>
+          <div class="story-body">
+            <h3 class="story-headline">
+              <a href="../pages/github-copilot.html">Inline agent mode in preview and more in GitHub Copilot for JetBrains IDEs</a>
+            </h3>
+            <p class="story-short">GitHub Copilot for JetBrains IDEs now features inline agent mode in preview, alongside enhancements to Next Edit Suggestions and global auto approve. The update also brings more flexible controls for terminal commands and file edits. JetBrains users gain access to agentic capabilities that were previously more prominent in VS Code.</p>
+          </div>
+        </div>
+        <div class="story-item">
+          <span class="story-rank">05</span>
+          <div class="story-body">
+            <h3 class="story-headline">
+              <a href="../pages/github-copilot.html">Copilot cloud agent starts 20% faster with Actions custom images</a>
+            </h3>
+            <p class="story-short">GitHub&#x27;s Copilot cloud agent now launches over 20% faster thanks to optimized runner environments built with GitHub Actions custom images. The improvement directly reduces wait times when assigning issues to Copilot or starting agent tasks. This performance boost makes the cloud agent more practical for iterative and time-sensitive development workflows.</p>
+          </div>
+        </div>
+      </div>
+      <a class="view-all-link" href="pages/github-copilot.html">View all 5 stories →</a>
+    </div>
+
+    <div class="section-card" style="--c: #fb923c">
+      <div class="section-card-top">
+        <div class="section-label">
+          <span class="section-dot"></span>
+          <h2 class="section-title">Microsoft 365 Copilot</h2>
+        </div>
+        <p class="section-desc">Updates, features and news from Microsoft 365 Copilot</p>
+      </div>
+      <div class="story-list">
+        <div class="story-item">
+          <span class="story-rank">01</span>
+          <div class="story-body">
+            <h3 class="story-headline">
+              <a href="../pages/m365-copilot.html">Copilot&#x27;s agentic capabilities in Word, Excel, and PowerPoint are generally available</a>
+            </h3>
+            <p class="story-short">Microsoft has made Copilot&#x27;s agentic capabilities generally available across Word, Excel, and PowerPoint. The update positions Copilot as a true collaborative partner capable of taking multi-step actions while keeping users in control throughout the creative and analytical process.</p>
+          </div>
+        </div>
+        <div class="story-item">
+          <span class="story-rank">02</span>
+          <div class="story-body">
+            <h3 class="story-headline">
+              <a href="../pages/m365-copilot.html">Bring your everyday business apps into the flow of work with agents in Microsoft 365 Copilot</a>
+            </h3>
+            <p class="story-short">Microsoft 365 Copilot can now integrate third-party and line-of-business apps directly into its conversational interface. This update closes the gap between AI-driven insights and real in-app actions, allowing users to work across tools without leaving the Copilot experience.</p>
+          </div>
+        </div>
+        <div class="story-item">
+          <span class="story-rank">03</span>
+          <div class="story-body">
+            <h3 class="story-headline">
+              <a href="../pages/m365-copilot.html">Copilot Cowork: Now available in Frontier</a>
+            </h3>
+            <p class="story-short">Microsoft has made Copilot Cowork available through its Frontier early access program, giving select users hands-on experience with the platform&#x27;s long-running, multi-step work execution capabilities. Copilot Cowork is designed to function as an intelligent execution layer within Microsoft 365.</p>
+          </div>
+        </div>
+        <div class="story-item">
+          <span class="story-rank">04</span>
+          <div class="story-body">
+            <h3 class="story-headline">
+              <a href="../pages/m365-copilot.html">New and improved: Multi-agent orchestration, connected experiences, and faster prompt iteration</a>
+            </h3>
+            <p class="story-short">Microsoft has made multi-agent systems generally available in Copilot Studio, alongside updates to the Prompt Editor and new governance controls. These enhancements give enterprises the tools to build, manage, and refine complex agent networks at scale.</p>
+          </div>
+        </div>
+        <div class="story-item">
+          <span class="story-rank">05</span>
+          <div class="story-body">
+            <h3 class="story-headline">
+              <a href="../pages/m365-copilot.html">Powering Frontier Transformation with Copilot and agents</a>
+            </h3>
+            <p class="story-short">Microsoft&#x27;s Wave 3 update reframes Microsoft 365 Copilot as more than an assistant, embedding agentic capabilities directly into the platform&#x27;s core. The announcement outlines a strategic shift toward AI that doesn&#x27;t just advise but actively executes work on behalf of users and organizations.</p>
+          </div>
+        </div>
+      </div>
+      <a class="view-all-link" href="pages/m365-copilot.html">View all 5 stories →</a>
+    </div>
+
+    <div class="section-card" style="--c: #f87171">
+      <div class="section-card-top">
+        <div class="section-label">
+          <span class="section-dot"></span>
+          <h2 class="section-title">AI Governance &amp; Safety</h2>
+        </div>
+        <p class="section-desc">AI regulations, privacy, security and policy developments worldwide</p>
+      </div>
+      <div class="story-list">
+        <div class="story-item">
+          <span class="story-rank">01</span>
+          <div class="story-body">
+            <h3 class="story-headline">
+              <a href="../pages/governance.html">FLI&#x27;s President and CEO on Trump&#x27;s support for an AI &#x27;kill switch&#x27;</a>
+            </h3>
+            <p class="story-short">President Trump publicly stated there &#x27;should be&#x27; an AI kill switch, prompting a response from the Future of Life Institute&#x27;s President and CEO. The statement signals a notable shift in the White House&#x27;s stance on hard AI shutdown mechanisms. FLI&#x27;s leadership weighed in on the implications for policy and safety frameworks.</p>
+          </div>
+        </div>
+        <div class="story-item">
+          <span class="story-rank">02</span>
+          <div class="story-body">
+            <h3 class="story-headline">
+              <a href="../pages/governance.html">Statement: Head of US Policy on the White House AI legislative recommendations</a>
+            </h3>
+            <p class="story-short">The White House released its long-awaited AI legislative recommendations, which include a call for Congress to act on AI oversight. FLI&#x27;s Head of US Policy issued a formal response evaluating the significance of the recommendations. The statement highlights both promising elements and gaps in the administration&#x27;s proposed approach.</p>
+          </div>
+        </div>
+        <div class="story-item">
+          <span class="story-rank">03</span>
+          <div class="story-body">
+            <h3 class="story-headline">
+              <a href="../pages/governance.html">Prominent Scientists, Faith Leaders, Policymakers and Artists Call for a Prohibition on Superintelligence, as Poll Shows Americans Don&#x27;t Want It</a>
+            </h3>
+            <p class="story-short">A broad coalition of scientists, faith leaders, policymakers, and public figures—including Nobel Laureates and AI pioneers Geoffrey Hinton and Yoshua Bengio—has called for a formal prohibition on the development of superintelligent AI. The announcement is accompanied by polling data showing a majority of Americans support such a ban. The campaign represents one of the most high-profile calls for hard limits on AI development to date.</p>
+          </div>
+        </div>
+        <div class="story-item">
+          <span class="story-rank">04</span>
+          <div class="story-body">
+            <h3 class="story-headline">
+              <a href="../pages/governance.html">The GUARD Act Isn&#x27;t Targeting Dangerous AI—It&#x27;s Blocking Everyday Internet Use</a>
+            </h3>
+            <p class="story-short">The EFF warns that the GUARD Act, framed as a response to dangerous AI companions targeting minors, contains sweeping language that could impose age gates on ordinary AI-powered internet tools including search engines. A key congressional vote is expected imminently, raising urgency for stakeholders. The EFF argues the bill conflates harmful AI applications with general AI-integrated services.</p>
+          </div>
+        </div>
+        <div class="story-item">
+          <span class="story-rank">05</span>
+          <div class="story-body">
+            <h3 class="story-headline">
+              <a href="../pages/governance.html">Cyber-Insecurity in the AI Era</a>
+            </h3>
+            <p class="story-short">A session from MIT Technology Review&#x27;s EmTech AI conference examines how AI is expanding the cybersecurity attack surface and exposing the limits of legacy security approaches. Experts argue that security frameworks must be fundamentally rethought with AI at their core rather than added as an afterthought. The discussion underscores the growing urgency of AI-native security strategies for organizations.</p>
+          </div>
+        </div>
+      </div>
+      <a class="view-all-link" href="pages/governance.html">View all 5 stories →</a>
+    </div>
+
+    <div class="section-card" style="--c: #fbbf24">
+      <div class="section-card-top">
+        <div class="section-label">
+          <span class="section-dot"></span>
+          <h2 class="section-title">Trending in AI</h2>
+        </div>
+        <p class="section-desc">The most significant and talked-about AI stories right now</p>
+      </div>
+      <div class="story-list">
+        <div class="story-item">
+          <span class="story-rank">01</span>
+          <div class="story-body">
+            <h3 class="story-headline">
+              <a href="../pages/trending.html">Sources: Anthropic potential $900B+ valuation round could happen within 2 weeks</a>
+            </h3>
+            <p class="story-short">Anthropic is racing toward a landmark fundraising round that could value the company at over $900 billion, with investors given just 48 hours to submit allocations. The deal comes amid broader industry dynamics, including Anthropic&#x27;s recent dispute with the Pentagon over AI model usage terms.</p>
+          </div>
+        </div>
+        <div class="story-item">
+          <span class="story-rank">02</span>
+          <div class="story-body">
+            <h3 class="story-headline">
+              <a href="../pages/trending.html">Pentagon inks deals with Nvidia, Microsoft, and AWS to deploy AI on classified networks</a>
+            </h3>
+            <p class="story-short">The U.S. Department of Defense has signed new AI deployment agreements with Nvidia, Microsoft, and AWS to bring artificial intelligence capabilities to classified military networks. The move reflects the DOD&#x27;s strategy to diversify its AI vendor relationships following a dispute with Anthropic over model usage terms.</p>
+          </div>
+        </div>
+        <div class="story-item">
+          <span class="story-rank">03</span>
+          <div class="story-body">
+            <h3 class="story-headline">
+              <a href="../pages/trending.html">Elon Musk testifies that xAI trained Grok on OpenAI models</a>
+            </h3>
+            <p class="story-short">Elon Musk admitted under oath that xAI used OpenAI&#x27;s models to train Grok through a process known as distillation, a flashpoint in the ongoing Musk v. Altman trial. The testimony raises urgent questions about model distillation practices and intellectual property across the AI industry.</p>
+          </div>
+        </div>
+        <div class="story-item">
+          <span class="story-rank">04</span>
+          <div class="story-body">
+            <h3 class="story-headline">
+              <a href="../pages/trending.html">This startup&#x27;s new mechanistic interpretability tool lets you debug LLMs</a>
+            </h3>
+            <p class="story-short">San Francisco-based startup Goodfire has released Silico, a mechanistic interpretability tool that allows researchers and engineers to peer inside LLMs and adjust model parameters during training. The tool promises more fine-grained control over model behavior than previously thought possible.</p>
+          </div>
+        </div>
+        <div class="story-item">
+          <span class="story-rank">05</span>
+          <div class="story-body">
+            <h3 class="story-headline">
+              <a href="../pages/trending.html">Google&#x27;s Gemini AI assistant is hitting the road in millions of vehicles</a>
+            </h3>
+            <p class="story-short">Google is rolling out its Gemini AI assistant to millions of vehicles, marking a major push to bring advanced conversational AI into the automotive space. The move signals Google&#x27;s ambition to make Gemini a ubiquitous AI presence beyond smartphones and smart home devices.</p>
+          </div>
+        </div>
+      </div>
+      <a class="view-all-link" href="pages/trending.html">View all 5 stories →</a>
+    </div>
+    </div>
+  </main>
+
+  <footer>AI Pulse &mdash; Powered by Claude &amp; GitHub Actions &mdash; Refreshed every 15 days</footer>
+
 </body>
 </html>

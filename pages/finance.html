@@ -1,0 +1,369 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>AI in Finance — AI Pulse</title>
+  <style>
+    :root {
+      --bg:           #0d0f14;
+      --surface:      #161b27;
+      --surface-hover:#1e2535;
+      --border:       #2a3248;
+      --text:         #e2e8f0;
+      --text-muted:   #8896b0;
+      --accent:       #38bdf8;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'Inter', 'Segoe UI', system-ui, sans-serif;
+      font-size: 15px;
+      line-height: 1.6;
+      min-height: 100vh;
+    }
+
+    a { color: var(--accent); text-decoration: none; }
+    a:hover { text-decoration: underline; }
+
+    /* ── Header ── */
+    header {
+      border-bottom: 1px solid var(--border);
+      padding: 20px 0;
+      background: linear-gradient(180deg, #0a0d18 0%, var(--bg) 100%);
+      position: sticky;
+      top: 0;
+      z-index: 10;
+      backdrop-filter: blur(8px);
+    }
+
+    .header-inner {
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 0 24px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      flex-wrap: wrap;
+    }
+
+    .header-left { display: flex; align-items: center; gap: 16px; }
+
+    .back-link {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--text-muted);
+      transition: color 0.15s;
+    }
+
+    .back-link:hover { color: var(--text); text-decoration: none; }
+
+    .divider-v {
+      width: 1px; height: 20px;
+      background: var(--border);
+    }
+
+    .section-badge {
+      display: flex;
+      align-items: center;
+      gap: 7px;
+    }
+
+    .badge-dot {
+      width: 8px; height: 8px;
+      border-radius: 50%;
+      background: var(--accent);
+      flex-shrink: 0;
+    }
+
+    .badge-title {
+      font-size: 14px;
+      font-weight: 700;
+      color: var(--text);
+    }
+
+    .last-updated { font-size: 11px; color: var(--text-muted); }
+    .last-updated span { color: var(--text); font-weight: 500; }
+
+    /* ── Page Hero ── */
+    .page-hero {
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 32px 24px 0;
+    }
+
+    .hero-label {
+      font-size: 11px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      color: var(--accent);
+      margin-bottom: 6px;
+    }
+
+    .hero-title {
+      font-size: 28px;
+      font-weight: 800;
+      letter-spacing: -0.5px;
+      margin-bottom: 6px;
+    }
+
+    .hero-desc {
+      font-size: 14px;
+      color: var(--text-muted);
+      margin-bottom: 8px;
+    }
+
+    .hero-divider {
+      height: 1px;
+      background: linear-gradient(90deg, var(--accent) 0%, transparent 60%);
+      margin: 20px 0;
+      opacity: 0.4;
+    }
+
+    /* ── Articles ── */
+    main {
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 0 24px 64px;
+    }
+
+    .articles-list {
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+
+    .article-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-left: 3px solid var(--accent);
+      border-radius: 14px;
+      padding: 26px;
+      position: relative;
+      transition: background 0.2s, border-color 0.2s;
+    }
+
+    .article-card:hover {
+      background: var(--surface-hover);
+      border-color: var(--accent);
+    }
+
+    .article-number {
+      position: absolute;
+      top: 22px;
+      right: 22px;
+      font-size: 26px;
+      font-weight: 800;
+      color: var(--border);
+      line-height: 1;
+      user-select: none;
+    }
+
+    .article-title {
+      font-size: 18px;
+      font-weight: 700;
+      line-height: 1.4;
+      margin-bottom: 8px;
+      padding-right: 44px;
+    }
+
+    .article-title a { color: var(--text); }
+    .article-title a:hover { color: var(--accent); text-decoration: none; }
+
+    .article-meta {
+      display: flex;
+      gap: 12px;
+      font-size: 12px;
+      color: var(--text-muted);
+      margin-bottom: 14px;
+      flex-wrap: wrap;
+    }
+
+    .article-source { font-weight: 600; color: var(--accent); }
+
+    .article-summary {
+      font-size: 14px;
+      color: var(--text-muted);
+      line-height: 1.75;
+      margin-bottom: 18px;
+    }
+
+    .article-impact h4 {
+      font-size: 11px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.8px;
+      color: var(--text-muted);
+      margin-bottom: 8px;
+    }
+
+    .article-impact ul {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .article-impact li {
+      font-size: 13px;
+      color: var(--text);
+      padding-left: 18px;
+      position: relative;
+      line-height: 1.5;
+    }
+
+    .article-impact li::before {
+      content: '→';
+      position: absolute;
+      left: 0;
+      color: var(--accent);
+      font-size: 12px;
+    }
+
+    /* ── Footer ── */
+    footer {
+      text-align: center;
+      padding: 24px;
+      font-size: 12px;
+      color: var(--text-muted);
+      border-top: 1px solid var(--border);
+    }
+
+    /* ── Responsive ── */
+    @media (max-width: 600px) {
+      .article-number { font-size: 18px; top: 18px; right: 18px; }
+      .article-card { padding: 18px; }
+      .hero-title { font-size: 22px; }
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <div class="header-inner">
+      <div class="header-left">
+        <a class="back-link" href="../index.html">← AI Pulse</a>
+        <div class="divider-v"></div>
+        <div class="section-badge">
+          <span class="badge-dot"></span>
+          <span class="badge-title">AI in Finance</span>
+        </div>
+      </div>
+      <div class="last-updated">Updated: <span>01 May 2026, 16:20 UTC</span></div>
+    </div>
+  </header>
+
+  <div class="page-hero">
+    <div class="hero-label">Section Deep Dive</div>
+    <h1 class="hero-title">AI in Finance</h1>
+    <p class="hero-desc">AI transforming banking, payments, trading and financial services</p>
+    <div class="hero-divider"></div>
+  </div>
+
+  <main>
+    <div class="articles-list">
+      
+    <article class="article-card">
+      <div class="article-number">#1</div>
+      <h2 class="article-title">
+        <a href="https://www.pymnts.com/news/artificial-intelligence/2026/how-ai-is-rewriting-credit-decisioning-in-real-time/" target="_blank" rel="noopener noreferrer">
+          How AI Is Rewriting Credit Decisioning in Real Time
+        </a>
+      </h2>
+      <div class="article-meta">
+        <span class="article-source">PYMNTS AI</span>
+        <span class="article-date">Mon, 13 Apr 2026 08:01:11 +0000</span>
+      </div>
+      <p class="article-summary">For decades, credit and payment decisions have been governed by static scorecards and rigid if-then rule sets designed for a slower, batch-oriented payments environment. That model is now under significant strain as digital transactions demand instant risk evaluation. AI-powered decisioning engines are increasingly replacing legacy systems, enabling issuers to assess borrower intent and contextual signals in milliseconds. Unlike traditional models that rely on historical credit bureau data, AI systems can incorporate alternative data sources such as transaction patterns, device behavior, and real-time cash flow. This shift allows lenders to extend credit to thin-file or previously underserved consumers with greater confidence. Real-time decisioning also improves the customer experience by reducing friction at the point of application or purchase. Financial institutions deploying these systems are reporting improvements in approval rates without proportional increases in default risk. The transition is not without challenges, however, as explainability and fair lending compliance remain critical concerns with complex AI models. Regulators are paying close attention to how these systems are audited and whether outcomes are equitable across demographic groups. Firms that can demonstrate model transparency and robust governance frameworks are positioning themselves ahead of anticipated regulatory requirements. The article frames this as a defining inflection point for the credit industry, where AI capability and regulatory readiness must advance together.</p>
+      <div class="article-impact">
+        <h4>Impact Takeaways</h4>
+        <ul><li>AI decisioning models can evaluate risk in milliseconds using alternative data, enabling real-time credit approvals that legacy scorecards cannot support.</li><li>Lenders face growing regulatory scrutiny over model explainability and fair lending compliance as AI systems become more opaque and complex.</li><li>Institutions that invest in governance frameworks alongside AI deployment will be better positioned as regulators formalize oversight requirements.</li><li>Thin-file and underserved consumers stand to benefit from AI-driven credit expansion, opening new market segments for issuers.</li></ul>
+      </div>
+    </article>
+
+    <article class="article-card">
+      <div class="article-number">#2</div>
+      <h2 class="article-title">
+        <a href="https://www.pymnts.com/news/artificial-intelligence/2026/in-payments-the-ai-race-is-also-a-governance-test/" target="_blank" rel="noopener noreferrer">
+          In Payments, the AI Race Is Also a Governance Test
+        </a>
+      </h2>
+      <div class="article-meta">
+        <span class="article-source">PYMNTS AI</span>
+        <span class="article-date">Tue, 07 Apr 2026 08:00:34 +0000</span>
+      </div>
+      <p class="article-summary">Artificial intelligence has moved well beyond experimental use cases in payments and is now embedded in core operational functions including fraud detection, transaction approval, compliance monitoring, risk management, and customer personalization. The pace of this integration has accelerated significantly, compressing timelines that industry observers once measured in years into months. Yet the rapid deployment of AI in payments has outpaced the governance structures needed to oversee it. Questions about who is accountable when AI systems make erroneous or discriminatory decisions remain largely unresolved across the industry. Payments companies are increasingly being asked by regulators, partners, and enterprise clients to demonstrate how their AI systems are monitored, audited, and corrected. The article argues that competitive advantage in payments AI will increasingly hinge not just on model performance but on the robustness of governance frameworks. Firms with mature model risk management practices borrowed from banking are better positioned than pure-play fintechs that prioritized speed to market. Compliance teams are being elevated in strategic importance as AI governance becomes a boardroom-level issue. International regulatory divergence adds another layer of complexity, as firms operating across jurisdictions must navigate inconsistent standards. The piece warns that companies treating governance as a checkbox exercise rather than a strategic capability risk both regulatory sanction and reputational damage. It concludes that the winners in payments AI will be those who treat accountability as a product feature, not an afterthought.</p>
+      <div class="article-impact">
+        <h4>Impact Takeaways</h4>
+        <ul><li>AI governance in payments is transitioning from an internal risk concern to a competitive differentiator and regulatory requirement.</li><li>Payments firms must establish clear accountability structures for AI-driven decisions, particularly where errors can result in financial harm or discrimination.</li><li>Companies with banking-grade model risk management frameworks have a structural advantage over fintechs that deprioritized governance in early AI deployments.</li><li>Regulatory divergence across markets complicates AI governance for multinational payments operators, requiring jurisdiction-specific compliance strategies.</li></ul>
+      </div>
+    </article>
+
+    <article class="article-card">
+      <div class="article-number">#3</div>
+      <h2 class="article-title">
+        <a href="https://www.pymnts.com/news/artificial-intelligence/2026/80percent-of-acquirers-say-they-are-ready-for-agentic-commerce-but-merchants-lag/" target="_blank" rel="noopener noreferrer">
+          Acquirers Say Risk and Readiness Are Slowing Agentic Commerce
+        </a>
+      </h2>
+      <div class="article-meta">
+        <span class="article-source">PYMNTS AI</span>
+        <span class="article-date">Tue, 24 Mar 2026 08:00:35 +0000</span>
+      </div>
+      <p class="article-summary">A new research report titled &#x27;How Acquirers Prepare for Agentic Commerce&#x27; examines how payment acquirers are positioning themselves for a future in which AI-powered agents autonomously initiate and complete commercial transactions on behalf of consumers and businesses. The study finds that approximately 80% of acquirers believe the existing payments infrastructure is technically capable of supporting agent-led transactions. However, despite this infrastructure confidence, risk concerns and merchant unpreparedness are significantly slowing the pace of real-world deployment. Acquirers cite authentication, liability attribution, and fraud management as the most pressing unresolved challenges in agentic payment flows. When an AI agent makes a purchase decision autonomously, traditional chargeback and dispute frameworks become difficult to apply consistently. Merchants, meanwhile, are lagging behind acquirers in both technical readiness and strategic planning for agentic commerce scenarios. The disconnect between acquirer optimism and merchant preparedness creates a gap that could delay widespread adoption even as the technology matures. The report suggests that new standards and protocols will be needed to govern how agents authenticate themselves and how liability is assigned when agent-initiated transactions go wrong. Acquirers are beginning to develop agent-specific risk scoring models distinct from conventional consumer fraud detection tools. Regulatory bodies have not yet issued formal guidance on agentic payments, leaving firms to develop internal policies in an ambiguous environment. The findings underscore that the bottleneck for agentic commerce is not the payments rails themselves but the governance, risk, and merchant ecosystem layers built on top of them.</p>
+      <div class="article-impact">
+        <h4>Impact Takeaways</h4>
+        <ul><li>Payment acquirers are broadly confident in infrastructure readiness for agentic commerce, but fraud, authentication, and liability frameworks remain unresolved.</li><li>Merchant unpreparedness is a critical adoption bottleneck that acquirers and technology providers must address through education and tooling.</li><li>New agent-specific risk scoring and authentication protocols will be required before agentic payments can scale safely.</li><li>The absence of regulatory guidance on agentic transactions leaves industry players developing internal policies without a clear compliance baseline.</li></ul>
+      </div>
+    </article>
+
+    <article class="article-card">
+      <div class="article-number">#4</div>
+      <h2 class="article-title">
+        <a href="https://www.pymnts.com/news/artificial-intelligence/2026/anthropic-turns-claude-into-a-front-door-for-daily-apps/" target="_blank" rel="noopener noreferrer">
+          Anthropic Turns Claude Into a Front Door for Daily Apps
+        </a>
+      </h2>
+      <div class="article-meta">
+        <span class="article-source">PYMNTS AI</span>
+        <span class="article-date">Fri, 24 Apr 2026 16:57:05 +0000</span>
+      </div>
+      <p class="article-summary">Anthropic has introduced a suite of consumer app connectors for its Claude AI assistant, allowing users to link the AI directly to a broad range of everyday services. The integration lineup includes financially relevant platforms such as Intuit TurboTax and Intuit Credit Karma, alongside consumer services like Spotify, Uber, Instacart, and Booking.com. Since launching in July, the connector program has expanded steadily, reflecting Anthropic&#x27;s strategy to position Claude as a central operating layer for daily digital life. For financial services, the inclusion of TurboTax and Credit Karma is particularly significant, as these platforms collectively hold sensitive financial data for tens of millions of consumers. The integrations allow Claude to surface personalized tax guidance, credit score insights, and financial recommendations within a conversational AI interface. This model represents a shift in how consumers access financial information, moving from app-centric navigation to AI-mediated query and response. For incumbent financial institutions and fintech firms, the rise of AI assistants as financial intermediaries raises questions about data access, customer ownership, and competitive positioning. The connector model also introduces new data sharing and privacy considerations that regulators in the financial sector are likely to scrutinize. Anthropic&#x27;s approach mirrors broader industry trends in which AI assistants are evolving from standalone chatbots into orchestration layers that unify fragmented digital services. Financial firms that do not develop their own AI-native interfaces risk ceding the primary customer relationship to third-party AI platforms. The development signals that the battle for the financial services front end is increasingly being fought at the AI assistant layer.</p>
+      <div class="article-impact">
+        <h4>Impact Takeaways</h4>
+        <ul><li>Claude&#x27;s integration with TurboTax and Credit Karma signals that AI assistants are becoming direct intermediaries for consumer financial data and advice.</li><li>Financial institutions risk losing primary customer touchpoints to third-party AI platforms if they do not develop competitive AI-native interfaces.</li><li>Data sharing arrangements between AI assistants and financial platforms will attract regulatory scrutiny around privacy, consent, and fiduciary responsibility.</li><li>The connector model accelerates the trend toward AI-mediated financial services, compressing the user journey from app navigation to conversational AI interaction.</li></ul>
+      </div>
+    </article>
+
+    <article class="article-card">
+      <div class="article-number">#5</div>
+      <h2 class="article-title">
+        <a href="https://www.pymnts.com/news/artificial-intelligence/2026/how-ai-killed-information-asymmetry-in-b2b-procurement/" target="_blank" rel="noopener noreferrer">
+          How AI Killed Information Asymmetry in B2B Procurement
+        </a>
+      </h2>
+      <div class="article-meta">
+        <span class="article-source">PYMNTS AI</span>
+        <span class="article-date">Mon, 30 Mar 2026 15:33:26 +0000</span>
+      </div>
+      <p class="article-summary">Artificial intelligence is transforming the B2B procurement landscape in ways that go beyond automation, fundamentally altering the information balance between buyers and sellers. Historically, suppliers held a significant advantage by controlling pricing data, availability intelligence, and contract benchmarks. AI tools now give procurement teams at large organizations the ability to aggregate and analyze this information at scale, effectively neutralizing the information asymmetry that underpinned traditional B2B sales dynamics. The article argues that what is disappearing is not friction in the sales process but the sales process itself, as AI-enabled buyers can evaluate, compare, and select suppliers with minimal human sales interaction. For financial services firms, the implications are significant because B2B procurement decisions are tightly linked to payment terms, trade credit, supply chain financing, and working capital products. As procurement becomes more data-driven and automated, the financial products that support commercial trade must evolve to integrate with AI-driven procurement workflows. Lenders and payments providers offering B2B solutions will need to deliver embedded financing options that slot into AI procurement platforms rather than requiring separate application processes. Dynamic pricing of trade credit, informed by real-time procurement data, becomes both possible and necessary in this environment. The shift also accelerates the move toward straight-through processing of commercial payments, reducing reliance on manual invoice and approval workflows. Financial institutions that position themselves as data and infrastructure partners within AI procurement ecosystems will capture more of the commercial payments value chain. Those that remain on the periphery risk being treated as commodity utilities as procurement AI platforms build proprietary payment and financing capabilities.</p>
+      <div class="article-impact">
+        <h4>Impact Takeaways</h4>
+        <ul><li>AI-driven procurement is eliminating information asymmetry, forcing financial institutions to rethink how B2B credit and payment products are positioned and delivered.</li><li>Embedded financing within AI procurement platforms is becoming a competitive necessity, as buyers increasingly expect seamless credit access within their procurement workflows.</li><li>Dynamic, data-informed trade credit pricing will replace static terms as real-time procurement data becomes available to lenders.</li><li>Financial institutions that integrate into AI procurement ecosystems as infrastructure partners will retain relevance; those that do not risk commoditization.</li></ul>
+      </div>
+    </article>
+    </div>
+  </main>
+
+  <footer>AI Pulse &mdash; Powered by Claude &amp; GitHub Actions &mdash; Refreshed every 15 days</footer>
+
+</body>
+</html>

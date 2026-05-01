@@ -1,0 +1,369 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>GitHub Copilot — AI Pulse</title>
+  <style>
+    :root {
+      --bg:           #0d0f14;
+      --surface:      #161b27;
+      --surface-hover:#1e2535;
+      --border:       #2a3248;
+      --text:         #e2e8f0;
+      --text-muted:   #8896b0;
+      --accent:       #a78bfa;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'Inter', 'Segoe UI', system-ui, sans-serif;
+      font-size: 15px;
+      line-height: 1.6;
+      min-height: 100vh;
+    }
+
+    a { color: var(--accent); text-decoration: none; }
+    a:hover { text-decoration: underline; }
+
+    /* ── Header ── */
+    header {
+      border-bottom: 1px solid var(--border);
+      padding: 20px 0;
+      background: linear-gradient(180deg, #0a0d18 0%, var(--bg) 100%);
+      position: sticky;
+      top: 0;
+      z-index: 10;
+      backdrop-filter: blur(8px);
+    }
+
+    .header-inner {
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 0 24px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      flex-wrap: wrap;
+    }
+
+    .header-left { display: flex; align-items: center; gap: 16px; }
+
+    .back-link {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--text-muted);
+      transition: color 0.15s;
+    }
+
+    .back-link:hover { color: var(--text); text-decoration: none; }
+
+    .divider-v {
+      width: 1px; height: 20px;
+      background: var(--border);
+    }
+
+    .section-badge {
+      display: flex;
+      align-items: center;
+      gap: 7px;
+    }
+
+    .badge-dot {
+      width: 8px; height: 8px;
+      border-radius: 50%;
+      background: var(--accent);
+      flex-shrink: 0;
+    }
+
+    .badge-title {
+      font-size: 14px;
+      font-weight: 700;
+      color: var(--text);
+    }
+
+    .last-updated { font-size: 11px; color: var(--text-muted); }
+    .last-updated span { color: var(--text); font-weight: 500; }
+
+    /* ── Page Hero ── */
+    .page-hero {
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 32px 24px 0;
+    }
+
+    .hero-label {
+      font-size: 11px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      color: var(--accent);
+      margin-bottom: 6px;
+    }
+
+    .hero-title {
+      font-size: 28px;
+      font-weight: 800;
+      letter-spacing: -0.5px;
+      margin-bottom: 6px;
+    }
+
+    .hero-desc {
+      font-size: 14px;
+      color: var(--text-muted);
+      margin-bottom: 8px;
+    }
+
+    .hero-divider {
+      height: 1px;
+      background: linear-gradient(90deg, var(--accent) 0%, transparent 60%);
+      margin: 20px 0;
+      opacity: 0.4;
+    }
+
+    /* ── Articles ── */
+    main {
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 0 24px 64px;
+    }
+
+    .articles-list {
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+
+    .article-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-left: 3px solid var(--accent);
+      border-radius: 14px;
+      padding: 26px;
+      position: relative;
+      transition: background 0.2s, border-color 0.2s;
+    }
+
+    .article-card:hover {
+      background: var(--surface-hover);
+      border-color: var(--accent);
+    }
+
+    .article-number {
+      position: absolute;
+      top: 22px;
+      right: 22px;
+      font-size: 26px;
+      font-weight: 800;
+      color: var(--border);
+      line-height: 1;
+      user-select: none;
+    }
+
+    .article-title {
+      font-size: 18px;
+      font-weight: 700;
+      line-height: 1.4;
+      margin-bottom: 8px;
+      padding-right: 44px;
+    }
+
+    .article-title a { color: var(--text); }
+    .article-title a:hover { color: var(--accent); text-decoration: none; }
+
+    .article-meta {
+      display: flex;
+      gap: 12px;
+      font-size: 12px;
+      color: var(--text-muted);
+      margin-bottom: 14px;
+      flex-wrap: wrap;
+    }
+
+    .article-source { font-weight: 600; color: var(--accent); }
+
+    .article-summary {
+      font-size: 14px;
+      color: var(--text-muted);
+      line-height: 1.75;
+      margin-bottom: 18px;
+    }
+
+    .article-impact h4 {
+      font-size: 11px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.8px;
+      color: var(--text-muted);
+      margin-bottom: 8px;
+    }
+
+    .article-impact ul {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .article-impact li {
+      font-size: 13px;
+      color: var(--text);
+      padding-left: 18px;
+      position: relative;
+      line-height: 1.5;
+    }
+
+    .article-impact li::before {
+      content: '→';
+      position: absolute;
+      left: 0;
+      color: var(--accent);
+      font-size: 12px;
+    }
+
+    /* ── Footer ── */
+    footer {
+      text-align: center;
+      padding: 24px;
+      font-size: 12px;
+      color: var(--text-muted);
+      border-top: 1px solid var(--border);
+    }
+
+    /* ── Responsive ── */
+    @media (max-width: 600px) {
+      .article-number { font-size: 18px; top: 18px; right: 18px; }
+      .article-card { padding: 18px; }
+      .hero-title { font-size: 22px; }
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <div class="header-inner">
+      <div class="header-left">
+        <a class="back-link" href="../index.html">← AI Pulse</a>
+        <div class="divider-v"></div>
+        <div class="section-badge">
+          <span class="badge-dot"></span>
+          <span class="badge-title">GitHub Copilot</span>
+        </div>
+      </div>
+      <div class="last-updated">Updated: <span>01 May 2026, 16:20 UTC</span></div>
+    </div>
+  </header>
+
+  <div class="page-hero">
+    <div class="hero-label">Section Deep Dive</div>
+    <h1 class="hero-title">GitHub Copilot</h1>
+    <p class="hero-desc">Latest features, updates and news from GitHub Copilot</p>
+    <div class="hero-divider"></div>
+  </div>
+
+  <main>
+    <div class="articles-list">
+      
+    <article class="article-card">
+      <div class="article-number">#1</div>
+      <h2 class="article-title">
+        <a href="https://github.blog/news-insights/company-news/github-copilot-is-moving-to-usage-based-billing/" target="_blank" rel="noopener noreferrer">
+          GitHub Copilot is moving to usage-based billing
+        </a>
+      </h2>
+      <div class="article-meta">
+        <span class="article-source">GitHub Blog</span>
+        <span class="article-date">Mon, 27 Apr 2026 15:58:22 +0000</span>
+      </div>
+      <p class="article-summary">GitHub has announced that beginning June 1, 2026, Copilot usage will shift to a usage-based billing model powered by GitHub AI Credits. This is a fundamental change from the prior flat-rate subscription structure that many developers and organizations have relied upon. The move aligns with a broader industry trend toward consumption-based pricing for AI services. Alongside this change, GitHub Copilot code review — which uses agent-powered analysis on pull requests — will also begin consuming GitHub Actions minutes starting June 1. Organizations that heavily use automated code review could see meaningful impacts on their Actions minutes budgets. The transition affects both individual and team plan users, though specifics on credit allocation may differ by plan tier. GitHub has framed the change as a way to provide more flexible and scalable access to Copilot capabilities. Teams are encouraged to audit current usage patterns to forecast costs under the new model. The billing change is part of a broader restructuring that also includes updates to Individual plans announced in mid-April. Developers should check GitHub documentation for detailed credit consumption rates per feature. Early planning will be critical to avoid unexpected cost overruns come June.</p>
+      <div class="article-impact">
+        <h4>Impact Takeaways</h4>
+        <ul><li>Copilot billing shifts from flat-rate to GitHub AI Credits on June 1 — teams must audit usage now to avoid budget surprises.</li><li>Copilot code review will start consuming GitHub Actions minutes, adding a new cost dimension for teams using automated PR reviews.</li><li>Organizations on shared or enterprise plans should revisit Copilot seat allocations and feature usage policies ahead of the deadline.</li></ul>
+      </div>
+    </article>
+
+    <article class="article-card">
+      <div class="article-number">#2</div>
+      <h2 class="article-title">
+        <a href="https://github.blog/changelog/2026-04-24-gpt-5-5-is-generally-available-for-github-copilot" target="_blank" rel="noopener noreferrer">
+          GPT-5.5 is generally available for GitHub Copilot
+        </a>
+      </h2>
+      <div class="article-meta">
+        <span class="article-source">GitHub Changelog</span>
+        <span class="article-date">Fri, 24 Apr 2026 17:19:34 +0000</span>
+      </div>
+      <p class="article-summary">GitHub has announced the general availability rollout of GPT-5.5, OpenAI&#x27;s latest GPT model, within GitHub Copilot. According to early testing, GPT-5.5 demonstrates its strongest gains on complex, multi-step agentic coding tasks, making it particularly well-suited for autonomous and agent-driven development workflows. The model is also noted for improved performance on real-world issue resolution scenarios that go beyond simple code completion. GPT-5.5 is rolling out across the Copilot platform and will be accessible to users through the model picker where applicable. This release continues GitHub&#x27;s strategy of integrating cutting-edge foundation models into Copilot to keep pace with rapidly evolving AI capabilities. Agentic coding — where Copilot operates over multiple steps to complete a task — is an area of significant investment for GitHub in 2026. The addition of GPT-5.5 complements other recent agentic enhancements such as the cloud agent and inline agent mode updates. Developers working on large codebases or complex refactoring tasks stand to benefit most from the improved multi-step reasoning. The model&#x27;s availability also signals deeper collaboration between GitHub/Microsoft and OpenAI on frontier model deployment. Users on auto model selection will benefit automatically as the rollout completes. This upgrade reinforces Copilot&#x27;s position as a leading AI coding assistant in an increasingly competitive market.</p>
+      <div class="article-impact">
+        <h4>Impact Takeaways</h4>
+        <ul><li>GPT-5.5 brings meaningfully stronger multi-step agentic coding performance to Copilot, benefiting developers tackling complex refactoring or autonomous task workflows.</li><li>Users with auto model selection enabled will receive GPT-5.5 improvements without manual configuration.</li><li>The release further cements GitHub Copilot&#x27;s reliance on frontier OpenAI models, with agentic task resolution as a key differentiator.</li></ul>
+      </div>
+    </article>
+
+    <article class="article-card">
+      <div class="article-number">#3</div>
+      <h2 class="article-title">
+        <a href="https://github.blog/changelog/2026-04-30-github-copilot-in-visual-studio-april-update" target="_blank" rel="noopener noreferrer">
+          GitHub Copilot in Visual Studio — April update
+        </a>
+      </h2>
+      <div class="article-meta">
+        <span class="article-source">GitHub Changelog</span>
+        <span class="article-date">Thu, 30 Apr 2026 15:00:18 +0000</span>
+      </div>
+      <p class="article-summary">GitHub&#x27;s April 2026 update for Copilot in Visual Studio centers heavily on expanding agentic development capabilities within the IDE. Cloud agent sessions can now be launched directly from Visual Studio, eliminating the need to context-switch to a browser or separate tool. Custom agents have received an upgrade with user-level support, giving individual developers more flexibility in configuring and deploying their own agents. A new Debugger agent has been introduced, which can validate code behavior and assist in identifying bugs during debugging sessions. These enhancements reflect GitHub&#x27;s ongoing effort to bring the full Copilot agentic stack into desktop IDEs, not just the web interface. The integration of cloud agents directly in the IDE lowers friction for teams adopting agent-driven development workflows. User-level custom agent support is particularly notable for enterprises where teams have specialized tooling or workflows. The Debugger agent represents a new category of AI assistance — moving beyond code generation into runtime behavior analysis. Together, these updates make the April Visual Studio release one of the more substantial Copilot IDE updates in recent months. Visual Studio users on the latest release should update immediately to access these features. The trajectory suggests GitHub is pushing toward a fully agentic IDE experience across all major editors.</p>
+      <div class="article-impact">
+        <h4>Impact Takeaways</h4>
+        <ul><li>Cloud agent sessions can now launch directly from Visual Studio, streamlining agentic workflows for .NET and enterprise developers.</li><li>The new Debugger agent adds runtime validation capabilities, moving Copilot beyond code generation into active debugging assistance.</li><li>User-level custom agent support increases flexibility for individual developers and teams with specialized workflows.</li></ul>
+      </div>
+    </article>
+
+    <article class="article-card">
+      <div class="article-number">#4</div>
+      <h2 class="article-title">
+        <a href="https://github.blog/changelog/2026-04-24-inline-agent-mode-in-preview-and-more-in-github-copilot-for-jetbrains-ides" target="_blank" rel="noopener noreferrer">
+          Inline agent mode in preview and more in GitHub Copilot for JetBrains IDEs
+        </a>
+      </h2>
+      <div class="article-meta">
+        <span class="article-source">GitHub Changelog</span>
+        <span class="article-date">Fri, 24 Apr 2026 15:43:08 +0000</span>
+      </div>
+      <p class="article-summary">GitHub has shipped a notable update to Copilot for JetBrains IDEs, introducing inline agent mode as a preview feature. Inline agent mode allows Copilot to operate agentically within the editor&#x27;s inline interface, enabling multi-step code modifications without switching to a separate chat panel. Next Edit Suggestions have been enhanced, offering more accurate and contextually relevant predictions for the next code change a developer might want to make. Global auto approve functionality has been added, letting developers streamline approval of agent-suggested actions across the workspace. The update also delivers more flexible controls for how Copilot handles terminal commands and file edits during agentic sessions. These changes bring JetBrains IDE parity closer to the VS Code experience, which has historically led in Copilot feature rollouts. The inclusion of inline agent mode is particularly significant for IntelliJ IDEA and PyCharm users who prefer in-editor interactions over chat-based workflows. Flexible terminal and file edit controls address safety and oversight concerns for developers cautious about fully autonomous agent actions. The breadth of this update suggests GitHub is serious about supporting JetBrains as a first-class platform for Copilot&#x27;s agentic future. Developers using JetBrains tools should update their Copilot plugin to access the preview features. This release is part of a broader wave of agentic upgrades rolling out across all major IDE integrations in April 2026.</p>
+      <div class="article-impact">
+        <h4>Impact Takeaways</h4>
+        <ul><li>Inline agent mode brings agentic, multi-step code editing directly into the JetBrains editor interface without requiring a chat panel.</li><li>Global auto approve and flexible terminal/file edit controls give developers granular oversight of agent actions during coding sessions.</li><li>This update significantly closes the feature gap between JetBrains and VS Code for Copilot&#x27;s agentic capabilities.</li></ul>
+      </div>
+    </article>
+
+    <article class="article-card">
+      <div class="article-number">#5</div>
+      <h2 class="article-title">
+        <a href="https://github.blog/changelog/2026-04-27-copilot-cloud-agent-starts-20-faster-with-actions-custom-images" target="_blank" rel="noopener noreferrer">
+          Copilot cloud agent starts 20% faster with Actions custom images
+        </a>
+      </h2>
+      <div class="article-meta">
+        <span class="article-source">GitHub Changelog</span>
+        <span class="article-date">Mon, 27 Apr 2026 16:01:40 +0000</span>
+      </div>
+      <p class="article-summary">GitHub has announced a 20%-plus improvement in Copilot cloud agent startup times, achieved through optimized runner environments using GitHub Actions custom images. When developers assign an issue to Copilot or initiate an agent task, the agent session now begins significantly faster than before. The optimization was made by pre-configuring the runner environment with tailored custom images, reducing the cold start overhead that previously slowed agent spin-up. Faster startup times directly impact developer productivity, particularly in workflows where agents are invoked frequently throughout the day. The improvement is especially relevant for teams that use the cloud agent as part of CI/CD or iterative development loops. This change requires no action from developers — the performance improvement is applied automatically on GitHub&#x27;s infrastructure side. The 20% figure represents a meaningful reduction in latency for what can often feel like a bottleneck in agentic workflows. As cloud agent adoption grows, startup performance becomes a critical UX factor alongside raw task quality. This optimization complements the broader agentic investment GitHub is making, including the Visual Studio integration and JetBrains inline agent mode released the same week. The use of GitHub Actions custom images also signals a deeper architectural integration between Copilot agents and the Actions runner infrastructure. Teams relying on Copilot for autonomous issue resolution should notice the improvement immediately.</p>
+      <div class="article-impact">
+        <h4>Impact Takeaways</h4>
+        <ul><li>Copilot cloud agent sessions now start 20%+ faster, reducing friction in workflows that involve frequent agent task invocations.</li><li>The improvement is infrastructure-side and automatic — no developer configuration changes are required.</li><li>Faster agent startup times improve the viability of Copilot cloud agents for time-sensitive or iterative development scenarios.</li></ul>
+      </div>
+    </article>
+    </div>
+  </main>
+
+  <footer>AI Pulse &mdash; Powered by Claude &amp; GitHub Actions &mdash; Refreshed every 15 days</footer>
+
+</body>
+</html>

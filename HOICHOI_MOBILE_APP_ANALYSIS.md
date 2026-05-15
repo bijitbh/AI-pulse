@@ -1,333 +1,298 @@
-# Hoichoi Mobile App — Build Analysis
+# Hoichoi NL — Community Mobile App: Build Analysis
 
-> Scope: what it takes to build a native iOS + Android app that replicates the content and experience of the Hoichoi platform (`hoichoi.nl` / `hoichoi.tv`).
+> Scope: a mobile app (iOS + Android) that mirrors the content and experience of **hoichoi.nl** — the Holland-e Hoi-Choi Bengali community association based in Amstelveen, NL. **Not** a clone of the unrelated Hoichoi OTT streaming product.
 
 ---
 
-## 0. Important Upfront Caveat — Legal / IP
+## 1. What hoichoi.nl Actually Is
 
-Hoichoi is an existing commercial product owned by **SVF Entertainment Pvt. Ltd.** (operated via Hoichoi Technologies Pvt. Ltd.). The content catalogue (Bengali films, originals like *Byomkesh*, *Eken Babu*, *Feluda*, *Mandaar*, *Indubala Bhaater Hotel*, etc.) is licensed exclusively to them.
+A non-profit Bengali cultural association in the Netherlands, founded 2015. The website is a **community portal**, not a commercial product.
 
-Before any engineering work, clarify which of these you actually mean:
+### Site sections (from public pages)
+- **Home** — intro, upcoming-event banner, what's new
+- **About** — history of Hoichoi, mission ("Bangaliana with camaraderie")
+- **Our Team** — founding members + current committee
+- **Events** — current year's flagship Durga Puja + smaller events through the year (Saraswati Puja, Poila Boishakh, Kali Puja, Christmas/New Year, picnics, etc.)
+- **Past Events** archive — e.g. Durga Puja 2023, 2024 pages with photo galleries
+- **Media publications** — press coverage / shared media
+- **Testimonials** — community feedback
+- **Contact** — committee email, social
+- Social: Facebook (`HollandHoichoi`), Instagram (`hollandehoichoi`)
 
-| Scenario | What's allowed |
+### Content / data on the site
+- Static-ish copy (mission, history, committee bios)
+- Event pages with date / venue / schedule / pricing
+- Photo galleries (large image counts per event)
+- A few embedded videos
+- News / blog-style posts
+- Some external links (sponsors, partners, press)
+
+The site is almost certainly a **WordPress** site (the URL structure `/events/durga-puja-2024/`, `/our-team/`, etc., and the way page slugs/archives are organised, is classic WP).
+
+---
+
+## 2. What an App Adds Over the Website (the "Why")
+
+A community website is fine for first-time visitors. An app is worth building when you want **regular, push-driven engagement** with returning community members. Specifically:
+
+| Use case | App advantage over website |
 |---|---|
-| **A. You are SVF / Hoichoi, or an authorised partner** rebuilding/refreshing their app | Full clone is fine; you have rights to the catalogue and brand. |
-| **B. You are a regional affiliate** (e.g. Holland Hoichoi / hoichoi.nl) building a localised promo/companion app | You can build a **storefront / subscription-funnel / community app**, but must consume Hoichoi's official APIs or deep-link into their player — you cannot host or re-stream their video assets. |
-| **C. You want a Hoichoi-*like* app** with your own Bengali content | Build the same architecture, but you must licence or produce your own catalogue. |
-| **D. Pirating/mirroring the catalogue** | Not viable — copyright infringement, App Store / Play Store will reject and take down, and SVF will pursue takedowns/lawsuits. |
+| Event reminders | Native push notifications |
+| Ticket / pass on-the-day | Saved digital pass, offline access at the venue |
+| Photo galleries | Faster, native-feeling browsing; offline cache |
+| Live event updates | Push + in-app banner |
+| Two-way community | Comments, RSVPs, member directory |
+| Quick contact | Tap-to-call, tap-to-WhatsApp, directions |
+| Donations / contributions | Smoother flow than web form |
+| Recurring annual return | Icon on home screen is sticky in a way a URL is not |
 
-The rest of this document assumes **A or C** (you have rights to a catalogue). If it's **B**, the scope shrinks to ~30% of what's below — skip the video pipeline and DRM sections.
-
----
-
-## 1. What Hoichoi Actually Is — Source Analysis
-
-Bengali OTT (Over-The-Top) video-on-demand platform, similar in shape to Netflix / Hotstar but vertical-focused on Bengali-language content.
-
-### Content types
-- **Films** — 625+ Bengali movies (catalogue + new releases)
-- **Web series / Originals** — 175+ shows, multi-season, episodic
-- **Bangla Natok** — short-form Bengali tele-films / plays
-- **Shorts & documentaries**
-- **Trailers, teasers, behind-the-scenes**
-- **Free-tier sampler** — selected films and first episodes of premium series
-
-### Languages
-- Bengali (primary)
-- English + Bengali subtitles on most content
-- **Bilingual UI** — user can switch the entire interface between English and Bengali
-
-### Platforms supported (today)
-- iOS, Android phones + tablets
-- Web (`hoichoi.tv`)
-- Smart TVs: Android TV, Samsung Tizen, LG webOS, Mi TV
-- Streaming sticks: Roku, Amazon Fire TV, Apple TV
-- Chromecast casting from mobile
-
-### Streaming / playback features
-- HD + 4K UHD streaming (adaptive bitrate)
-- Dolby Atmos audio, Dolby Vision HDR on select titles
-- **Offline downloads** (with licence expiry)
-- Resume playback across devices (cross-device watch state)
-- Subtitles toggle (EN / BN)
-- Multiple audio tracks (where available)
-
-### User-facing features
-- Sign-up / sign-in (email, phone OTP, social — Google/Facebook/Apple)
-- Profiles (multiple per account is common in OTT; Hoichoi today is mostly single-profile)
-- Watchlist / "My List"
-- Continue-watching rail
-- Search (with filters: genre, year, language, cast)
-- Recommendations (personalised + curated)
-- Trailers preview
-- Share to social
-- **Parental control PIN**
-- Ratings / age classification
-
-### Commerce
-- **Subscription tiers**: Monthly / Quarterly / Annual (prices vary by country/region — Hoichoi regionalises pricing based on licensing + FX + market)
-- Promo codes / coupons
-- Payment methods: Cards, UPI (India), Wallets (regional), PayPal (international), in-app purchase via App Store / Play Store billing on mobile
-- Gift subscriptions / shared accounts
-- Free trial flows
-
-### Support / ancillary
-- Help centre (`support.hoichoi.tv`)
-- Account management, device de-authorisation
-- Push notifications (new releases, episodes)
-- Email / WhatsApp marketing opt-ins
+If you don't need those, a **Progressive Web App (PWA)** wrapping the existing site might be 95% of the value at 10% of the cost. See §10.
 
 ---
 
-## 2. Mobile App Feature Set — MVP vs. v1 vs. v2
+## 3. Feature Set
 
-Build in waves; don't try to ship everything at once.
+### MVP (4–6 weeks if cross-platform + headless CMS)
+- **Home** — current/next event hero, quick links
+- **About / Mission**
+- **Our Team** — list with photos + roles + short bios
+- **Events** — list of upcoming events; tap into event detail
+- **Event detail** — date, time, venue (with map + directions button), schedule, ticket prices, "Add to calendar" button
+- **Photo galleries** — by event / year
+- **Contact** — email, WhatsApp group link, social links, venue map
+- **Push notifications** — event reminders + new-photos-uploaded
+- **Bilingual UI** — English + Bengali (Unicode, not images of text)
+- **Share** — share event / photo to WhatsApp, Facebook, Instagram
 
-### MVP (3–4 months)
-- Auth: email + phone OTP + social login
-- Browse: home rails, sections (Movies / Series / Originals / Natok), category pages
-- Title detail page (synopsis, cast, episodes, trailer)
-- Video player with adaptive bitrate, subtitles, resume
-- Search (basic, by title)
-- Subscription paywall + in-app purchase (Apple IAP + Google Play Billing)
-- Watchlist
-- Profile / account settings
-- Push notifications
-- English + Bengali UI
+### v1 (additional, +4–6 weeks)
+- **RSVP / ticket purchase** — integrate with whichever payment / ticketing provider you use today (or move to a new one — see §6)
+- **Digital ticket / pass** — QR code, saved offline, optional Apple Wallet / Google Wallet pass
+- **Member sign-in** — optional; lets members see member-only content (committee announcements, AGM notes)
+- **Donations** — one-tap contributions (Stripe / Mollie / iDEAL — relevant for NL)
+- **Newsletter sign-up**
+- **Testimonials** with submission form
+- **Sponsors** page
 
-### v1 (months 5–7)
-- **Offline downloads** with DRM-licensed expiry
-- Chromecast (Android) + AirPlay (iOS)
-- Continue-watching cross-device sync
-- Search filters + genre browsing
-- Recommendations rail (basic — popular + similar titles)
-- Parental control PIN
-- Promo codes redemption
-- Share to social
-
-### v2 (months 8–12)
-- Personalised recommendations (ML-driven)
-- Multiple user profiles per account
-- 4K + HDR + Dolby Atmos (requires premium-tier device support)
-- A/B-tested home page rails
-- Live events / premieres
-- In-app gifting
-- Tablet-optimised layouts
-- Smart TV companion (remote control / second screen)
+### v2 (nice-to-have, post-launch)
+- **Community feed** — Facebook/Instagram-style timeline curated by committee
+- **Live updates** during multi-day events (Durga Puja schedule changes, kitchen menus, parking notes)
+- **In-app live-stream** of cultural programmes (or just YouTube/FB embed)
+- **Recipe / culture corner** — content marketing
+- **Volunteer sign-up** for events
+- **Lost-and-found / classifieds** for the local Bengali community
+- **Multi-association federation** — same app shell shared with Kallol, Ohm BCA, etc. (each association = a "tenant")
 
 ---
 
-## 3. Recommended Tech Stack
+## 4. The Single Most Important Build Decision
 
-Pick **one** of the two paths. They have very different cost/quality trade-offs.
+You have three viable paths. For a **community association**, the trade-off is very different from a commercial OTT product.
 
-### Option A — Native (recommended for a serious OTT product)
-| Layer | iOS | Android |
+| Path | Effort | Cost / yr | UX | When to pick |
+|---|---|---|---|---|
+| **A. PWA** (mobile-friendly site + "Add to Home Screen") | ~1–2 weeks | ~€0 hosting | Good on Android, weaker on iOS (no push until iOS 16.4+, OK now) | Tiny budget, just want a mobile-feeling experience and push reminders |
+| **B. Cross-platform native** (Flutter or React Native) | ~6–10 weeks for MVP+v1 | €50–200 / yr (stores + hosting + push) | Excellent on both | **Recommended.** Right balance for a community app |
+| **C. Fully native** (Swift + Kotlin) | 2× option B | Similar runtime cost | Marginally better | Overkill — not justified |
+
+**Strong recommendation: Path B with Flutter.** One codebase, native feel on iOS + Android, mature plugins for everything you need (maps, calendar, push, photo galleries, Stripe, Apple Wallet passes), and you can ship a polished app with 1–2 developers in 2–3 months.
+
+If you're not paying anyone — i.e. this is a volunteer-built community project — seriously consider **Path A (PWA) first**. It's a weekend of work, gets the site on phone home screens, supports push on modern iOS and Android, and you can graduate to a real app later if engagement justifies it.
+
+---
+
+## 5. Architecture (assuming Path B — Flutter app + headless content)
+
+```
+┌────────────────────────────────┐
+│  iOS / Android App (Flutter)   │
+└──────────────┬─────────────────┘
+               │ HTTPS (REST/GraphQL)
+   ┌───────────┼───────────┬────────────────┐
+   ▼           ▼           ▼                ▼
+┌────────┐ ┌────────┐ ┌────────────┐ ┌──────────────┐
+│ Content│ │ Auth   │ │ Payments / │ │ Push (FCM /  │
+│  CMS   │ │(opt.)  │ │ Ticketing  │ │   APNs)      │
+└───┬────┘ └────────┘ └────────────┘ └──────────────┘
+    │
+    ▼
+ ┌────────────────────────┐
+ │ Existing WordPress     │  ← reuse the site you already maintain
+ │ (hoichoi.nl) via       │
+ │ WP REST API / WPGraphQL│
+ └────────────────────────┘
+```
+
+### Why reuse the existing WordPress site as the content backend
+The committee already publishes content on hoichoi.nl. If you build a separate backend, **someone now has two places to publish** — that always breaks down in a volunteer-run org. Use WordPress as the **headless CMS**:
+
+- Enable the built-in **WP REST API** (free) or install **WPGraphQL** (free)
+- Add **ACF (Advanced Custom Fields)** to model events properly (date, venue, lat/lng, schedule items, ticket tiers)
+- Add **Media Library** as-is for photo galleries
+- The app reads JSON from `hoichoi.nl/wp-json/...`
+- **Content updates instantly reflect in the app** — no app release needed
+
+This is the lowest-friction path for a volunteer org.
+
+### What the app stores locally
+- Cached event list + photos (so the app works at the venue with patchy Wi-Fi)
+- Saved tickets / passes
+- Push notification token
+- User language preference (EN / BN)
+- (Optional) sign-in token
+
+---
+
+## 6. Tickets, Payments & Donations — Netherlands Specifics
+
+You're in NL, so don't blindly copy India / US patterns.
+
+- **iDEAL** is the dominant NL payment method — must be supported for donations and ticket sales (~70% of NL online payments).
+- **Mollie** (Dutch payments company) is the easiest provider — iDEAL + cards + Apple Pay + Google Pay + Bancontact, with strong Flutter/RN SDK and clean API.
+- Alternatives: Stripe (good iDEAL support since 2021), Adyen (overkill for community scale).
+- **In-App Purchase rules**: Apple/Google require IAP only for **digital goods consumed inside the app**. Event tickets / donations to a registered non-profit can go via direct payment (Mollie/Stripe) — this is explicitly allowed under Apple's "physical goods/services" carve-out and Google's "physical events" carve-out. Big cost saver (no 15–30% store tax).
+- **ANBI status?** If Hoichoi is a registered Dutch foundation (Stichting) with ANBI status, donations are tax-deductible — surface this in the donation flow.
+
+### Existing ticketing
+If you already sell Durga Puja tickets through a platform (Eventbrite / WeezEvent / custom WP plugin), keep that and just **deep-link** from the app to your existing checkout. Don't rebuild a ticketing system for a once-a-year event.
+
+---
+
+## 7. Push Notifications — the killer feature
+
+The single biggest engagement win from going app-first.
+
+- **FCM (Firebase Cloud Messaging)** handles both Android and iOS via one API
+- Use **topics**, not individual tokens, to fan out without a server: e.g. `all-users`, `durga-puja-2026`, `lang-bn`, `volunteers`
+- Committee posts via a simple admin panel (Firebase Console works for a few pushes a month, or a tiny custom form)
+
+Typical push moments:
+- 7 days before Durga Puja: "Tickets on sale"
+- Day before: "See you tomorrow at Diamant Party Centrum — gates open 10:00"
+- Live during event: "Cultural programme starts in 30 min in Hall 2"
+- After event: "Photos are up — 240 new pictures from Day 3"
+- Throughout year: "Saraswati Puja date confirmed — Feb 14"
+
+---
+
+## 8. Content / Data Modelling (WordPress + ACF)
+
+Custom post types and fields to define:
+
+| Post type | Key fields |
+|---|---|
+| **Event** | title, subtitle, start_datetime, end_datetime, venue_name, address, lat/lng, hero_image, gallery, schedule (repeater: time + activity + location), ticket_url, food_menu, dress_code, status (upcoming/past) |
+| **Team member** | name, role, photo, bio, email, linkedin |
+| **Testimonial** | author_name, author_photo, quote, year |
+| **Media coverage** | publication_name, headline, date, url, excerpt, thumbnail |
+| **Sponsor** | name, logo, tier (gold/silver/bronze), url |
+| **Announcement** | title, body, posted_at, push_sent (bool) |
+| **Photo gallery** | event reference, images (repeater), photographer credit |
+
+The home screen of the app pulls: next `Event` (status=upcoming), 3 latest `Announcement`s, recent `Gallery` thumbnails.
+
+---
+
+## 9. Bilingual Support (EN + BN)
+
+- **UI strings** — Flutter `intl` package with `en` + `bn` ARB files
+- **Content** — translate at the CMS level. Two cheap options:
+  1. **WPML** or **Polylang** WP plugins — proper multi-lingual content with parallel posts
+  2. Cheaper: one field for English copy + one field for Bengali copy on each post, and the app picks based on user setting
+- **Fonts** — bundle a proper Bengali font (e.g. **Hind Siliguri** or **Noto Sans Bengali** from Google Fonts) — system Bengali rendering is inconsistent across Android OEMs
+- Allow the user to toggle language at any time from Settings, and remember the choice
+
+---
+
+## 10. PWA-First Alternative (recommended starting point)
+
+Before committing to a real app, try this 1–2 weekend project:
+
+1. Confirm hoichoi.nl is responsive (it likely already is)
+2. Add a `manifest.json` with app name, icon, splash colours
+3. Add a service worker — Workbox can generate one. Caches assets so the site loads instantly + works offline at the venue
+4. Add **Web Push** (works on iOS 16.4+ once user adds to home screen, and natively on Android)
+5. Optionally wrap with **PWABuilder.com** to publish as a Play Store and App Store listing
+
+What you lose vs a real app: no Apple Wallet pass, no native maps deep-link, no slick gallery transitions, slightly worse offline. What you gain: shipping in days instead of months, no app-store review cycles, no rebuild for each platform.
+
+A pragmatic phasing:
+- **Phase 0 (this month):** ship the PWA. Measure: how many people install, how many enable push, how many open it during Durga Puja week.
+- **Phase 1 (if metrics justify):** build the Flutter app and reuse the same WordPress backend.
+
+---
+
+## 11. Distribution
+
+- **Google Play** — $25 one-time developer fee, ~3-day review the first time
+- **Apple App Store** — $99/yr Apple Developer Program fee (or $0/yr if Hoichoi is a registered non-profit — Apple waives the fee for verified 501(c)(3) and equivalents; in NL this is the **ANBI** route, application form takes 4–6 weeks)
+- Use **TestFlight** (iOS) and **internal testing track** (Android) to circulate beta builds to the committee before public launch
+- Plan a soft launch ~6 weeks before Durga Puja so committee + active members can shake it down
+
+---
+
+## 12. Team & Timeline
+
+This is a community project, so realistic options:
+
+| Setup | Timeline to MVP | Notes |
 |---|---|---|
-| Language | Swift 5.x | Kotlin |
-| UI | SwiftUI + UIKit fallback | Jetpack Compose |
-| Player | **AVPlayer** + FairPlay DRM | **ExoPlayer (Media3)** + Widevine DRM |
-| Networking | URLSession + async/await | Retrofit + OkHttp + Coroutines |
-| Persistence | Core Data / SwiftData | Room |
-| DI | Swift built-ins | Hilt |
-| Analytics | Firebase + Mixpanel / Amplitude | same |
-| Crash | Firebase Crashlytics / Sentry | same |
-| Push | APNs via Firebase | FCM |
+| 1 volunteer Flutter dev (evenings/weekends) | 3–4 months | Most realistic if someone in the committee codes |
+| 1 paid contractor part-time | 6–10 weeks | Budget €5k–€15k for a polished MVP + v1 |
+| Off-the-shelf white-label event app (Eventee, Whova, Bizzabo) | 1–2 weeks | Cheaper short-term, but rents your community to a third party and locks you in. Not recommended for a long-running annual event. |
 
-**Why native**: video playback, DRM (FairPlay on iOS is iOS-only), offline downloads with licence persistence, Chromecast/AirPlay, and battery/CPU efficiency are all dramatically better natively. Every major OTT (Netflix, Disney+, Hotstar) is native for this reason.
-
-### Option B — Cross-platform (faster, cheaper, with caveats)
-- **React Native** or **Flutter**
-- Player: `react-native-video` (uses AVPlayer/ExoPlayer underneath) or `video_player` + `better_player` in Flutter
-- DRM works but requires native bridging on both platforms — you save less time than you'd hope
-- Good for the MVP, but expect to drop to native for the player on v1+
-
-**Recommendation**: Native (Option A). The player is the heart of an OTT app — don't compromise here.
+You don't need designers, PMs, QA, ops for a project this size. The committee plays those roles.
 
 ---
 
-## 4. Backend / Cloud Architecture
+## 13. Indicative Costs
 
-You aren't just building two apps — you're building (or consuming) a multi-tenant streaming backend.
-
-```
-                          ┌─────────────────────┐
-                          │   Mobile Apps       │
-                          │ (iOS + Android)     │
-                          └──────────┬──────────┘
-                                     │ HTTPS / JWT
-              ┌──────────────────────┼──────────────────────┐
-              ▼                      ▼                      ▼
-       ┌────────────┐         ┌────────────┐         ┌────────────┐
-       │  API GW    │         │   CDN      │         │  Identity  │
-       │ (REST/GQL) │         │ (video +   │         │  / Auth    │
-       └─────┬──────┘         │  artwork)  │         │  (OAuth)   │
-             │                └──────┬─────┘         └────────────┘
-   ┌─────────┼─────────┬──────────┐  │
-   ▼         ▼         ▼          ▼  ▼
- Catalog  Playback  Subscription  Recs  DRM
- Service  Service    /Billing    Engine  License
-                                         Server
-   │         │         │          │      │
-   └────┬────┴────┬────┴─────┬────┴──────┘
-        ▼         ▼          ▼
-     Postgres  Redis      S3 / GCS
-     (catalog) (sessions, (mezzanine
-                cache)     + HLS/DASH)
-```
-
-### Core services you (or your vendor) must run
-1. **Identity / Auth** — JWT issuance, OTP via SMS gateway (Twilio / MSG91), social login federation, refresh tokens, device session management.
-2. **Catalogue service** — Titles, episodes, seasons, cast, genres, artwork, metadata, search index (Elasticsearch / OpenSearch / Algolia).
-3. **Playback service** — Returns signed manifest URLs (HLS `.m3u8` / DASH `.mpd`), validates entitlement, issues short-lived signed cookies for CDN.
-4. **DRM licence server** — **Widevine** (Android/Chrome), **FairPlay** (iOS/Safari/Apple TV), **PlayReady** (Edge/Windows/Smart TVs). Almost always outsourced: **AWS Elemental MediaPackage + SPEKE**, **Bitmovin**, **Axinom**, or **Vualto**.
-5. **Subscription & billing** — Reconciliation across Apple IAP, Google Play Billing, Stripe (web), regional payment gateways (Razorpay, Paytm). Webhook handling for renewals, refunds, grace periods.
-6. **Recommendations** — Start with simple "more like this" + popularity; graduate to a collaborative-filtering model on watch history.
-7. **Analytics pipeline** — Player heartbeats, QoS (buffering, bitrate drops, errors), engagement events. Tools: Conviva (industry standard for OTT QoS), Mux Data, or a self-built Kinesis/BigQuery pipeline.
-8. **Notifications** — APNs + FCM, scheduled campaigns (OneSignal / Braze / CleverTap).
-
-### Video pipeline (the big one)
-You need a workflow that takes a delivered master and produces playable streams:
-
-1. **Ingest** — upload mezzanine (ProRes / high-bitrate H.264) to S3.
-2. **Transcode** — AWS MediaConvert / Bitmovin / Mux to ABR ladder (e.g. 240p / 360p / 480p / 720p / 1080p / 4K), separate audio tracks, subtitle WebVTT/IMSC, HDR variants where applicable.
-3. **Package** — HLS (CMAF fMP4) for iOS/Apple, DASH for Android/web. Apply DRM encryption (CENC + SAMPLE-AES).
-4. **Distribute** — Push to CDN (CloudFront / Akamai / Fastly).
-5. **Manifest signing** — Per-session signed URLs / cookies.
-6. **Quality control** — automated AQC plus manual spot check.
-
-**Build vs. buy:** for an early-stage product, **buy** — use a managed OVP (Online Video Platform): **JW Player**, **Mux**, **Bitmovin**, **Brightcove**, or **AWS Elemental**. You can graduate to a self-managed pipeline later when the unit economics demand it.
-
----
-
-## 5. Third-Party Services Checklist
-
-| Need | Common choices |
+| Item | Cost |
 |---|---|
-| Auth / OTP | Firebase Auth, Auth0, Cognito; Twilio / MSG91 for SMS |
-| Video encoding + packaging | AWS MediaConvert + MediaPackage, Bitmovin, Mux |
-| DRM | AWS SPEKE, Axinom, Vualto, BuyDRM |
-| CDN | CloudFront, Akamai, Fastly, Cloudflare Stream |
-| Player SDKs | Bitmovin, JW, THEOplayer, ExoPlayer/AVPlayer + custom |
-| Search | Algolia, Elasticsearch, Typesense |
-| Subscriptions / receipt validation | RevenueCat, Adapty, Qonversion |
-| Payments (non-store) | Stripe, Razorpay (India), PayPal |
-| Push / engagement | Firebase Cloud Messaging, OneSignal, CleverTap, Braze |
-| Analytics | Firebase, Mixpanel, Amplitude |
-| Player QoS | Conviva, Mux Data, NPAW |
-| Crash | Crashlytics, Sentry, Bugsnag |
-| A/B testing | Firebase Remote Config, Optimizely, Statsig |
-| Customer support | Freshdesk (Hoichoi uses this), Zendesk, Intercom |
+| Apple Developer Program (waived with ANBI) | €0–€99/yr |
+| Google Play Developer | ~€23 one-time |
+| WordPress hosting (already paying) | unchanged |
+| Firebase (push + analytics) | €0 (free tier covers community-scale) |
+| Mollie (payments) | ~€0.29 per iDEAL transaction, ~1.8% + €0.25 per card |
+| Domain / SSL | already covered |
+| Optional: Mapbox or Google Maps tiles | €0 within free tier |
+| Optional: Sentry crash reporting | €0 free tier |
+| Build cost | €0 (volunteer) to €5k–€15k (contractor) |
+
+Total recurring: **<€100/yr** if volunteer-built; the only real cost is the build itself.
 
 ---
 
-## 6. Platform-Specific Gotchas
+## 14. Risks & Pitfalls
 
-### iOS
-- **FairPlay DRM** is mandatory for premium content on iOS — requires Apple's FPS deployment package (registered Apple developer org, NDA).
-- **In-App Purchase is mandatory** for subscription unlock that's consumed inside the app (Apple takes 15–30%). You **cannot** link to your website to pay, except under the new "external link" reader-app entitlement — file an entitlement request, which OTT apps generally qualify for, but the UX is constrained.
-- **AirPlay** — must implement properly or Apple will reject the build.
-- **App Tracking Transparency** prompt is required if you use any tracking SDK.
-- **Background download** for offline content needs `BGTaskScheduler` configuration.
-
-### Android
-- **Widevine L1** (hardware-backed) needed for HD+ DRM playback. Some low-end Android devices only have L3 — you'll need to gate quality accordingly.
-- **Google Play Billing** required for digital subscriptions; rules similar to Apple's.
-- **ExoPlayer (Media3)** is the de facto player — well-maintained, supports HLS + DASH + offline.
-- **Foreground service** required for background audio / Chromecast persistence.
-- **Different OEM behaviours** (MIUI, OneUI, ColorOS) on push notifications — test on Xiaomi/Realme handsets specifically for the India/Bengal audience.
-
-### Both
-- **Screenshot / screen-record protection** on premium content (FLAG_SECURE on Android; iOS UIScreen capture detection — there's no perfect block, but a known minimum to deter casual piracy).
-- **Region locking** — content licensing is geo-bound; need IP-geolocation on the playback service and proper handling of VPN evasion.
-- **Accessibility** — VoiceOver / TalkBack, dynamic type, captions are mandatory in many markets and good practice everywhere.
+1. **Content goes stale** — if the committee doesn't post in WP, the app shows old content. Mitigation: build the CMS workflow so it's easier to post than to use Facebook (then both stay updated).
+2. **Single-maintainer risk** — one volunteer builds it, then leaves; nobody can ship a new release. Mitigation: pick a boring, mainstream stack (Flutter + WordPress) so the next volunteer can pick it up.
+3. **Apple/Google policy** — apps that are "just a wrapper around a website" sometimes get rejected. Add at least 3–4 native-feeling features (push, offline gallery, Wallet pass, native maps) to clear the bar.
+4. **GDPR** — even a community app processes personal data (push tokens, sign-ins, photos of identifiable people). Publish a short privacy policy; honour delete-account requests.
+5. **Photo consent** — galleries with identifiable community members raise consent questions. Add a "request removal" link on every gallery.
+6. **Annual usage spike** — most traffic concentrates around the 5 days of Durga Puja. Cache aggressively so the app doesn't fall over.
+7. **Bengali rendering on cheap Android phones** — bundle the font; don't rely on system default.
 
 ---
 
-## 7. Compliance & Legal
+## 15. Recommended Path Forward
 
-- **Apple / Google content policies** — age ratings, parental controls, content warnings.
-- **GDPR (EU/Netherlands-relevant)** — explicit consent banners, data export, right to delete, DPA with every processor.
-- **Indian IT Rules 2021** — self-regulatory body classification (Hoichoi's primary market). Grievance officer + complaint portal required.
-- **DPDP Act 2023 (India)** — data protection compliance.
-- **CSAM scanning & moderation** — applies to UGC; less relevant if you have curated catalogue only.
-- **Music licensing** — incidental rights for soundtracks already licensed via the film; original score is bundled with the film rights deal.
-- **Subtitle accessibility** — required by some EU regulators for VoD services with EU establishment.
-
----
-
-## 8. Team & Timeline (illustrative for MVP → v1)
-
-| Role | FTE for ~8 months |
-|---|---|
-| Product Manager | 1 |
-| Designer (UX/UI, motion) | 1 |
-| iOS engineer | 2 |
-| Android engineer | 2 |
-| Backend engineer | 2–3 |
-| DevOps / SRE | 1 |
-| QA engineer (incl. device matrix) | 1–2 |
-| Video/streaming engineer | 1 |
-| Data / analytics | 0.5–1 |
-| Content ops (catalogue mgmt) | 1 (ongoing) |
-
-Total: **~12–15 people**, **8 months** to a polished v1 with offline + DRM + payments.
-A leaner MVP (no offline, no DRM, single subscription tier) can ship in **3–4 months with 5–6 people** if you stay on managed services.
+1. **Decide PWA-first vs. real app** (§10). If unsure, do the PWA first — you'll learn what people actually want before sinking months into a Flutter app.
+2. **Audit hoichoi.nl content** — list every page, gallery, event archive. This becomes the data spec for the CMS model in §8.
+3. **Add WPGraphQL + ACF** to the existing WP install. No app yet — just make the content app-ready.
+4. **Spec the MVP** with the committee — agree on which 6–8 screens ship first.
+5. **Build 2-screen prototype** (home + event detail) using Flutter against the live WP API. Demo to the committee. Iterate.
+6. **MVP → committee TestFlight / internal track → public launch** at least 4 weeks before the next Durga Puja so it has time to bake.
 
 ---
 
-## 9. Indicative Costs (early-stage estimates)
+## 16. One-Page Summary
 
-| Bucket | Monthly (early scale: ~10–50k MAU) |
-|---|---|
-| Engineering team (loaded) | $80k–$150k |
-| Cloud infra (compute, DB, storage) | $1.5k–$5k |
-| CDN egress (the big one — scales with watch hours) | $3k–$30k+ |
-| Video encoding / packaging | $1k–$5k |
-| DRM licensing | $0.5k–$3k |
-| Player QoS / analytics | $0.5k–$2k |
-| Support tooling | $0.3k–$1k |
-| Apple + Google dev accounts, certificates | trivial |
-| Apple/Google take on subscriptions | **15–30% of subscription revenue** |
+For Hoichoi NL, this is a **community + events app**, not an OTT product — and the right build is small, cheap, and reuses the website you already maintain.
 
-CDN egress is the dominant variable cost. Rule of thumb: **~$0.02–$0.08 per hour streamed at 1080p**, depending on CDN and region.
+- **Stack:** Flutter app + existing WordPress as headless CMS (WPGraphQL + ACF) + Firebase push + Mollie for any payments
+- **Effort:** 2–3 months for a polished MVP + v1, one developer
+- **Cost:** under €100/yr to run; €0–€15k to build depending on volunteer vs. contractor
+- **The killer feature:** push notifications around the annual Durga Puja and other events
+- **Smart first step:** ship a PWA in a weekend before committing to a full app — most of the value, almost none of the cost
 
----
-
-## 10. Key Risks
-
-1. **DRM rejection on App Store / Play Store** — get the FPS deployment certificate early; the Apple paperwork can take weeks.
-2. **In-app purchase reconciliation** — Apple/Google receipt validation is fiddly; use RevenueCat unless you have a strong reason not to.
-3. **Geo / region pricing** — content licences often dictate per-region availability windows. You need a flexible entitlement model from day one.
-4. **Performance on low-end Android** — Bengali audience skews towards budget Android handsets; test on devices with 2GB RAM, Widevine L3.
-5. **Offline download licence expiry** — common source of customer-support tickets; bake clear UI for it.
-6. **Subtitle quality** — auto-generated subtitles are not acceptable for Bengali; need professionally translated files per title.
-7. **Cold-start recommendations** — first-time users get a generic shelf; design the onboarding to capture enough taste data to seed recs (genre picker, "pick 3 you've watched", etc.).
-
----
-
-## 11. Suggested Next Steps
-
-1. **Confirm legal scope** (the A/B/C/D question in §0). This unlocks or constrains everything else.
-2. **Catalogue audit** — how many titles, what masters do you have, what's the encoding state, what subtitle files exist.
-3. **Vendor shortlist** for OVP + DRM + IAP (RevenueCat) + analytics (Conviva/Mux). Get pricing.
-4. **Design sprint** — 2-week clickable Figma prototype for the 4 hero flows: onboarding → browse → play → subscribe.
-5. **Spike** on iOS FairPlay + Android Widevine playback against a sample DRM-encrypted asset. This is the technical heart of the app and should be de-risked first, before any UI is built.
-6. **MVP scope lock** and sprint plan.
-
----
-
-## 12. One-Page Summary
-
-A Hoichoi-style mobile app is a **subscription OTT product**, not a content app. The hard parts are:
-
-- **Video pipeline + DRM** (FairPlay on iOS, Widevine on Android)
-- **Subscription handling** across Apple IAP, Google Play Billing, and regional gateways
-- **Offline downloads** with licence expiry
-- **Geo-restricted entitlement** model
-- **QoS / CDN economics** at scale
-
-The UI is the easy bit. Plan **6–9 months and 10–15 people** to a polished v1, or **3–4 months and 5–6 people** for a credible MVP that depends heavily on managed services (Mux/Bitmovin + RevenueCat + Algolia + Conviva). Native development is strongly recommended over cross-platform for any serious OTT product.
-
-The **first decision** is not technical — it's whether you have the rights to the catalogue, or whether you're building a thin companion/affiliate app on top of Hoichoi's official platform. That answer reshapes everything below it.
+The biggest question to answer **before any code** is: do you have someone on the committee (you, or a volunteer) who will commit to building it and shipping a release once or twice a year? An unmaintained community app is worse than no app at all.
